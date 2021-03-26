@@ -1,65 +1,55 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Head from 'next/head';
+import styles from '../styles/Home.module.css';
+import { useState } from 'react';
+import fetchQuery from '../lib/fetchQuery';
+import Anime from '../components/Anime';
 
-export default function Home() {
+export async function getStaticProps() {
+  const data = await fetchQuery(1);
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  }
+  const { pageInfo, media } = data.data.Page;
+
+  return {
+    props: {
+      pageInfo,
+      media,
+    },
+  };
+}
+
+export default function Home({ pageInfo, media }) {
+  const [animeArr, setAnimeArr] = useState(media);
+  const [hasNextPage, sethasNextPage] = useState(pageInfo.hasNextPage);
+  const [lastPage, setLastPage] = useState(pageInfo.lastPage);
+  const [currentPage, setCurrentPage] = useState(pageInfo.currentPage);
+
+  const nextBtn = async (e) => {
+    if (hasNextPage) {
+      setCurrentPage((old) => old + 1);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <h1 className={styles.title}>Trending Anime</h1>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+      {/* <button onClick={previousBtn}>-</button> */}
+      <p>Page {currentPage}</p>
+      <button onClick={nextBtn}>+</button>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+      <div className={styles.animeContainer}>
+        {animeArr.map((anime) => (
+          <Anime anime={anime} />
+        ))}
+      </div>
     </div>
-  )
+  );
 }

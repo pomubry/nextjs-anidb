@@ -1,0 +1,76 @@
+Normal Query
+
+query (
+  $page: Int,
+  $perPage: Int,
+  $seasonYear: Int,
+  $season: MediaSeason,
+) {
+  Page (page: $page, perPage: $perPage) {
+    
+    pageInfo {
+      total
+      perPage
+      currentPage
+      lastPage
+      hasNextPage
+    }
+    
+    media (
+      seasonYear:$seasonYear,
+      season:$season,
+      type:ANIME
+      sort:TRENDING
+    ) {
+      # id
+      title {
+        romaji
+      }
+      episodes
+      nextAiringEpisode {
+        id
+      }
+      format
+      studios(isMain:true) {
+        edges {
+          node{
+            name
+            isAnimationStudio
+          }
+        }
+      }
+      genres
+      coverImage {
+        extraLarge
+        large
+        medium
+        color
+      }
+    }
+    
+  }
+}
+
+Airing Schedule Query
+
+
+query($id: Int){
+  AiringSchedule(id: $id){
+    mediaId
+    id
+    episode
+    airingAt
+  }
+}
+  
+Query Variables
+
+{
+  "seasonYear": 2021,
+  "season": "WINTER",
+  "page": 1,
+  "perPage": 20,
+}
+
+url = 'https://graphql.anilist.co'
+POST Request
