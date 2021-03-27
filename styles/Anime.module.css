@@ -1,7 +1,6 @@
 .anime {
   display: flex;
   background-color: white;
-  min-width: 400px;
   height: 265px;
   border-radius: 5px;
 }
@@ -67,4 +66,10 @@
   margin-top: 15px;
   color: #748899;
   font-size: 11px;
+}
+
+@media (max-width: 475px) {
+  .coverContainer {
+    min-width: 120px;
+  }
 }

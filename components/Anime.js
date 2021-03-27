@@ -4,9 +4,14 @@ import parse from 'html-react-parser';
 
 const Anime = ({ anime }) => {
   return (
-    <div key={anime.id} className={styles.anime}>
+    <div className={styles.anime}>
       <div className={styles.coverContainer}>
-        <Image src={anime.coverImage.extraLarge} width={185} height={265} />
+        <Image
+          src={anime.coverImage.extraLarge}
+          //  width={185} height={265}
+          layout="fill"
+          objectFit
+        />
         <div className={styles.coverInfo}>
           <h4 className={styles.coverTitle}>{anime.title.romaji}</h4>
           <p className={styles.coverStudio}>

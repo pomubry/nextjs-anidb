@@ -21,17 +21,8 @@ export async function getStaticProps() {
   };
 }
 
-export default function Home({ pageInfo, media }) {
+export default function Home({ media }) {
   const [animeArr, setAnimeArr] = useState(media);
-  const [hasNextPage, sethasNextPage] = useState(pageInfo.hasNextPage);
-  const [lastPage, setLastPage] = useState(pageInfo.lastPage);
-  const [currentPage, setCurrentPage] = useState(pageInfo.currentPage);
-
-  const nextBtn = async (e) => {
-    if (hasNextPage) {
-      setCurrentPage((old) => old + 1);
-    }
-  };
 
   return (
     <div className={styles.container}>
@@ -41,15 +32,11 @@ export default function Home({ pageInfo, media }) {
       </Head>
       <h1 className={styles.title}>Trending Anime</h1>
 
-      {/* <button onClick={previousBtn}>-</button> */}
-      <p>Page {currentPage}</p>
-      <button onClick={nextBtn}>+</button>
-
-      <div className={styles.animeContainer}>
+      <section className={styles.animeContainer}>
         {animeArr.map((anime) => (
-          <Anime anime={anime} />
+          <Anime anime={anime} key={anime.id} />
         ))}
-      </div>
+      </section>
     </div>
   );
 }
