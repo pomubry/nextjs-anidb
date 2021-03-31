@@ -24,11 +24,10 @@ export async function getServerSideProps() {
 
 export default function Home({ media }) {
   const [animeArr, setAnimeArr] = useState(media);
-
   return (
     <div className={styles.container}>
       <Head>
-        <title>Next.js Ani-database</title>
+        <title>Next.js Ani-Database</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1 className={styles.title}>Trending Anime</h1>

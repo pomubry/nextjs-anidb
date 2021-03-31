@@ -11,14 +11,14 @@ const Layout = ({ children }) => {
           <span className={styles.lLogo}>L</span>
         </div>
         {navLinks.map((arr) => (
-          <ul className={styles.extLink}>
+          <ul className={styles.extLink} key={arr[0].link}>
             {arr.map((item) => {
               let cName =
                 item.name === 'Sign Up'
                   ? `${styles.link} ${styles.signup}`
                   : styles.link;
               return (
-                <li className={cName}>
+                <li className={cName} key={item.link}>
                   <a href={item.link} target="_blank" rel="noopener">
                     {item.name}
                   </a>
@@ -41,9 +41,9 @@ const Layout = ({ children }) => {
         </div>
         <div className={styles.footerLinks}>
           {footerLinks.map((arr) => (
-            <ul className={styles.footerUl}>
+            <ul className={styles.footerUl} key={arr[0].link}>
               {arr.map((item) => (
-                <li>
+                <li key={item.link}>
                   <a href={item.link} target="_blank" rel="noopener">
                     {item.name}
                   </a>

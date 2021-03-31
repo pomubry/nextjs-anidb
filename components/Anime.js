@@ -15,7 +15,7 @@ const Anime = ({ anime }) => {
         <div className={styles.coverInfo}>
           <h4 className={styles.coverTitle}>{anime.title.romaji}</h4>
           <p className={styles.coverStudio}>
-            {anime.studios.edges[0].node.name}
+            {anime.studios.edges[0] && anime.studios.edges[0].node.name}
           </p>
         </div>
       </div>
@@ -27,16 +27,25 @@ const Anime = ({ anime }) => {
           <p>{anime.format === 'TV' ? 'TV Show' : anime.format}</p>
           <span> • </span>
           <p>
-            {anime.episodes > 1
-              ? anime.episodes + ' episodes'
-              : anime.episodes + ' episode'}
+            {anime.episodes > 1 ? anime.episodes + ' episodes' : '? episodes'}
           </p>
+          <span> • </span>
+          <p>Trend Score: {anime.trending}</p>
         </div>
-        <div className={styles.description}>{parse(anime.description)}</div>
+        <div className={styles.description}>
+          {parse(
+            anime.description !== null
+              ? anime.description
+              : 'No description was added yet for this anime.'
+          )}
+        </div>
         <div className={styles.genres}>
-          {anime.genres.map((genre) => (
-            <span className={styles.genre}>{genre}</span>
-          ))}
+          {anime.genres.length > 0 &&
+            anime.genres.map((genre, index) => (
+              <span className={styles.genre} key={index}>
+                {genre}
+              </span>
+            ))}
         </div>
       </div>
     </div>

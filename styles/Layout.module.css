@@ -54,6 +54,7 @@
 
 .disclaimer {
   max-width: 300px;
+  margin-left: 5px;
 }
 
 .discHeader {
@@ -61,10 +62,38 @@
 }
 
 .footerLinks {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .footerUl {
   margin: 0 40px;
   line-height: 2.5rem;
+}
+
+@media (max-width: 1020px) {
+  .footerLinks {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .footerUl {
+    margin: 0 20px;
+    line-height: 1.5rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .footerUl {
+    margin: 0 10px;
+  }
+
+  .footerLinks {
+    font-size: 0.8rem;
+  }
+
+  .disclaimer {
+    font-size: 0.8rem;
+  }
 }
