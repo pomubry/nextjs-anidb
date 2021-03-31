@@ -3,11 +3,16 @@
   background-color: white;
   height: 265px;
   border-radius: 5px;
+  max-width: 600px;
 }
 
 .coverContainer {
   position: relative;
   min-width: 185px;
+}
+
+.imgBorder {
+  border-radius: 5px 0 0 5px;
 }
 
 .coverInfo {
@@ -21,6 +26,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  border-radius: 0 0 0 5px;
 }
 
 .coverTitle {
@@ -37,6 +43,8 @@
 .animeInfo {
   padding: 10px;
   overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .animeInfo:hover {
@@ -66,6 +74,24 @@
   margin-top: 15px;
   color: #748899;
   font-size: 11px;
+  margin-bottom: auto;
+}
+
+.genres {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 5px;
+  align-items: center;
+}
+
+.genre {
+  border-radius: 20px;
+  color: white;
+  background-color: #02a9ff;
+  font-size: 0.7rem;
+  margin-right: 3px;
+  padding: 2px 5px;
+  margin: 2px;
 }
 
 @media (max-width: 475px) {

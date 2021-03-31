@@ -4,8 +4,9 @@ import { useState } from 'react';
 import fetchQuery from '../lib/fetchQuery';
 import Anime from '../components/Anime';
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const data = await fetchQuery(1);
+
   if (!data) {
     return {
       notFound: true,
@@ -27,7 +28,7 @@ export default function Home({ media }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>Next.js Ani-database</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1 className={styles.title}>Trending Anime</h1>

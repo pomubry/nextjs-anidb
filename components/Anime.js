@@ -8,9 +8,9 @@ const Anime = ({ anime }) => {
       <div className={styles.coverContainer}>
         <Image
           src={anime.coverImage.extraLarge}
-          //  width={185} height={265}
           layout="fill"
           objectFit
+          className={styles.imgBorder}
         />
         <div className={styles.coverInfo}>
           <h4 className={styles.coverTitle}>{anime.title.romaji}</h4>
@@ -33,6 +33,11 @@ const Anime = ({ anime }) => {
           </p>
         </div>
         <div className={styles.description}>{parse(anime.description)}</div>
+        <div className={styles.genres}>
+          {anime.genres.map((genre) => (
+            <span className={styles.genre}>{genre}</span>
+          ))}
+        </div>
       </div>
     </div>
   );
