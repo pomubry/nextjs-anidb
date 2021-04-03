@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import footerLinks from '../lib/footerLinks';
 import navLinks from '../lib/navLinks';
 import styles from '../styles/Layout.module.css';
@@ -6,10 +7,14 @@ const Layout = ({ children }) => {
   return (
     <>
       <nav className={styles.nav}>
-        <div className={styles.logoContainer}>
-          <span className={styles.aLogo}>A</span>
-          <span className={styles.lLogo}>L</span>
-        </div>
+        <Link href="/">
+          <a>
+            <div className={styles.logoContainer}>
+              <span className={styles.aLogo}>A</span>
+              <span className={styles.lLogo}>L</span>
+            </div>
+          </a>
+        </Link>
         {navLinks.map((arr) => (
           <ul className={styles.extLink} key={arr[0].link}>
             {arr.map((item) => {

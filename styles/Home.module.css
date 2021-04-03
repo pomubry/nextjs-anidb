@@ -2,6 +2,7 @@
   background-color: #e0e0e0;
   padding: 0 120px;
   overflow: auto;
+  flex: 1;
 }
 
 .title {
@@ -15,6 +16,10 @@
   gap: 30px;
   justify-items: stretch;
   padding-bottom: 50px;
+}
+
+.loadingMsg {
+  text-align: center;
 }
 
 @media (max-width: 1280px) {
