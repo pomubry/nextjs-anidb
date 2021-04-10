@@ -5,7 +5,7 @@ import styles from '../styles/Layout.module.css';
 
 const Layout = ({ children }) => {
   return (
-    <>
+    <div className={styles.mainLayout}>
       <nav className={styles.nav}>
         <Link href="/">
           <a>
@@ -58,7 +58,7 @@ const Layout = ({ children }) => {
           ))}
         </div>
       </footer>
-    </>
+    </div>
   );
 };
 
