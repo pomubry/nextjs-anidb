@@ -1,0 +1,11 @@
+.LeftSideInfo {
+  display: "flex";
+  flex-direction: "column";
+  max-width: 215px;
+}
+
+.category {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  color: #5c728a;
+}

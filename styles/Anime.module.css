@@ -42,6 +42,7 @@
 .infoFlex {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .animeInfo {
@@ -84,7 +85,7 @@
 }
 
 .genres {
-  background-color: rgba(100, 115, 128, 0.3);
+  background-color: rgba(100, 115, 128, 0.2);
   border-radius: 0 0 5px 0;
   margin-top: auto;
   padding: 10px;

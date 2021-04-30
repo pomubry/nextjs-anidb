@@ -1,12 +1,23 @@
-import Link from 'next/link';
-import footerLinks from '../lib/footerLinks';
-import navLinks from '../lib/navLinks';
-import styles from '../styles/Layout.module.css';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import footerLinks from "../lib/footerLinks";
+import navLinks from "../lib/navLinks";
+import styles from "../styles/Layout.module.css";
 
 const Layout = ({ children }) => {
+  const router = useRouter();
+  let isAnime = router.asPath.includes("/anime");
+  let isChildrenFallback = !Object.keys(children.props).length;
+  console.log("isChildrenFallback?:", !isChildrenFallback);
   return (
     <div className={styles.mainLayout}>
-      <nav className={styles.nav}>
+      <nav
+        className={`${styles.nav} ${
+          isAnime && !isChildrenFallback && children.props.anime.bannerImage
+            ? styles.opaque
+            : ""
+        }`}
+      >
         <Link href="/">
           <a>
             <div className={styles.logoContainer}>
@@ -19,7 +30,7 @@ const Layout = ({ children }) => {
           <ul className={styles.extLink} key={arr[0].link}>
             {arr.map((item) => {
               let cName =
-                item.name === 'Sign Up'
+                item.name === "Sign Up"
                   ? `${styles.link} ${styles.signup}`
                   : styles.link;
               return (
