@@ -77,7 +77,7 @@ const anime = ({ anime }) => {
       <div className={styles.container}>
         <div className={styles.flexContainer}>
           <LeftSideInfo anime={anime} />
-          <RightSideInfo />
+          <RightSideInfo anime={anime} />
         </div>
       </div>
     </div>

@@ -1,0 +1,16 @@
+.RightSideInfo {
+  width: 100%;
+  margin-left: 40px;
+}
+
+.header {
+  color: #5c728a;
+  margin-bottom: 10px;
+}
+
+.relations {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 115px;
+  gap: 10px 20px;
+}

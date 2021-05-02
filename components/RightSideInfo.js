@@ -1,20 +1,15 @@
-const RightSideInfo = () => {
-  let arr = [];
+import styles from "../styles/RightSideInfo.module.css";
+import Relations from "./Relations";
 
-  for (let i = 0; i < 5; i++) {
-    arr.push(
-      <div
-        style={{
-          width: "100%",
-          height: "100vh",
-          backgroundColor: "pink",
-          marginBottom: "10px",
-        }}
-        key={i}
-      />
-    );
-  }
-  return <div style={{ width: "100%", marginLeft: "40px" }}>{arr}</div>;
+const RightSideInfo = ({ anime }) => {
+  return (
+    <div className={styles.RightSideInfo}>
+      <h3 className={styles.header}>Relations</h3>
+      <div className={styles.relations}>
+        <Relations relations={anime.relations} />
+      </div>
+    </div>
+  );
 };
 
 export default RightSideInfo;
