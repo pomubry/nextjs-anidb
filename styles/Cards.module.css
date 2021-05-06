@@ -1,0 +1,60 @@
+.relationBox {
+  background-color: white;
+  display: grid;
+  grid-template-columns: 85px 1fr;
+}
+
+.infoContainer {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 14px;
+  color: #5c728a;
+  flex: 1;
+}
+
+.type {
+  font-size: 12px;
+  color: #3db4f2;
+}
+
+.info {
+  font-size: 12px;
+  color: #9299a1;
+}
+
+.charactersBox {
+  background-color: white;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.name {
+  font-size: 12px;
+  color: #5c728a;
+  flex: 1;
+}
+
+.role {
+  font-size: 11px;
+  color: #9299a1;
+}
+
+.charGrid {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+}
+
+.vaGrid {
+  display: grid;
+  grid-template-columns: 1fr 60px;
+}
+
+.staffContainer {
+  background-color: white;
+  display: grid;
+  grid-template-columns: 52px 1fr;
+}

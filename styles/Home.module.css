@@ -32,3 +32,9 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 475px) {
+  .container {
+    padding: 0 5px;
+  }
+}

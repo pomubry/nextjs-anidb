@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "../styles/Relations.module.css";
+import styles from "../styles/Cards.module.css";
 
 const Relations = ({ relations }) => {
   return relations.nodes.map((anime, index) => (

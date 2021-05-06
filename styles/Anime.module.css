@@ -103,9 +103,3 @@
   padding: 2px 12px 0px 12px;
   margin: 2px;
 }
-
-@media (max-width: 475px) {
-  .coverContainer {
-    min-width: 120px;
-  }
-}

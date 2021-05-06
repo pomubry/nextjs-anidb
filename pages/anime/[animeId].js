@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import Image from "next/image";
+import Head from "next/head";
 import styles from "../../styles/animeId.module.css";
 import axios from "axios";
 import fetchQuery from "../../lib/fetchQuery";
@@ -46,6 +47,11 @@ const anime = ({ anime }) => {
   }
   return (
     <div>
+      <Head>
+        <title>{anime.title.romaji}</title>
+        <meta name="description" content={anime.description} />
+        <meta name="keywords" content={anime.synonyms} />
+      </Head>
       {anime.bannerImage && (
         <div
           className={styles.bannerContainer}

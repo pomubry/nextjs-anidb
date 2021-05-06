@@ -22,17 +22,16 @@ const bgColor = (site) => {
 const StreamLinks = ({ links }) => {
   return (
     <div>
-      {!!links.length &&
-        links.map((link, index) => (
-          <a
-            href={link.url}
-            key={index}
-            target="_blank"
-            className={`${styles.link} ${bgColor(link.site)}`}
-          >
-            {link.site}
-          </a>
-        ))}
+      {links.map((link, index) => (
+        <a
+          href={link.url}
+          key={index}
+          target="_blank"
+          className={`${styles.link} ${bgColor(link.site)}`}
+        >
+          {link.site}
+        </a>
+      ))}
     </div>
   );
 };

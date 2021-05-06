@@ -147,10 +147,12 @@ const Data = ({ anime }) => {
         <p className={styles.lightText}>{anime.title.romaji}</p>
       </div>
 
-      <div className={styles.shortInfo}>
-        <h4 className={styles.darkText}>English</h4>
-        <p className={styles.lightText}>{anime.title.english}</p>
-      </div>
+      {anime.title.english && (
+        <div className={styles.shortInfo}>
+          <h4 className={styles.darkText}>English</h4>
+          <p className={styles.lightText}>{anime.title.english}</p>
+        </div>
+      )}
 
       <div className={styles.shortInfo}>
         <h4 className={styles.darkText}>Native</h4>
