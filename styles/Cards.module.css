@@ -58,3 +58,37 @@
   display: grid;
   grid-template-columns: 52px 1fr;
 }
+
+.statusDistribution {
+  background-color: white;
+  margin-bottom: 50px;
+}
+
+.statusGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.statusCard {
+  padding: 6px 15px;
+  color: white;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+.statusUsers {
+  display: inline-block;
+  color: white;
+}
+
+.flex {
+  display: flex;
+}
+
+.watchGrid {
+  display: flex;
+  flex-wrap: wrap;
+}

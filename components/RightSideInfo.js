@@ -2,6 +2,8 @@ import styles from "../styles/RightSideInfo.module.css";
 import Characters from "./Characters";
 import Relations from "./Relations";
 import Staff from "./Staff";
+import StatusDistribution from "./StatusDistribution";
+import Watch from "./Watch";
 
 const RightSideInfo = ({ anime }) => {
   return (
@@ -14,6 +16,7 @@ const RightSideInfo = ({ anime }) => {
           </div>
         </>
       )}
+
       {!!anime.characters.edges.length && (
         <>
           <h3 className={styles.header}>Characters</h3>
@@ -22,10 +25,25 @@ const RightSideInfo = ({ anime }) => {
           </div>
         </>
       )}
-      <h3 className={styles.header}>Staff</h3>
-      <div className={styles.cards}>
-        <Staff staff={anime.staff} />
-      </div>
+
+      {!!anime.staff.edges.length && (
+        <>
+          <h3 className={styles.header}>Staff</h3>
+          <div className={styles.cards}>
+            <Staff staff={anime.staff} />
+          </div>
+        </>
+      )}
+
+      <h3 className={styles.header}>Status Distribution</h3>
+      <StatusDistribution stats={anime.stats} />
+
+      {!!anime.streamingEpisodes.length && (
+        <>
+          <h3 className={styles.header}>Watch</h3>
+          <Watch watch={anime.streamingEpisodes} />
+        </>
+      )}
     </div>
   );
 };
