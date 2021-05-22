@@ -2,14 +2,20 @@ import Image from "next/image";
 import styles from "../styles/Cards.module.css";
 
 const Watch = ({ watch }) => {
+  console.log(watch[0].title);
+  let isNotReversed = watch[0].title.includes("Episode 1 ");
+  let arr = isNotReversed ? watch : watch.reverse();
   return (
     <div className={styles.watchGrid}>
-      {watch.map((stream, index) => (
-        <a href={stream.url} key={index} style={{ display: "inline-block" }}>
-          <div style={{ minWidth: "154px", height: "100px" }}>
-            <Image src={stream.thumbnail} layout="fill" />
-          </div>
-          <p>{stream.title}</p>
+      {arr.map((stream, index) => (
+        <a href={stream.url} key={index} className={styles.watchAnchor}>
+          <Image
+            src={stream.thumbnail}
+            layout="fill"
+            objectFit="cover"
+            className={styles.watchImg}
+          />
+          <p className={styles.watchTitle}>{stream.title}</p>
         </a>
       ))}
     </div>

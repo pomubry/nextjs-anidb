@@ -80,7 +80,7 @@
 }
 
 .statusUsers {
-  display: inline-block;
+  display: block;
   color: white;
 }
 
@@ -89,6 +89,47 @@
 }
 
 .watchGrid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px 20px;
+  margin-bottom: 50px;
+}
+
+.watchAnchor {
+  position: relative;
+  height: 100px;
+}
+
+.watchTitle {
+  background-color: rgba(36, 56, 56, 0.8);
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  font-size: 11px;
+  color: white;
+  width: 100%;
+  padding: 5px 10px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 0 0 5px 5px;
+}
+
+.watchImg {
+  border-radius: 5px;
+}
+
+.recImg {
+  position: relative;
+  height: 180px;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.recTitle {
+  color: #5c728a;
+  font-size: 13px;
+  font-weight: 900;
 }

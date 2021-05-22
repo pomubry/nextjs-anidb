@@ -1,13 +1,13 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import styles from '../styles/Anime.module.css';
-import parse from 'html-react-parser';
+import Image from "next/image";
+import Link from "next/link";
+import styles from "../styles/Anime.module.css";
+import parse from "html-react-parser";
 
 const Anime = ({ anime }) => {
   return (
     <div className={styles.anime}>
       <div className={styles.coverContainer}>
-        <Link href={'/anime/' + anime.id}>
+        <Link href={"/anime/" + anime.id}>
           <a>
             <Image
               src={anime.coverImage.extraLarge}
@@ -18,7 +18,7 @@ const Anime = ({ anime }) => {
           </a>
         </Link>
         <div className={styles.coverInfo}>
-          <Link href={'/anime/' + anime.id}>
+          <Link href={"/anime/" + anime.id}>
             <a>
               <h4 className={styles.coverTitle}>{anime.title.romaji}</h4>
             </a>
@@ -34,10 +34,10 @@ const Anime = ({ anime }) => {
             {anime.season} {anime.seasonYear}
           </h4>
           <div className={styles.formatInfo}>
-            <p>{anime.format === 'TV' ? 'TV Show' : anime.format}</p>
+            <p>{anime.format === "TV" ? "TV Show" : anime.format}</p>
             <span> • </span>
             <p>
-              {anime.episodes > 1 ? anime.episodes + ' episodes' : '? episodes'}
+              {anime.episodes > 1 ? anime.episodes + " episodes" : "? episodes"}
             </p>
             <span> • </span>
             <p>Trend Score: {anime.trending}</p>
@@ -46,7 +46,7 @@ const Anime = ({ anime }) => {
             {parse(
               anime.description !== null
                 ? anime.description
-                : 'No description was added yet for this anime.'
+                : "No description was added yet for this anime."
             )}
           </div>
         </div>

@@ -4,6 +4,7 @@ import Relations from "./Relations";
 import Staff from "./Staff";
 import StatusDistribution from "./StatusDistribution";
 import Watch from "./Watch";
+import Recommendations from "./Recommendations";
 
 const RightSideInfo = ({ anime }) => {
   return (
@@ -42,6 +43,30 @@ const RightSideInfo = ({ anime }) => {
         <>
           <h3 className={styles.header}>Watch</h3>
           <Watch watch={anime.streamingEpisodes} />
+        </>
+      )}
+
+      {anime.trailer.site === "youtube" && (
+        <>
+          <h3 className={styles.header}>Trailer</h3>
+          <iframe
+            className={styles.embed}
+            height="260"
+            src={`https://www.${anime.trailer.site}.com/embed/${anime.trailer.id}`}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </>
+      )}
+
+      {!!anime.recommendations.nodes.length && (
+        <>
+          <h3 className={styles.header}>Recommendations</h3>
+          <div className={styles.recCards}>
+            <Recommendations rec={anime.recommendations.nodes} />
+          </div>
         </>
       )}
     </div>
