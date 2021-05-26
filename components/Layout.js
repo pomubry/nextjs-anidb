@@ -21,8 +21,8 @@ const Layout = ({ children }) => {
         <Link href="/">
           <a>
             <div className={styles.logoContainer}>
-              <span className={styles.aLogo}>A</span>
-              <span className={styles.lLogo}>L</span>
+              <span className={styles.aLogo}>N</span>
+              <span className={styles.lLogo}>A</span>
             </div>
           </a>
         </Link>

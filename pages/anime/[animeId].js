@@ -59,7 +59,7 @@ const anime = ({ anime }) => {
         ></div>
       )}
       <header className={styles.header}>
-        <div className={styles.flexContainer}>
+        <div className={styles.flexContainerHeader}>
           <div
             className={`${styles.headerImg} ${
               anime.bannerImage ? styles.topOffset : ""

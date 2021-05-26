@@ -12,17 +12,17 @@ const LeftSideInfo = ({ anime }) => {
       <Data anime={anime} />
 
       {!!anime.tags.length && (
-        <>
+        <div className={styles.tags}>
           <h3 className={styles.category}>Tags</h3>
           <Tags tags={anime.tags} />
-        </>
+        </div>
       )}
 
       {!!anime.externalLinks.length && (
-        <>
+        <div className={styles.links}>
           <h3 className={styles.category}>External & Streaming links</h3>
           <StreamLinks links={anime.externalLinks} />
-        </>
+        </div>
       )}
     </div>
   );

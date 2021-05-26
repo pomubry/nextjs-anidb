@@ -15,7 +15,7 @@ const Characters = ({ characters }) => {
         {edge.voiceActors[0] && (
           <div className={styles.vaGrid} style={{ justifySelf: "flex-end" }}>
             <div className={styles.infoContainer}>
-              <h3 className={styles.name}>{edge.voiceActors[0].name.full}</h3>
+              <h3 className={styles.vaName}>{edge.voiceActors[0].name.full}</h3>
               <h4 className={styles.role} style={{ alignSelf: "flex-end" }}>
                 Japanese
               </h4>

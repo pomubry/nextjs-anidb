@@ -89,6 +89,30 @@
   }
 }
 
+@media (max-width: 800px) {
+  .nav {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .aLogo,
+  .lLogo {
+    font-size: 2rem;
+  }
+
+  .lLogo {
+    right: 7px;
+  }
+
+  .link {
+    font-size: 0.7rem;
+  }
+
+  .signup {
+    padding: 5px 10px;
+  }
+}
+
 @media (max-width: 720px) {
   .footerUl {
     margin: 0 20px;
@@ -98,14 +122,14 @@
 
 @media (max-width: 500px) {
   .footerUl {
-    margin: 0 10px;
+    margin: 0 5px;
   }
 
   .footerLinks {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
 
   .disclaimer {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
 }

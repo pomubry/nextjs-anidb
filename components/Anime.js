@@ -12,7 +12,7 @@ const Anime = ({ anime }) => {
             <Image
               src={anime.coverImage.extraLarge}
               layout="fill"
-              objectFit
+              objectFit="cover"
               className={styles.imgBorder}
             />
           </a>

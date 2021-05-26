@@ -2,7 +2,6 @@ import Image from "next/image";
 import styles from "../styles/Cards.module.css";
 
 const Watch = ({ watch }) => {
-  console.log(watch[0].title);
   let isNotReversed = watch[0].title.includes("Episode 1 ");
   let arr = isNotReversed ? watch : watch.reverse();
   return (

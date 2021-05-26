@@ -46,12 +46,11 @@ const RightSideInfo = ({ anime }) => {
         </>
       )}
 
-      {anime.trailer.site === "youtube" && (
+      {anime.trailer && anime.trailer.site === "youtube" && (
         <>
           <h3 className={styles.header}>Trailer</h3>
           <iframe
             className={styles.embed}
-            height="260"
             src={`https://www.${anime.trailer.site}.com/embed/${anime.trailer.id}`}
             title="YouTube video player"
             frameBorder="0"

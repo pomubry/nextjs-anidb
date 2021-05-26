@@ -9,3 +9,24 @@
   margin-bottom: 10px;
   color: #5c728a;
 }
+
+@media (max-width: 800px) {
+  .LeftSideInfo {
+    display: grid;
+    grid-template-areas:
+      "data rank"
+      "data tags"
+      "data links";
+    max-width: 100%;
+    margin-bottom: 40px;
+    align-content: center;
+  }
+
+  .tags {
+    grid-area: tags;
+  }
+
+  .links {
+    grid-area: links;
+  }
+}

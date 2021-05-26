@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import styles from '../styles/Home.module.css';
+import { useEffect, useState } from "react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import styles from "../styles/Home.module.css";
 
-import fetchQuery from '../lib/fetchQuery';
-import queryVariables from '../lib/query';
+import fetchQuery from "../lib/fetchQuery";
+import queryVariables from "../lib/query";
 
-import Anime from '../components/Anime';
-import SearchForm from '../components/SearchForm';
+import Anime from "../components/Anime";
+import SearchForm from "../components/SearchForm";
 
-import InfiniteScroll from 'react-infinite-scroll-component';
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export async function getServerSideProps({ query }) {
   const { season, seasonYear } = query;
@@ -91,11 +91,11 @@ export default function Home({ media, pageInfo }) {
           content={`anime list,anime database,nextjs,${keywords}`}
         />
         <meta name="author" content="pomubry" />
-        <title>Next.js Ani-Database</title>
+        <title>NextAni Database</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1 className={styles.title}>Trending Anime</h1>
+      <h1 className={styles.title}>NextAni Database</h1>
 
       <SearchForm />
 
@@ -106,8 +106,8 @@ export default function Home({ media, pageInfo }) {
         loader={
           <h4 className={styles.loadingMsg}>
             {!isFetchError
-              ? 'Loading...'
-              : 'Loading failed. Please try again...'}
+              ? "Loading..."
+              : "Loading failed. Please try again..."}
           </h4>
         }
       >

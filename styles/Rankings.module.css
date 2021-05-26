@@ -7,4 +7,5 @@
   font-weight: 900;
   text-transform: capitalize;
   text-align: center;
+  grid-area: rank;
 }

@@ -2,7 +2,6 @@
   display: flex;
   background-color: white;
   height: 265px;
-  border-radius: 5px;
 }
 
 .coverContainer {
@@ -42,7 +41,6 @@
 .infoFlex {
   display: flex;
   flex-direction: column;
-  width: 100%;
 }
 
 .animeInfo {
