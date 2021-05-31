@@ -71,6 +71,12 @@
   }
 }
 
+@media (max-width: 950px) {
+  .container {
+    padding: 30px 20px;
+  }
+}
+
 @media (max-width: 800px) {
   .bannerContainer {
     height: 200px;
@@ -95,9 +101,6 @@
 }
 
 @media (max-width: 576px) {
-  .container {
-    padding: 30px 30px;
-  }
   .flexContainerHeader {
     flex-direction: column;
   }
