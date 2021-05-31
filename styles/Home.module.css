@@ -13,7 +13,6 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
-  justify-items: stretch;
   padding-bottom: 50px;
 }
 
@@ -33,7 +32,7 @@
   }
 }
 
-@media (max-width: 475px) {
+@media (max-width: 400px) {
   .container {
     padding: 0 5px;
   }

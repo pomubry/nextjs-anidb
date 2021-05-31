@@ -1,0 +1,5 @@
+.staffContainer {
+  background-color: white;
+  display: grid;
+  grid-template-columns: 52px 1fr;
+}

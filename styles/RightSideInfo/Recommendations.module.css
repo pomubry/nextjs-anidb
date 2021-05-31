@@ -1,0 +1,13 @@
+.recImg {
+  position: relative;
+  height: 180px;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.recTitle {
+  color: #5c728a;
+  font-size: 13px;
+  font-weight: 900;
+}

@@ -1,0 +1,11 @@
+.rank {
+  background-color: white;
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  color: #5c728a;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: capitalize;
+  text-align: center;
+  grid-area: rank;
+}

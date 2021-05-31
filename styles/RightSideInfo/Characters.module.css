@@ -1,0 +1,38 @@
+.charactersBox {
+  background-color: white;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.vaName {
+  font-size: 12px;
+  color: #5c728a;
+  flex: 1;
+  text-align: right;
+}
+
+.charGrid {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+}
+
+.vaGrid {
+  display: grid;
+  grid-template-columns: 1fr 60px;
+}
+
+@media (max-width: 350px) {
+  .vaName {
+    font-size: 10px;
+  }
+
+  .charGrid {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+  }
+
+  .vaGrid {
+    display: grid;
+    grid-template-columns: 1fr 50px;
+  }
+}

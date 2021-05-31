@@ -6,8 +6,8 @@ import axios from "axios";
 import fetchQuery from "../../lib/fetchQuery";
 import queryId from "../../lib/queryId";
 import parse from "html-react-parser";
-import LeftSideInfo from "../../components/LeftSideInfo";
-import RightSideInfo from "../../components/RightSideInfo";
+import LeftSideInfo from "../../components/LeftSideInfo/LeftSideInfo";
+import RightSideInfo from "../../components/RightSideInfo/RightSideInfo";
 
 export async function getStaticPaths() {
   const { media } = await fetchQuery();
@@ -40,7 +40,6 @@ export async function getStaticProps({ params }) {
 
 const anime = ({ anime }) => {
   const router = useRouter();
-  console.log(anime);
 
   if (router.isFallback) {
     return <div>Loading...</div>;
@@ -48,16 +47,19 @@ const anime = ({ anime }) => {
   return (
     <div>
       <Head>
-        <title>{anime.title.romaji}</title>
+        <title>{anime.title.romaji} | NextAni</title>
         <meta name="description" content={anime.description} />
         <meta name="keywords" content={anime.synonyms} />
       </Head>
+
       {anime.bannerImage && (
         <div
           className={styles.bannerContainer}
           style={{ backgroundImage: `url(${anime.bannerImage})` }}
         ></div>
       )}
+
+      {/* Header containing cover image and synopsis */}
       <header className={styles.header}>
         <div className={styles.flexContainerHeader}>
           <div
@@ -80,6 +82,7 @@ const anime = ({ anime }) => {
         </div>
       </header>
 
+      {/* Main info in these two components */}
       <div className={styles.container}>
         <div className={styles.flexContainer}>
           <LeftSideInfo anime={anime} />

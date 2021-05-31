@@ -6,28 +6,28 @@ import parse from "html-react-parser";
 const Anime = ({ anime }) => {
   return (
     <div className={styles.anime}>
-      <div className={styles.coverContainer}>
+      {/* Left side image cover */}
+      <div className={styles.coverDiv}>
         <Link href={"/anime/" + anime.id}>
-          <a>
-            <Image
-              src={anime.coverImage.extraLarge}
-              layout="fill"
-              objectFit="cover"
-              className={styles.imgBorder}
-            />
+          <a className={styles.coverLink}>
+            <div className={styles.coverContainer}>
+              <Image
+                src={anime.coverImage.extraLarge}
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+            <div className={styles.coverInfo}>
+              <h4 className={styles.coverTitle}>{anime.title.romaji}</h4>
+              <p className={styles.coverStudio}>
+                {anime.studios.edges[0] && anime.studios.edges[0].node.name}
+              </p>
+            </div>
           </a>
         </Link>
-        <div className={styles.coverInfo}>
-          <Link href={"/anime/" + anime.id}>
-            <a>
-              <h4 className={styles.coverTitle}>{anime.title.romaji}</h4>
-            </a>
-          </Link>
-          <p className={styles.coverStudio}>
-            {anime.studios.edges[0] && anime.studios.edges[0].node.name}
-          </p>
-        </div>
       </div>
+
+      {/* Right side description and tags */}
       <div className={styles.infoFlex}>
         <div className={styles.animeInfo}>
           <h4 className={styles.season}>

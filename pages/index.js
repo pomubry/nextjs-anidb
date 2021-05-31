@@ -8,10 +8,10 @@ import queryVariables from "../lib/query";
 
 import Anime from "../components/Anime";
 import SearchForm from "../components/SearchForm";
-
 import InfiniteScroll from "react-infinite-scroll-component";
 
 export async function getServerSideProps({ query }) {
+  // Validate first the queries
   const { season, seasonYear } = query;
   const { possibleValues } = queryVariables();
   let isSeasonValid =
@@ -25,6 +25,7 @@ export async function getServerSideProps({ query }) {
     };
   }
 
+  // Fetch data once query was valdiated
   const { pageInfo, media, error } = await fetchQuery(1, season, seasonYear);
 
   if (error) {
@@ -48,8 +49,10 @@ export default function Home({ media, pageInfo }) {
 
   const { page, season, seasonYear } = useRouter().query;
 
+  // Keywords for <Head/>
   const keywords = animeArr.map((anime) => anime.title.romaji);
 
+  // To be used by <InfiniteScroll/> package to load more data
   const fetchMore = async () => {
     if (!pageDetails.hasNextPage) return;
 
@@ -62,6 +65,7 @@ export default function Home({ media, pageInfo }) {
 
       let newArr = [...animeArr];
 
+      // Only add anime not yet in the state
       media.forEach((animeToAdd) => {
         let isUnique = newArr.every(
           (includedAnime) => includedAnime.id !== animeToAdd.id

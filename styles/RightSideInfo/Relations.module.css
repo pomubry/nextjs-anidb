@@ -1,0 +1,21 @@
+.relationBox {
+  background-color: white;
+  display: grid;
+  grid-template-columns: 85px 1fr;
+}
+
+.title {
+  font-size: 14px;
+  color: #5c728a;
+  flex: 1;
+}
+
+.type {
+  font-size: 12px;
+  color: #3db4f2;
+}
+
+.info {
+  font-size: 12px;
+  color: #9299a1;
+}

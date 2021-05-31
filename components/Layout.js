@@ -8,9 +8,10 @@ const Layout = ({ children }) => {
   const router = useRouter();
   let isAnime = router.asPath.includes("/anime");
   let isChildrenFallback = !Object.keys(children.props).length;
-  console.log("isChildrenFallback?:", !isChildrenFallback);
+
   return (
     <div className={styles.mainLayout}>
+      {/* Only add opaque classname when in /anime, is not a fallback page, and an image banner is available */}
       <nav
         className={`${styles.nav} ${
           isAnime && !isChildrenFallback && children.props.anime.bannerImage
@@ -18,6 +19,7 @@ const Layout = ({ children }) => {
             : ""
         }`}
       >
+        {/* Logo */}
         <Link href="/">
           <a>
             <div className={styles.logoContainer}>
@@ -26,6 +28,8 @@ const Layout = ({ children }) => {
             </div>
           </a>
         </Link>
+
+        {/* External links */}
         {navLinks.map((arr) => (
           <ul className={styles.extLink} key={arr[0].link}>
             {arr.map((item) => {
@@ -44,7 +48,9 @@ const Layout = ({ children }) => {
           </ul>
         ))}
       </nav>
+
       {children}
+
       <footer className={styles.footer}>
         <div className={styles.disclaimer}>
           <h2 className={styles.discHeader}>Disclaimer:</h2>
@@ -55,6 +61,8 @@ const Layout = ({ children }) => {
             Anilist's API.
           </p>
         </div>
+
+        {/* Footer links are divided into 4 columns/catergories */}
         <div className={styles.footerLinks}>
           {footerLinks.map((arr) => (
             <ul className={styles.footerUl} key={arr[0].link}>
