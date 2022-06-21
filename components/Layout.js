@@ -14,7 +14,7 @@ const Layout = ({ children }) => {
       {/* Only add opaque classname when in /anime, is not a fallback page, and an image banner is available */}
       <nav
         className={`${styles.nav} ${
-          isAnime && !isChildrenFallback && children.props.anime.bannerImage
+          isAnime && !isChildrenFallback && children.props?.anime?.bannerImage
             ? styles.opaque
             : ""
         }`}
