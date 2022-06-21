@@ -13,6 +13,7 @@ const Watch = ({ watch }) => {
             layout="fill"
             objectFit="cover"
             className={styles.watchImg}
+            unoptimized
           />
           <p className={styles.watchTitle}>{stream.title}</p>
         </a>

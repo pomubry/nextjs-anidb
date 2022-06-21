@@ -14,6 +14,7 @@ const Recommendations = ({ rec }) => {
             <Image
               src={mediaRecommendation.coverImage.extraLarge}
               layout="fill"
+              unoptimized
             />
           </a>
         </Link>

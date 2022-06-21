@@ -15,6 +15,7 @@ const Anime = ({ anime }) => {
                 src={anime.coverImage.extraLarge}
                 layout="fill"
                 objectFit="cover"
+                unoptimized
               />
             </div>
             <div className={styles.coverInfo}>

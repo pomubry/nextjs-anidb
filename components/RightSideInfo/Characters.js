@@ -7,7 +7,12 @@ const Characters = ({ characters }) => {
       <div key={index} className={styles.charactersBox}>
         {/* Anime character on the left */}
         <div className={styles.charGrid}>
-          <Image src={edge.node.image.large} width={60} height={80} />
+          <Image
+            src={edge.node.image.large}
+            width={60}
+            height={80}
+            unoptimized
+          />
           <div className="infoContainer">
             <h3 className="name">{edge.node.name.full}</h3>
             <h4 className="role">{edge.role}</h4>
@@ -27,6 +32,7 @@ const Characters = ({ characters }) => {
               src={edge.voiceActors[0].image.large}
               width={60}
               height={80}
+              unoptimized
             />
           </div>
         )}

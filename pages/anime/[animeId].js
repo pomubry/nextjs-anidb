@@ -67,7 +67,11 @@ const anime = ({ anime }) => {
               anime.bannerImage ? styles.topOffset : ""
             }`}
           >
-            <Image src={anime.coverImage.extraLarge} layout="fill" />
+            <Image
+              src={anime.coverImage.extraLarge}
+              layout="fill"
+              unoptimized
+            />
           </div>
           <div className={styles.headerTexts}>
             <h1 className={styles.darkText}>{anime.title.romaji}</h1>
