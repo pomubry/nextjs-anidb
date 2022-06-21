@@ -39,7 +39,7 @@ const Layout = ({ children }) => {
                   : styles.link;
               return (
                 <li className={cName} key={item.link}>
-                  <a href={item.link} target="_blank" rel="noopener">
+                  <a href={item.link} target="_blank" rel="noreferrer">
                     {item.name}
                   </a>
                 </li>
@@ -58,7 +58,7 @@ const Layout = ({ children }) => {
           <p>
             This website is not the official Anilist.co. This is a small project
             made for learning purposes only. However, all data are fetched from
-            Anilist's API.
+            Anilist&apos;s API.
           </p>
         </div>
 
@@ -68,7 +68,7 @@ const Layout = ({ children }) => {
             <ul className={styles.footerUl} key={arr[0].link}>
               {arr.map((item) => (
                 <li key={item.link}>
-                  <a href={item.link} target="_blank" rel="noopener">
+                  <a href={item.link} target="_blank" rel="noreferrer">
                     {item.name}
                   </a>
                 </li>

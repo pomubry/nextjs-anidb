@@ -84,7 +84,7 @@ export default function Home({ media, pageInfo }) {
   useEffect(() => {
     setAnimeArr(media);
     setPageDetails(pageInfo);
-  }, [page, season, seasonYear]);
+  }, [page, season, seasonYear, media, pageInfo]);
 
   return (
     <div className={styles.container}>
@@ -92,7 +92,7 @@ export default function Home({ media, pageInfo }) {
         <meta name="description" content="Anime list database" />
         <meta
           name="keywords"
-          content={`anime list,anime database,nextjs,${keywords}`}
+          content={`anime list, anime database, nextjs, nextani database, ${keywords}`}
         />
         <meta name="author" content="pomubry" />
         <title>NextAni Database</title>

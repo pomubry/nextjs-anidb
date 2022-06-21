@@ -16,6 +16,7 @@ const Anime = ({ anime }) => {
                 layout="fill"
                 objectFit="cover"
                 unoptimized
+                alt={anime.title.romaji}
               />
             </div>
             <div className={styles.coverInfo}>

@@ -28,6 +28,7 @@ const StreamLinks = ({ links }) => {
           key={index}
           target="_blank"
           className={`${styles.link} ${bgColor(link.site)}`}
+          rel="noreferrer"
         >
           {link.site}
         </a>

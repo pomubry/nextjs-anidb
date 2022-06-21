@@ -12,6 +12,7 @@ const Characters = ({ characters }) => {
             width={60}
             height={80}
             unoptimized
+            alt={edge.node.name.full}
           />
           <div className="infoContainer">
             <h3 className="name">{edge.node.name.full}</h3>
@@ -33,6 +34,7 @@ const Characters = ({ characters }) => {
               width={60}
               height={80}
               unoptimized
+              alt={edge.voiceActors[0].name.full}
             />
           </div>
         )}

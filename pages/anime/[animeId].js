@@ -38,18 +38,19 @@ export async function getStaticProps({ params }) {
   }
 }
 
-const anime = ({ anime }) => {
+const Anime = ({ anime }) => {
   const router = useRouter();
 
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
+
   return (
     <div>
       <Head>
-        <title>{anime.title.romaji} | NextAni</title>
         <meta name="description" content={anime.description} />
         <meta name="keywords" content={anime.synonyms} />
+        <title>{`${anime.title.romaji} | NextAni`}</title>
       </Head>
 
       {anime.bannerImage && (
@@ -71,6 +72,7 @@ const anime = ({ anime }) => {
               src={anime.coverImage.extraLarge}
               layout="fill"
               unoptimized
+              alt={anime.title.romaji}
             />
           </div>
           <div className={styles.headerTexts}>
@@ -97,4 +99,4 @@ const anime = ({ anime }) => {
   );
 };
 
-export default anime;
+export default Anime;

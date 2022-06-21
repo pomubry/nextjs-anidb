@@ -9,6 +9,7 @@ const Relations = ({ relations }) => {
         width={85}
         height={115}
         unoptimized
+        alt={anime.title.romaji}
       />
       <div className="infoContainer">
         <h4 className={styles.type}>
