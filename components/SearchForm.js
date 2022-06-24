@@ -1,35 +1,27 @@
-import { useRouter } from 'next/router';
-import queryVariables from '../lib/query';
+import { useRouter } from "next/router";
 
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import { makeStyles } from '@material-ui/core';
+import Box from "@mui/material/Box";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    marginBottom: theme.spacing(3),
-    minWidth: 120,
-  },
-}));
+import queryVariables from "../lib/query";
 
 const SearchForm = () => {
   const { query, push } = useRouter();
   const { season, seasonYear } = query;
-  const classes = useStyles();
   const { variables } = queryVariables();
 
   const seasonLink = (value) => {
-    let str = '/?';
+    let str = "/?";
     str += `season=${value}`;
     if (seasonYear) str += `&seasonYear=${seasonYear}`;
     push(str);
   };
 
   const seasonYearLink = (value) => {
-    let str = '/?';
+    let str = "/?";
     if (season) str += `season=${season}&`;
     str += `seasonYear=${value}`;
     push(str);
@@ -48,15 +40,16 @@ const SearchForm = () => {
     }
     return arr;
   };
+
   return (
-    <form>
-      <FormControl className={classes.formControl}>
-        <InputLabel id="seasonLabel">Season</InputLabel>
+    <Box sx={{ marginBottom: "3rem" }}>
+      <FormControl>
+        <InputLabel id="seasonLabel-label">Season</InputLabel>
         <Select
-          labelId="seasonLabel"
+          labelId="seasonLabel-label"
           name="season"
-          defaultValue={variables.season}
           value={season || variables.season}
+          label="Season"
           onChange={(e) => seasonLink(e.target.value)}
         >
           <MenuItem value="WINTER">Winter</MenuItem>
@@ -65,19 +58,20 @@ const SearchForm = () => {
           <MenuItem value="FALL">Fall</MenuItem>
         </Select>
       </FormControl>
-      <FormControl className={classes.formControl}>
+
+      <FormControl>
         <InputLabel id="seasonYearLabel">Year</InputLabel>
         <Select
           labelId="seasonYearLabel"
           name="seasonYear"
-          defaultValue={variables.seasonYear}
           value={seasonYear || variables.seasonYear}
+          label="Year"
           onChange={(e) => seasonYearLink(e.target.value)}
         >
           {yearList()}
         </Select>
       </FormControl>
-    </form>
+    </Box>
   );
 };
 
