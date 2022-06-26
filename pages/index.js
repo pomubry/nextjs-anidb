@@ -116,8 +116,9 @@ export default function Home({ media, pageInfo }) {
         }
       >
         <section className={styles.animeContainer}>
-          {animeArr &&
-            animeArr.map((anime) => <Anime anime={anime} key={anime.id} />)}
+          {animeArr?.map((anime) => (
+            <Anime anime={anime} key={anime.id} />
+          ))}
         </section>
       </InfiniteScroll>
     </div>

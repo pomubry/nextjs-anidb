@@ -11,12 +11,14 @@ const Recommendations = ({ rec }) => {
           key={mediaRecommendation.id}
         >
           <a>
-            <Image
-              src={mediaRecommendation.coverImage.extraLarge}
-              layout="fill"
-              unoptimized
-              alt={mediaRecommendation.title.romaji}
-            />
+            <div className={styles.recImgContainer}>
+              <Image
+                src={mediaRecommendation.coverImage.extraLarge}
+                layout="fill"
+                unoptimized
+                alt={mediaRecommendation.title.romaji}
+              />
+            </div>
           </a>
         </Link>
       </div>
