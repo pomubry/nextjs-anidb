@@ -8,7 +8,7 @@ import queryVariables from "../lib/query";
 
 import Anime from "../components/Anime";
 import SearchForm from "../components/SearchForm";
-import InfiniteScroll from "react-infinite-scroll-component";
+import InfiniteScroll from "react-infinite-scroller";
 
 export async function getServerSideProps({ query }) {
   // Validate first the queries
@@ -104,11 +104,11 @@ export default function Home({ media, pageInfo }) {
       <SearchForm />
 
       <InfiniteScroll
-        dataLength={animeArr.length}
-        next={fetchMore}
+        pageStart={0}
+        loadMore={fetchMore}
         hasMore={pageDetails.hasNextPage}
         loader={
-          <h4 className={styles.loadingMsg}>
+          <h4 className={styles.loadingMsg} key={0}>
             {!isFetchError
               ? "Loading..."
               : "Loading failed. Please try again..."}
