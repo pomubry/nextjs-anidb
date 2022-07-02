@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
+import { Divider } from "@mui/material";
 
 const CardDesc = ({ anime }) => {
   return (
@@ -49,6 +50,7 @@ const CardDesc = ({ anime }) => {
         </Typography>
       </CardContent>
 
+      <Divider />
       {/* Genre */}
       <CardContent>
         {anime.genres.length > 0 &&
