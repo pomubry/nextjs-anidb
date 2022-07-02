@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -7,11 +8,18 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
 import queryVariables from "../lib/query";
+import { TextField, useMediaQuery, useTheme } from "@mui/material";
 
 const SearchForm = () => {
+  const [searchStr, setSearchStr] = useState("");
+
   const { query, push } = useRouter();
   const { season, seasonYear } = query;
   const { variables } = queryVariables();
+
+  // To identify if <TextField/> will be `fullWidth` or not
+  const theme = useTheme();
+  const lessThanSmall = useMediaQuery(theme.breakpoints.down("434"));
 
   const seasonLink = (value) => {
     let str = "/?";
@@ -43,7 +51,7 @@ const SearchForm = () => {
 
   return (
     <Box sx={{ marginBottom: "3rem" }}>
-      <FormControl>
+      <FormControl sx={{ marginBottom: 2 }}>
         <InputLabel id="seasonLabel-label">Season</InputLabel>
         <Select
           labelId="seasonLabel-label"
@@ -59,7 +67,7 @@ const SearchForm = () => {
         </Select>
       </FormControl>
 
-      <FormControl>
+      <FormControl sx={{ marginBottom: 2 }}>
         <InputLabel id="seasonYearLabel">Year</InputLabel>
         <Select
           labelId="seasonYearLabel"
@@ -71,6 +79,13 @@ const SearchForm = () => {
           {yearList()}
         </Select>
       </FormControl>
+
+      <TextField
+        label="Search Anime"
+        value={searchStr}
+        onChange={(e) => setSearchStr(e.target.value)}
+        fullWidth={lessThanSmall}
+      />
     </Box>
   );
 };
