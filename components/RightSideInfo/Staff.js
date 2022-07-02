@@ -9,7 +9,6 @@ const Staff = ({ staff }) => {
           src={obj.node.image.large}
           width={52}
           height={70}
-          unoptimized
           alt={obj.node.name.full}
         />
         <div className="infoContainer">

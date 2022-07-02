@@ -19,7 +19,6 @@ const CardImg = ({ anime }) => {
           src={anime.coverImage.extraLarge}
           layout="fill"
           objectFit="cover"
-          unoptimized
           alt={anime.title.romaji}
         />
         <Box

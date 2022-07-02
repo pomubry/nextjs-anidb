@@ -71,7 +71,6 @@ const Anime = ({ anime }) => {
             <Image
               src={anime.coverImage.extraLarge}
               layout="fill"
-              unoptimized
               alt={anime.title.romaji}
             />
           </div>

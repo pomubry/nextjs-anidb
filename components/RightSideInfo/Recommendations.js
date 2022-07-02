@@ -15,7 +15,6 @@ const Recommendations = ({ rec }) => {
               <Image
                 src={mediaRecommendation.coverImage.extraLarge}
                 layout="fill"
-                unoptimized
                 alt={mediaRecommendation.title.romaji}
               />
             </div>
