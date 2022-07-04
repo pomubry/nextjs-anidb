@@ -38,11 +38,12 @@ export async function getServerSideProps({ query }) {
     props: {
       pageInfo,
       media,
+      queryProp: query,
     },
   };
 }
 
-export default function Home({ media, pageInfo }) {
+export default function Home({ media, pageInfo, queryProp }) {
   const [animeArr, setAnimeArr] = useState(media);
   const [pageDetails, setPageDetails] = useState(pageInfo);
   const [isFetchError, setIsFetchError] = useState(false);
@@ -101,7 +102,7 @@ export default function Home({ media, pageInfo }) {
 
       <h1 className={styles.title}>NextAni Database</h1>
 
-      <SearchForm />
+      <SearchForm queryProp={queryProp} />
 
       <InfiniteScroll
         pageStart={0}

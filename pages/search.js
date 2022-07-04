@@ -5,7 +5,17 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import SearchForm from "../components/SearchForm";
 
-const Search = () => {
+export async function getServerSideProps({ query }) {
+  const { season, seasonYear, searchStr } = query;
+
+  return {
+    props: {
+      queryProp: query,
+    },
+  };
+}
+
+const Search = ({ queryProp }) => {
   return (
     <>
       <Head>
@@ -20,8 +30,7 @@ const Search = () => {
       </Head>
 
       <Container maxWidth="lg" sx={{ paddingTop: (theme) => theme.spacing(7) }}>
-        <SearchForm />
-
+        <SearchForm queryProp={queryProp} />
         <Grid container spacing={2}>
           {dummy.map((anime) => (
             <CardAni anime={anime} key={anime.id} />
