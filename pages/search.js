@@ -1,21 +1,30 @@
-import dummy from "../dummy.json";
 import Head from "next/head";
 import CardAni from "../components/Mui/CardAni";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import SearchForm from "../components/SearchForm";
+import fetchQuery from "../lib/fetchQuery";
 
 export async function getServerSideProps({ query }) {
-  const { season, seasonYear, searchStr } = query;
+  // Fetch data once query was valdiated
+  const { pageInfo, media, validatedQueries, error } = await fetchQuery(query);
+
+  if (error) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
-      queryProp: query,
+      pageInfo,
+      media,
+      queryProp: validatedQueries,
     },
   };
 }
 
-const Search = ({ queryProp }) => {
+const Search = ({ pageInfo, media, queryProp }) => {
   return (
     <>
       <Head>
@@ -29,10 +38,10 @@ const Search = ({ queryProp }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container maxWidth="lg" sx={{ paddingTop: (theme) => theme.spacing(7) }}>
+      <Container maxWidth="lg" sx={{ paddingY: (theme) => theme.spacing(7) }}>
         <SearchForm queryProp={queryProp} />
         <Grid container spacing={2}>
-          {dummy.map((anime) => (
+          {media.map((anime) => (
             <CardAni anime={anime} key={anime.id} />
           ))}
         </Grid>

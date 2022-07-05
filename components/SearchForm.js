@@ -17,7 +17,7 @@ import SearchFilter from "./Mui/SearchFilter";
 import { useRouter } from "next/router";
 
 const SearchForm = ({ queryProp }) => {
-  const [searchStr, setSearchStr] = useState("");
+  const [search, setSearch] = useState(queryProp?.search || "");
   const [season, setSeason] = useState(queryProp?.season || "ANY");
   const [seasonYear, setSeasonYear] = useState(queryProp?.seasonYear || "ANY");
   const [expanded, setExpanded] = useState(false);
@@ -41,13 +41,12 @@ const SearchForm = ({ queryProp }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let variables = { season, seasonYear, searchStr };
-    let invalidStr = ["", "ANY"];
+    let variables = { season, seasonYear, search };
+    const ignoredValues = ["", "ANY"];
     let str = router.pathname + "?";
+
     for (let key in variables) {
-      if (invalidStr.includes(variables[key])) {
-        delete variables[key];
-      } else {
+      if (!ignoredValues.includes(variables[key])) {
         str += `${key}=${variables[key]}&`;
       }
     }
@@ -64,8 +63,8 @@ const SearchForm = ({ queryProp }) => {
           <OutlinedInput
             id="outlined-adornment-amount"
             label="Search Anime"
-            value={searchStr}
-            onChange={(e) => setSearchStr(e.target.value)}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             startAdornment={
               <InputAdornment position="start" sx={{ marginRight: 0 }}>
                 <IconButton aria-label="submit" type="submit">

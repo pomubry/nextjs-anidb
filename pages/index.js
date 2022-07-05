@@ -1,32 +1,20 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
 
 import fetchQuery from "../lib/fetchQuery";
-import queryVariables from "../lib/query";
 
 import Anime from "../components/Anime";
 import SearchForm from "../components/SearchForm";
 import InfiniteScroll from "react-infinite-scroller";
 
 export async function getServerSideProps({ query }) {
-  // Validate first the queries
-  const { season, seasonYear } = query;
-  const { possibleValues } = queryVariables();
-  let isSeasonValid =
-    season === undefined || possibleValues.season.includes(season);
-  let isSeasonYearValid =
-    seasonYear === undefined || possibleValues.seasonYear.includes(seasonYear);
-
-  if (!isSeasonValid || !isSeasonYearValid) {
-    return {
-      notFound: true,
-    };
+  // If there are no queries, get current season
+  if (Object.keys(query).length === 0) {
+    query.getCurrentSeason = true;
   }
 
-  // Fetch data once query was valdiated
-  const { pageInfo, media, error } = await fetchQuery(1, season, seasonYear);
+  const { pageInfo, media, validatedQueries, error } = await fetchQuery(query);
 
   if (error) {
     return {
@@ -38,7 +26,7 @@ export async function getServerSideProps({ query }) {
     props: {
       pageInfo,
       media,
-      queryProp: query,
+      queryProp: validatedQueries,
     },
   };
 }
@@ -48,7 +36,7 @@ export default function Home({ media, pageInfo, queryProp }) {
   const [pageDetails, setPageDetails] = useState(pageInfo);
   const [isFetchError, setIsFetchError] = useState(false);
 
-  const { page, season, seasonYear } = useRouter().query;
+  const { season, seasonYear } = queryProp;
 
   // Keywords for <Head/>
   const keywords = animeArr.map((anime) => anime.title.romaji);
@@ -58,11 +46,12 @@ export default function Home({ media, pageInfo, queryProp }) {
     if (!pageDetails.hasNextPage) return;
 
     try {
-      const { pageInfo, media } = await fetchQuery(
-        pageDetails.currentPage + 1,
+      let query = {
+        page: pageDetails.currentPage + 1,
         season,
-        seasonYear
-      );
+        seasonYear,
+      };
+      const { pageInfo, media } = await fetchQuery(query);
 
       let newArr = [...animeArr];
 
@@ -85,7 +74,7 @@ export default function Home({ media, pageInfo, queryProp }) {
   useEffect(() => {
     setAnimeArr(media);
     setPageDetails(pageInfo);
-  }, [page, season, seasonYear, media, pageInfo]);
+  }, [media, pageInfo, queryProp]);
 
   return (
     <div className={styles.container}>
