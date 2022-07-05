@@ -10,7 +10,7 @@ import LeftSideInfo from "../../components/LeftSideInfo/LeftSideInfo";
 import RightSideInfo from "../../components/RightSideInfo/RightSideInfo";
 
 export async function getStaticPaths() {
-  const { media } = await fetchQuery();
+  const { media } = await fetchQuery({});
 
   let paths = media.map((anime) => ({
     params: { animeId: anime.id.toString() },

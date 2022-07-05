@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-
 import fetchQuery from "../lib/fetchQuery";
-
 import Anime from "../components/Anime";
 import SearchForm from "../components/SearchForm";
 import InfiniteScroll from "react-infinite-scroller";
