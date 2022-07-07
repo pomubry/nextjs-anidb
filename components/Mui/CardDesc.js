@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
-import { Divider } from "@mui/material";
+import Divider from "@mui/material/Divider";
 
 const CardDesc = ({ anime }) => {
   return (
@@ -53,25 +53,22 @@ const CardDesc = ({ anime }) => {
       <Divider />
       {/* Genre */}
       <CardContent>
-        {anime.genres.length > 0 &&
-          anime.genres.map((genre, index) => (
-            <Chip
-              key={index}
-              onClick={() => {}}
-              component="span"
-              variant="subtitle2"
-              size="small"
-              sx={{
-                backgroundColor: anime.coverImage.color,
-                margin: 0.5,
-                color: (theme) =>
-                  anime.coverImage.color
-                    ? theme.palette.getContrastText(anime.coverImage.color)
-                    : "gray",
-              }}
-              label={genre}
-            />
-          ))}
+        {anime.genres?.map((genre, index) => (
+          <Chip
+            key={index}
+            variant="subtitle2"
+            size="small"
+            sx={{
+              backgroundColor: anime.coverImage.color,
+              margin: 0.5,
+              color: (theme) =>
+                anime.coverImage.color
+                  ? theme.palette.getContrastText(anime.coverImage.color)
+                  : "gray",
+            }}
+            label={genre}
+          />
+        ))}
       </CardContent>
     </>
   );

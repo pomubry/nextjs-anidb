@@ -4,7 +4,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 
-const CardImg = ({ anime }) => {
+const CardImg = ({ anime, contentHeight }) => {
   return (
     <CardActionArea>
       <CardMedia
@@ -12,7 +12,7 @@ const CardImg = ({ anime }) => {
         sx={{
           position: "relative",
           width: "100%",
-          height: "25rem",
+          height: contentHeight,
         }}
       >
         <Image
@@ -27,7 +27,7 @@ const CardImg = ({ anime }) => {
             bottom: 0,
             left: 0,
             width: "100%",
-            backgroundColor: "rgba(31,38,49,.9)",
+            backgroundColor: "rgba(0,0,0,.5)",
             color: "white",
             padding: "1rem",
           }}

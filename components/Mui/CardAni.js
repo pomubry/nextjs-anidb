@@ -3,6 +3,8 @@ import Grid from "@mui/material/Grid";
 import CardImg from "./CardImg";
 import CardDesc from "./CardDesc";
 
+const contentHeight = "25rem";
+
 const CardAni = ({ anime }) => {
   return (
     <Grid item xs={12} md={6}>
@@ -10,7 +12,7 @@ const CardAni = ({ anime }) => {
         <Grid container columns={20}>
           {/* Image & Title */}
           <Grid item xs={20} sm={9}>
-            <CardImg anime={anime} />
+            <CardImg anime={anime} contentHeight={contentHeight} />
           </Grid>
           {/* Description & Genre */}
           <Grid
@@ -20,7 +22,7 @@ const CardAni = ({ anime }) => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              height: { xs: "none", sm: "25rem" },
+              height: { xs: "none", sm: contentHeight },
               maxHeight: { xs: "max-content", sm: "none" },
             }}
           >
