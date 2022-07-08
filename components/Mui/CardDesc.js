@@ -52,7 +52,9 @@ const CardDesc = ({ anime }) => {
 
       <Divider />
       {/* Genre */}
-      <CardContent>
+      <CardContent
+        sx={{ overflowX: "scroll", display: "flex", flexWrap: "nowrap" }}
+      >
         {anime.genres?.map((genre, index) => (
           <Chip
             key={index}
