@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useRouter } from "next/router";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import FilterListOffIcon from "@mui/icons-material/FilterListOff";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
@@ -14,7 +15,6 @@ import {
   IconButton,
 } from "@mui/material";
 import SearchFilter from "./Mui/SearchFilter";
-import { useRouter } from "next/router";
 
 const SearchForm = ({ queryProp }) => {
   const [search, setSearch] = useState(queryProp?.search || "");

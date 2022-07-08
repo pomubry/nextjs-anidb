@@ -8,6 +8,7 @@ import theme from "../src/theme";
 import createEmotionCache from "../src/createEmotionCache";
 import "../styles/globals.css";
 import Layout from "../components/Layout";
+import MuiLayout from "../components/Mui/Layout/Layout";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -23,9 +24,9 @@ export default function MyApp(props) {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Layout>
+        <MuiLayout>
           <Component {...pageProps} />
-        </Layout>
+        </MuiLayout>
       </ThemeProvider>
     </CacheProvider>
   );
