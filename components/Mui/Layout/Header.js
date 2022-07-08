@@ -10,7 +10,10 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Link from "@mui/material/Link";
-import blue from "@mui/material/colors/blue";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { blue } from "@mui/material/colors";
+import { ToggleThemeContext } from "../../../src/theme";
 
 const middleLinks = [
   {
@@ -37,21 +40,20 @@ const rightLinks = [
 export default function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  const { mode, toggleTheme } = React.useContext(ToggleThemeContext);
+  const modeIcon = mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />;
 
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar
           disableGutters
-          sx={{ display: "flex", justifyContent: "space-around" }}
+          sx={{
+            display: "flex",
+            justifyContent: "space-around",
+          }}
         >
+          {/* Left logo */}
           <Box sx={{ display: "flex" }}>
             <Typography
               variant="h3"
@@ -64,6 +66,7 @@ export default function Header() {
             </Typography>
           </Box>
 
+          {/* Middle Links */}
           <Box sx={{ display: { xs: "flex" } }}>
             {middleLinks.map((link, idx) => (
               <Link
@@ -78,13 +81,14 @@ export default function Header() {
             ))}
           </Box>
 
+          {/* Right-side menu icon at small viewport only */}
           <Box sx={{ display: { xs: "flex", sm: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              onClick={(e) => setAnchorElNav(e.currentTarget)}
               color="inherit"
             >
               <MenuIcon />
@@ -102,13 +106,13 @@ export default function Header() {
                 horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+              onClose={() => setAnchorElNav(null)}
               sx={{
                 display: { xs: "block", md: "none" },
               }}
             >
               {rightLinks.map((link, idx) => (
-                <MenuItem onClick={handleCloseNavMenu} key={idx}>
+                <MenuItem onClick={() => setAnchorElNav(null)} key={idx}>
                   <Link
                     href={link.href}
                     target="_blank"
@@ -120,9 +124,19 @@ export default function Header() {
                   </Link>
                 </MenuItem>
               ))}
+              <MenuItem
+                onClick={toggleTheme}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {modeIcon}
+              </MenuItem>
             </Menu>
           </Box>
 
+          {/* Right-side links from small viewport and above */}
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             <Link
               href="https://anilist.co/social"
@@ -135,7 +149,7 @@ export default function Header() {
             <Button
               variant="contained"
               color="info"
-              sx={{ ml: 1, color: "white" }}
+              sx={{ mx: 1, color: "white" }}
             >
               <Link
                 href="https://anilist.co/forum/overview"
@@ -147,6 +161,7 @@ export default function Header() {
                 Signup
               </Link>
             </Button>
+            <IconButton onClick={toggleTheme}>{modeIcon}</IconButton>
           </Box>
         </Toolbar>
       </Container>

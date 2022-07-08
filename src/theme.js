@@ -1,20 +1,28 @@
-import { createTheme } from "@mui/material/styles";
-import { red } from "@mui/material/colors";
+import { createContext, useMemo, useState } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-// Create a theme instance.
-const theme = createTheme({
-  palette: {
-    mode: "dark",
-    primary: {
-      main: "#556cd6",
-    },
-    secondary: {
-      main: "#19857b",
-    },
-    error: {
-      main: red.A400,
-    },
-  },
-});
+export const ToggleThemeContext = createContext();
 
-export default theme;
+export default function ToggleTheme({ children }) {
+  const [mode, setMode] = useState("dark");
+
+  const toggleTheme = () => {
+    setMode((mode) => (mode === "dark" ? "light" : "dark"));
+  };
+
+  let theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode,
+        },
+      }),
+    [mode]
+  );
+
+  return (
+    <ToggleThemeContext.Provider value={{ mode, toggleTheme }}>
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    </ToggleThemeContext.Provider>
+  );
+}

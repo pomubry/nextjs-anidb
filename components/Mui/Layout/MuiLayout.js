@@ -1,6 +1,7 @@
 import Header from "./Header";
 import Footer from "./Footer";
-export default function Layout({ children }) {
+
+export default function MuiLayout({ children }) {
   return (
     <div>
       <Header />
