@@ -49,7 +49,7 @@ const Layout = ({ children }) => {
         ))}
       </nav>
 
-      {children}
+      {/* {children} */}
 
       <footer className={styles.footer}>
         <div className={styles.disclaimer}>

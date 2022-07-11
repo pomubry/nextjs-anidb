@@ -63,6 +63,7 @@ const SearchForm = ({ queryProp }) => {
           <OutlinedInput
             id="outlined-adornment-amount"
             label="Search Anime"
+            name="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             startAdornment={
