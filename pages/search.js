@@ -4,8 +4,16 @@ import InfiniteScroll from "react-infinite-scroller";
 import fetchQuery from "../lib/fetchQuery";
 import CardAni from "../components/Mui/CardAni";
 import SearchForm from "../components/SearchForm";
-import { Container, Grid, CircularProgress, Box, Button } from "@mui/material";
+import {
+  Container,
+  Grid,
+  CircularProgress,
+  Box,
+  Button,
+  Fab,
+} from "@mui/material";
 import ReplayIcon from "@mui/icons-material/Replay";
+import NavigationIcon from "@mui/icons-material/Navigation";
 
 export async function getServerSideProps({ query }) {
   // If there are no queries, get current season
@@ -121,6 +129,14 @@ const Search = ({ pageInfo, media, queryProp }) => {
             ))}
           </Grid>
         </InfiniteScroll>
+
+        <Fab
+          color="primary"
+          sx={{ position: "fixed", bottom: 15, right: 15 }}
+          href="#"
+        >
+          <NavigationIcon />
+        </Fab>
       </Container>
     </>
   );
