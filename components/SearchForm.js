@@ -43,7 +43,7 @@ const SearchForm = ({ queryProp }) => {
     e.preventDefault();
     let variables = { season, seasonYear, search };
     const ignoredValues = ["", "ANY"];
-    let str = "/search?";
+    let str = "/?";
 
     for (let key in variables) {
       if (!ignoredValues.includes(variables[key])) {

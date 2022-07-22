@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import fetchQuery from "../lib/fetchQuery";
-import Anime from "../components/Anime";
-import SearchForm from "../components/SearchForm";
 import InfiniteScroll from "react-infinite-scroller";
+import fetchQuery from "../lib/fetchQuery";
+import CardAni from "../components/Mui/CardAni";
+import SearchForm from "../components/SearchForm";
+import { Container, Grid, CircularProgress, Box, Button } from "@mui/material";
+import ReplayIcon from "@mui/icons-material/Replay";
 
 export async function getServerSideProps({ query }) {
   // If there are no queries, get current season
@@ -29,7 +30,7 @@ export async function getServerSideProps({ query }) {
   };
 }
 
-export default function Home({ media, pageInfo, queryProp }) {
+const Search = ({ pageInfo, media, queryProp }) => {
   const [animeArr, setAnimeArr] = useState(media);
   const [pageDetails, setPageDetails] = useState(pageInfo);
   const [isFetchError, setIsFetchError] = useState(false);
@@ -74,8 +75,26 @@ export default function Home({ media, pageInfo, queryProp }) {
     setPageDetails(pageInfo);
   }, [media, pageInfo, queryProp]);
 
+  const Loader = () => (
+    <Box sx={{ display: "flex", justifyContent: "center", marginY: 5 }}>
+      {!isFetchError ? (
+        <CircularProgress key="circularKey" />
+      ) : (
+        <Button
+          color="error"
+          variant="outlined"
+          startIcon={<ReplayIcon />}
+          sx={{ marginInline: "center" }}
+          onClick={fetchMore}
+        >
+          There was an error. Please try again.
+        </Button>
+      )}
+    </Box>
+  );
+
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <meta name="description" content="Anime list database" />
         <meta
@@ -83,32 +102,28 @@ export default function Home({ media, pageInfo, queryProp }) {
           content={`anime list, anime database, nextjs, nextani database, ${keywords}`}
         />
         <meta name="author" content="pomubry" />
-        <title>NextAni Database</title>
+        <title>NextAni Database | Search</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1 className={styles.title}>NextAni Database</h1>
+      <Container maxWidth="lg" sx={{ paddingY: (theme) => theme.spacing(7) }}>
+        <SearchForm queryProp={queryProp} />
 
-      <SearchForm queryProp={queryProp} />
-
-      <InfiniteScroll
-        pageStart={0}
-        loadMore={fetchMore}
-        hasMore={pageDetails.hasNextPage}
-        loader={
-          <h4 className={styles.loadingMsg} key={0}>
-            {!isFetchError
-              ? "Loading..."
-              : "Loading failed. Please try again..."}
-          </h4>
-        }
-      >
-        <section className={styles.animeContainer}>
-          {animeArr?.map((anime) => (
-            <Anime anime={anime} key={anime.id} />
-          ))}
-        </section>
-      </InfiniteScroll>
-    </div>
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={fetchMore}
+          hasMore={pageDetails.hasNextPage}
+          loader={<Loader key="circularLoaderKey" />}
+        >
+          <Grid container spacing={2}>
+            {animeArr.map((anime) => (
+              <CardAni anime={anime} key={anime.id} />
+            ))}
+          </Grid>
+        </InfiniteScroll>
+      </Container>
+    </>
   );
-}
+};
+
+export default Search;
