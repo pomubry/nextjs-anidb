@@ -32,6 +32,7 @@ export async function getStaticProps({ params }) {
       props: { anime: data.data.Media },
     };
   } catch (error) {
+    console.error("Error in getStaticProps", error.message);
     return {
       notFound: true,
     };
