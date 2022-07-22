@@ -15,6 +15,9 @@ export default function ToggleTheme({ children }) {
       createTheme({
         palette: {
           mode,
+          background: {
+            default: mode === "dark" ? "#181818" : "#fff",
+          },
         },
       }),
     [mode]
