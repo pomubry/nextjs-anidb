@@ -30,11 +30,13 @@ export async function getStaticProps({ params }) {
     );
     return {
       props: { anime: data.data.Media },
+      revalidate: 10,
     };
   } catch (error) {
     console.error("Error in getStaticProps", error.message);
     return {
       notFound: true,
+      revalidate: 10,
     };
   }
 }
