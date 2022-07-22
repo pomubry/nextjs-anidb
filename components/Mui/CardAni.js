@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import CardImg from "./CardImg";
 import CardDesc from "./CardDesc";
 
-const contentHeight = "25rem";
+const contentHeight = "20rem";
 
 const CardAni = ({ anime }) => {
   return (

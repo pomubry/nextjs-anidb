@@ -12,7 +12,7 @@ const CardImg = ({ anime, contentHeight }) => {
         sx={{
           position: "relative",
           width: "100%",
-          height: contentHeight,
+          minHeight: contentHeight,
         }}
       >
         <Image
