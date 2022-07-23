@@ -10,7 +10,7 @@ export default function MuiLayout({ children }) {
       {children}
       <Fab
         color="primary"
-        sx={{ position: "fixed", bottom: 15, right: 15 }}
+        sx={{ position: "fixed", bottom: 25, right: 25 }}
         href="#"
       >
         <NavigationIcon />

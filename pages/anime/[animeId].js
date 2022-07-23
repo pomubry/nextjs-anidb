@@ -17,7 +17,6 @@ export async function getStaticPaths() {
     params: { animeId: anime.id.toString() },
   }));
 
-  console.log("Returning paths:", paths);
   return {
     paths,
     fallback: true,
@@ -26,7 +25,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   await avoidRateLimit();
-  console.log("Fetching animeId:", params.animeId);
+
   try {
     const { data } = await axios.post(
       "https://graphql.anilist.co",

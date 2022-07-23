@@ -12,7 +12,7 @@ const RightSideInfo = ({ anime }) => {
       {/* This component contains 6 parts: 
           Relations, Characters, Staff, StatusDistribution, Watch, Trailer, & Recommendations */}
 
-      {!!anime.relations.nodes.length && (
+      {!!anime.relations?.nodes?.length && (
         <>
           <h3 className={styles.header}>Relations</h3>
           <div className={styles.cards}>
@@ -21,7 +21,7 @@ const RightSideInfo = ({ anime }) => {
         </>
       )}
 
-      {!!anime.characters.edges.length && (
+      {!!anime.characters?.edges?.length && (
         <>
           <h3 className={styles.header}>Characters</h3>
           <div className={styles.cards}>
@@ -30,7 +30,7 @@ const RightSideInfo = ({ anime }) => {
         </>
       )}
 
-      {!!anime.staff.edges.length && (
+      {!!anime.staff?.edges?.length && (
         <>
           <h3 className={styles.header}>Staff</h3>
           <div className={styles.cards}>
@@ -39,17 +39,21 @@ const RightSideInfo = ({ anime }) => {
         </>
       )}
 
-      <h3 className={styles.header}>Status Distribution</h3>
-      <StatusDistribution stats={anime.stats} />
+      {!!anime.stats?.statusDistribution?.length && (
+        <>
+          <h3 className={styles.header}>Status Distribution</h3>
+          <StatusDistribution stats={anime.stats} />
+        </>
+      )}
 
-      {!!anime.streamingEpisodes.length && (
+      {!!anime.streamingEpisodes?.length && (
         <>
           <h3 className={styles.header}>Watch</h3>
           <Watch watch={anime.streamingEpisodes} />
         </>
       )}
 
-      {anime.trailer && anime.trailer.site === "youtube" && (
+      {!!anime.trailer?.site === "youtube" && (
         <>
           <h3 className={styles.header}>Trailer</h3>
           <iframe
@@ -63,7 +67,7 @@ const RightSideInfo = ({ anime }) => {
         </>
       )}
 
-      {!!anime.recommendations.nodes.length && (
+      {!!anime.recommendations?.nodes?.length && (
         <>
           <h3 className={styles.header}>Recommendations</h3>
           <div className={styles.recCards}>

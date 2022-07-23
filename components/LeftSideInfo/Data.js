@@ -3,7 +3,7 @@ import styles from "../../styles/animeId.module.css";
 const Data = ({ anime }) => {
   let studios = [];
   let producers = [];
-  anime.studios.nodes.forEach((studio) => {
+  anime.studios?.nodes?.forEach((studio) => {
     studio.isAnimationStudio ? studios.push(studio) : producers.push(studio);
   });
 
@@ -30,7 +30,7 @@ const Data = ({ anime }) => {
         </div>
       )}
 
-      {anime.status && (
+      {!!anime.status && (
         <div className={styles.shortInfo}>
           <h4 className={styles.darkText}>Status</h4>
           <p className={styles.lightText}>{anime.status}</p>
@@ -67,7 +67,7 @@ const Data = ({ anime }) => {
         </div>
       )}
 
-      {(anime.season || anime.seasonYear) && (
+      {(!!anime.season || !!anime.seasonYear) && (
         <div className={styles.shortInfo}>
           <h4 className={styles.darkText}>Season</h4>
           <p className={styles.lightText}>
@@ -131,7 +131,7 @@ const Data = ({ anime }) => {
         <p className={styles.lightText}>{anime.source}</p>
       </div>
 
-      {!!anime.genres.length && (
+      {!!anime.genres?.length && (
         <div className={styles.shortInfo}>
           <h4 className={styles.darkText}>Genres</h4>
           {anime.genres.map((genre, index) => (
@@ -148,7 +148,7 @@ const Data = ({ anime }) => {
         <p className={styles.lightText}>{anime.title.romaji}</p>
       </div>
 
-      {anime.title.english && (
+      {anime.title?.english && (
         <div className={styles.shortInfo}>
           <h4 className={styles.darkText}>English</h4>
           <p className={styles.lightText}>{anime.title.english}</p>
@@ -160,7 +160,7 @@ const Data = ({ anime }) => {
         <p className={styles.lightText}>{anime.title.native}</p>
       </div>
 
-      {!!anime.synonyms.length && (
+      {!!anime.synonyms?.length && (
         <div className={styles.shortInfo}>
           <h4 className={styles.darkText}>Synonyms</h4>
           {anime.synonyms.map((synonym, index) => (
