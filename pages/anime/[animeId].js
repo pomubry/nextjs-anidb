@@ -5,6 +5,7 @@ import styles from "../../styles/animeId.module.css";
 import axios from "axios";
 import fetchQuery from "../../lib/fetchQuery";
 import queryId from "../../lib/queryId";
+import { avoidRateLimit } from "../../lib/fetchDelay";
 import parse from "html-react-parser";
 import LeftSideInfo from "../../components/LeftSideInfo/LeftSideInfo";
 import RightSideInfo from "../../components/RightSideInfo/RightSideInfo";
@@ -24,6 +25,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+  await avoidRateLimit();
   console.log("Fetching animeId:", params.animeId);
   try {
     const { data } = await axios.post(
@@ -35,7 +37,10 @@ export async function getStaticProps({ params }) {
       revalidate: 10,
     };
   } catch (error) {
-    console.error("Error in getStaticProps:", error);
+    console.error(
+      `Error in getStaticProps (animeId: ${params.animeId}):`,
+      error.message
+    );
     return {
       notFound: true,
       revalidate: 10,
