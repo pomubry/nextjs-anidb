@@ -3,7 +3,7 @@ import { Box, Container, Grid, Link, Typography } from "@mui/material";
 
 export default function Footer() {
   return (
-    <footer>
+    <footer style={{ marginTop: "auto" }}>
       <Box bgcolor="#11161d" py={5}>
         <Container maxWidth="lg">
           <Grid container spacing={5}>

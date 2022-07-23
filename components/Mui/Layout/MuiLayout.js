@@ -5,7 +5,9 @@ import NavigationIcon from "@mui/icons-material/Navigation";
 
 export default function MuiLayout({ children }) {
   return (
-    <div>
+    <div
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    >
       <Nav />
       {children}
       <Fab
