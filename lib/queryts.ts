@@ -1,4 +1,4 @@
-import { IQuery, IVariables } from "./interface";
+import { IQueryCurrentSeason, IVariables } from "./interface";
 
 const query = ({
   getCurrentSeason,
@@ -6,7 +6,7 @@ const query = ({
   season,
   seasonYear,
   search,
-}: IQuery) => {
+}: IQueryCurrentSeason) => {
   let query = `query (
     $page: Int,
     $seasonYear: Int,
@@ -35,12 +35,19 @@ const query = ({
         title {
           romaji
         }
+        coverImage {
+          extraLarge
+          color
+        }
         description
         episodes
+        format
+        genres
         nextAiringEpisode {
           id
         }
-        format
+        season
+        seasonYear
         studios(isMain:true) {
           edges {
             node{
@@ -49,13 +56,6 @@ const query = ({
           }
         }
         trending
-        season
-        seasonYear
-        genres
-        coverImage {
-          extraLarge
-          color
-        }
       }
     }
   }`;
@@ -101,24 +101,9 @@ const query = ({
     variables.seasonYear = date.getFullYear();
   }
 
-  // validatedQueries will be taken by the app
-  // variables will be sent to the API (null values were removed)
-  // let validatedQueries = { page, season, seasonYear, search };
-
-  // populate `variables` with non-null values
-  //   for (const keys in validatedQueries) {
-  //     if (validatedQueries[keys as keyof IVariables]) variables[keys as keyof IVariables] = validatedQueries[keys as keyof IVariables];
-  //   }
-  // if (validatedQueries.page) variables.page = validatedQueries.page;
-  // if (validatedQueries.season) variables.season = validatedQueries.season;
-  // if (validatedQueries.seasonYear)
-  //   variables.seasonYear = validatedQueries.seasonYear;
-  // if (validatedQueries.search) variables.search = validatedQueries.search;
-
   return {
     query,
     variables,
-    // validatedQueries,
   };
 };
 

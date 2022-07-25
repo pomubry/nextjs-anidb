@@ -1,10 +1,11 @@
 import axios from "axios";
-import { IErrorClause, IFetchQueryId } from "./interface";
+import { IErrorClause } from "./interface";
+import { IQueryId } from "./IQueryId";
 import queryId from "./queryIdts";
 
 const fetchQueryId = async (id: number) => {
   try {
-    const { data } = await axios.post<IFetchQueryId>(
+    const { data } = await axios.post<IQueryId>(
       "https://graphql.anilist.co",
       queryId(id)
     );

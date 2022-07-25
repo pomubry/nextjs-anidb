@@ -7,37 +7,8 @@ const queryId = (id: number) => {
           english
           native
         }
-        description
-    		duration
-        format
-        episodes
-    		status
-        season
-        seasonYear
-        genres
-        meanScore
         averageScore
-        popularity
-        favourites
-        trending
-        source
         bannerImage
-        coverImage {
-          extraLarge
-          large
-          medium
-          color
-        }
-        startDate {
-            year
-            month
-            day
-        }
-        endDate {
-            year
-            month
-            day
-        }
         characters(sort:FAVOURITES_DESC) {
           edges {
             node {
@@ -59,13 +30,30 @@ const queryId = (id: number) => {
             }
           }
         }
+        coverImage {
+          extraLarge
+          color
+        }
+        description
+    		duration
+        endDate {
+            year
+            month
+            day
+        }
+        episodes
         externalLinks {
           site
           url
         }
+        favourites
+        format
+        genres
+        meanScore
         nextAiringEpisode {
           id
         }
+        popularity
         rankings {
           rank
           type
@@ -102,12 +90,9 @@ const queryId = (id: number) => {
             }
           }
         }
-        studios {
-          nodes {
-            name
-            isAnimationStudio
-          }
-        }
+        season
+        seasonYear
+        source
     		staff {
           edges{
             role
@@ -121,16 +106,28 @@ const queryId = (id: number) => {
             }
           }
     		}
+        startDate {
+          year
+          month
+          day
+        }
         stats{
           statusDistribution {
             status
             amount
           }
         }
+        status
         streamingEpisodes {
           title
           thumbnail
           url
+        }
+        studios {
+          nodes {
+            name
+            isAnimationStudio
+          }
         }
         synonyms
         tags {
