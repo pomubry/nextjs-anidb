@@ -28,7 +28,7 @@ const query = ({
         season:$season,
         search:$search,
         type:ANIME,
-        sort:POPULARITY_DESC
+        sort:TRENDING_DESC
         isAdult:false
       ) {
         id
