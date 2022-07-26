@@ -1,3 +1,5 @@
+import React from "react";
+
 // For arguments of fetchQuery.ts
 export interface IVariables {
   id?: number;
@@ -13,4 +15,14 @@ export interface IQueryCurrentSeason extends IVariables {
 // For catch clause typing
 export interface IErrorClause {
   message: string;
+}
+
+// For context
+export interface IContext {
+  mode: "light" | "dark";
+  toggleTheme: () => void;
+}
+
+export interface IChildren {
+  children: React.ReactNode;
 }

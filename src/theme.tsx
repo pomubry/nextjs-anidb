@@ -1,10 +1,11 @@
-import { createContext, useMemo, useState } from "react";
+import React, { createContext, useMemo, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { IChildren, IContext } from "../lib/interface";
 
-export const ToggleThemeContext = createContext();
+export const ToggleThemeContext = createContext<IContext | null>(null);
 
-export default function ToggleTheme({ children }) {
-  const [mode, setMode] = useState("dark");
+export default function ToggleTheme({ children }: IChildren) {
+  const [mode, setMode] = useState<"dark" | "light">("dark");
 
   const toggleTheme = () => {
     setMode((mode) => (mode === "dark" ? "light" : "dark"));

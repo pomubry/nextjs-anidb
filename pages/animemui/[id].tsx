@@ -1,31 +1,67 @@
-import type { NextPage } from "next";
-import { Button } from "@mui/material";
+import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import { Box, CircularProgress, Container } from "@mui/material";
 import fetchQuery from "../../lib/fetchQueryts";
-import fetchQueryId from "../../lib/fetchQueryID";
+import fetchQueryId from "../../lib/fetchQueryId";
+import { useRouter } from "next/router";
+import { Media } from "../../lib/IQueryId";
+import CardHeaderId from "../../components/Mui/CardHeaderId";
 
-const Anime: NextPage = () => {
-  const handleFetch = async () => {
-    // const { variables, pageInfo, media, error } = await fetchQuery({});
-    // if (error) {
-    //   return console.log(error.message);
-    // } else {
-    //   return console.log(variables, pageInfo, media);
-    // }
-    const { media, error } = await fetchQueryId(124410);
-    if (error) {
-      return console.error(error.message);
-    } else {
-      return console.log(media.bannerImage);
-    }
+export const getStaticPaths: GetStaticPaths = async () => {
+  // Fetch the initial top 50 anime
+  const { media, error } = await fetchQuery({});
+
+  if (error) {
+    console.error("Error in getStaticProps:", error.message);
+    return {
+      paths: [{ params: { id: "20" } }],
+      fallback: true,
+    };
+  }
+
+  const paths = media.map((anime) => ({ params: { id: anime.id.toString() } }));
+  return {
+    paths,
+    fallback: true,
   };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { media, error } = await fetchQueryId(Number(params!.id));
+
+  if (error) {
+    console.error("Error in getStaticProps:", error.message);
+    return {
+      notFound: true,
+      revalidate: 10,
+    };
+  }
+
+  return {
+    props: {
+      anime: media,
+    },
+    revalidate: 10,
+  };
+};
+
+const Anime: NextPage<{ anime: Media }> = ({ anime }) => {
+  const { isFallback } = useRouter();
+
+  if (isFallback)
+    return (
+      <Box sx={{ display: "grid", placeContent: "center" }}>
+        <CircularProgress key="circularKey" />
+      </Box>
+    );
 
   return (
-    <div>
-      Anime
-      <Button variant="outlined" onClick={handleFetch}>
-        Fetch
-      </Button>
-    </div>
+    <>
+      <CardHeaderId anime={anime} />
+
+      <Container maxWidth="lg">
+        <Box sx={{ height: "10vh", bgcolor: "primary.main", mt: 10 }}></Box>
+      </Container>
+    </>
   );
 };
 

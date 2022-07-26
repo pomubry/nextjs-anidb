@@ -1,12 +1,16 @@
 import Nav from "./Nav";
 import Footer from "./Footer";
-import { Fab } from "@mui/material";
+import { Fab, Box } from "@mui/material";
 import NavigationIcon from "@mui/icons-material/Navigation";
 
 export default function MuiLayout({ children }) {
   return (
-    <div
-      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    <Box
+      sx={{
+        display: "grid",
+        gridTemplateRows: "auto 1fr auto",
+        minHeight: "100vh",
+      }}
     >
       <Nav />
       {children}
@@ -18,6 +22,6 @@ export default function MuiLayout({ children }) {
         <NavigationIcon />
       </Fab>
       <Footer />
-    </div>
+    </Box>
   );
 }
