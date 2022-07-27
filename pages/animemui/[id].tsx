@@ -1,10 +1,11 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { Box, CircularProgress, Container } from "@mui/material";
+import { Box, CircularProgress, Container, Grid } from "@mui/material";
 import fetchQuery from "../../lib/fetchQueryts";
 import fetchQueryId from "../../lib/fetchQueryId";
 import { useRouter } from "next/router";
 import { Media } from "../../lib/IQueryId";
 import CardHeaderId from "../../components/Mui/CardHeaderId";
+import LeftSideInfo from "../../components/LeftSideInfo/LeftSideInfo";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // Fetch the initial top 50 anime
@@ -58,8 +59,15 @@ const Anime: NextPage<{ anime: Media }> = ({ anime }) => {
     <>
       <CardHeaderId anime={anime} />
 
-      <Container maxWidth="lg">
-        <Box sx={{ height: "10vh", bgcolor: "primary.main", mt: 10 }}></Box>
+      <Container maxWidth="lg" sx={{ mt: 5 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={3}>
+            <LeftSideInfo anime={anime} />
+          </Grid>
+          <Grid item xs={9}>
+            <Box bgcolor="error.main">Left Side</Box>
+          </Grid>
+        </Grid>
       </Container>
     </>
   );
