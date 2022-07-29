@@ -5,14 +5,14 @@ import { Ranking } from "../../lib/IQueryId";
 
 const Rankings: React.FC<{ rankings: Ranking[] }> = ({ rankings }) => {
   return (
-    <div>
+    <>
       {rankings.map((rank, index) => {
         return (
           <Paper
             key={index}
             elevation={3}
             sx={{
-              my: 1,
+              mb: 2,
               p: 1,
               borderRadius: 3,
               display: "grid",
@@ -36,7 +36,7 @@ const Rankings: React.FC<{ rankings: Ranking[] }> = ({ rankings }) => {
           </Paper>
         );
       })}
-    </div>
+    </>
   );
 };
 

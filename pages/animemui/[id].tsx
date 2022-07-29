@@ -61,11 +61,12 @@ const Anime: NextPage<{ anime: Media }> = ({ anime }) => {
 
       <Container maxWidth="lg" sx={{ mt: 5 }}>
         <Grid container spacing={2}>
-          <Grid item xs={3}>
+          {/* xs should be grid area stuff; currently at `auto` */}
+          <Grid item xs={12} sm={4} md={3}>
             <LeftSideInfo anime={anime} />
           </Grid>
-          <Grid item xs={9}>
-            <Box bgcolor="error.main">Left Side</Box>
+          <Grid item xs={12} sm={8} md={9}>
+            <Box bgcolor="error.main">Right Side</Box>
           </Grid>
         </Grid>
       </Container>
