@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { Media } from "../../lib/IQueryId";
 import CardHeaderId from "../../components/Mui/CardHeaderId";
 import LeftSideInfo from "../../components/LeftSideInfo/LeftSideInfo";
+import RightSideInfo from "../../components/RightSideInfo/RightSideInfo";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // Fetch the initial top 50 anime
@@ -60,13 +61,13 @@ const Anime: NextPage<{ anime: Media }> = ({ anime }) => {
       <CardHeaderId anime={anime} />
 
       <Container maxWidth="lg" sx={{ mt: 5 }}>
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
           {/* xs should be grid area stuff; currently at `auto` */}
           <Grid item xs={12} sm={4} md={3}>
             <LeftSideInfo anime={anime} />
           </Grid>
           <Grid item xs={12} sm={8} md={9}>
-            <Box bgcolor="error.main">Right Side</Box>
+            <RightSideInfo anime={anime} />
           </Grid>
         </Grid>
       </Container>

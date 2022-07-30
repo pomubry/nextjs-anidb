@@ -5,57 +5,72 @@ import Staff from "./Staff";
 import StatusDistribution from "./StatusDistribution";
 import Watch from "./Watch";
 import Recommendations from "./Recommendations";
+import { Media } from "../../lib/IQueryId";
+import { Box, Typography } from "@mui/material";
+import React from "react";
 
-const RightSideInfo = ({ anime }) => {
+const CustomTypo = ({ children }: { children: React.ReactNode }) => (
+  <Typography component="h3" variant="h6" color="primary.main">
+    {children}
+  </Typography>
+);
+
+const CustomBox = ({ children }: { children: React.ReactNode }) => (
+  <Box marginY={2} display="grid" gridTemplateColumns="1fr 1fr" gap={2}>
+    {children}
+  </Box>
+);
+
+const RightSideInfo: React.FC<{ anime: Media }> = ({ anime }) => {
   return (
-    <div className={styles.RightSideInfo}>
+    <Box>
       {/* This component contains 6 parts: 
           Relations, Characters, Staff, StatusDistribution, Watch, Trailer, & Recommendations */}
 
       {!!anime.relations?.nodes?.length && (
         <>
-          <h3 className={styles.header}>Relations</h3>
-          <div className={styles.cards}>
+          <CustomTypo>Relations</CustomTypo>
+          <CustomBox>
             <Relations relations={anime.relations} />
-          </div>
+          </CustomBox>
         </>
       )}
 
       {!!anime.characters?.edges?.length && (
         <>
-          <h3 className={styles.header}>Characters</h3>
-          <div className={styles.cards}>
+          <CustomTypo>Characters</CustomTypo>
+          <CustomBox>
             <Characters characters={anime.characters} />
-          </div>
+          </CustomBox>
         </>
       )}
 
       {!!anime.staff?.edges?.length && (
         <>
-          <h3 className={styles.header}>Staff</h3>
-          <div className={styles.cards}>
+          <CustomTypo>Staff</CustomTypo>
+          <CustomBox>
             <Staff staff={anime.staff} />
-          </div>
+          </CustomBox>
         </>
       )}
 
       {!!anime.stats?.statusDistribution?.length && (
         <>
-          <h3 className={styles.header}>Status Distribution</h3>
+          <CustomTypo>Status Distribution</CustomTypo>
           <StatusDistribution stats={anime.stats} />
         </>
       )}
 
       {!!anime.streamingEpisodes?.length && (
         <>
-          <h3 className={styles.header}>Watch</h3>
+          <CustomTypo>Watch</CustomTypo>
           <Watch watch={anime.streamingEpisodes} />
         </>
       )}
 
-      {!!anime.trailer?.site === "youtube" && (
+      {anime.trailer?.site === "youtube" && (
         <>
-          <h3 className={styles.header}>Trailer</h3>
+          <CustomTypo>Trailer</CustomTypo>
           <iframe
             className={styles.embed}
             src={`https://www.${anime.trailer.site}.com/embed/${anime.trailer.id}`}
@@ -69,13 +84,13 @@ const RightSideInfo = ({ anime }) => {
 
       {!!anime.recommendations?.nodes?.length && (
         <>
-          <h3 className={styles.header}>Recommendations</h3>
-          <div className={styles.recCards}>
+          <CustomTypo>Recommendations</CustomTypo>
+          <Box className={styles.recCards}>
             <Recommendations rec={anime.recommendations.nodes} />
-          </div>
+          </Box>
         </>
       )}
-    </div>
+    </Box>
   );
 };
 
