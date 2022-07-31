@@ -16,7 +16,12 @@ const CustomTypo = ({ children }: { children: React.ReactNode }) => (
 );
 
 const CustomBox = ({ children }: { children: React.ReactNode }) => (
-  <Box marginY={2} display="grid" gridTemplateColumns="1fr 1fr" gap={2}>
+  <Box
+    marginY={2}
+    display="grid"
+    gap={2}
+    sx={{ gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}
+  >
     {children}
   </Box>
 );

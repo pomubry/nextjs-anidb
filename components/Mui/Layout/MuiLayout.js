@@ -7,13 +7,15 @@ export default function MuiLayout({ children }) {
   return (
     <Box
       sx={{
-        display: "grid",
-        gridTemplateRows: "auto 1fr auto",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
         minHeight: "100vh",
       }}
     >
       <Nav />
-      {children}
+      <main>{children}</main>
+      <Footer />
       <Fab
         color="primary"
         sx={{ position: "fixed", bottom: 25, right: 25 }}
@@ -21,7 +23,6 @@ export default function MuiLayout({ children }) {
       >
         <NavigationIcon />
       </Fab>
-      <Footer />
     </Box>
   );
 }
