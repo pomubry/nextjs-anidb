@@ -145,7 +145,7 @@ export interface StatusDistribution {
   amount: number;
 }
 
-interface StreamingEpisodes {
+export interface StreamingEpisodes {
   title: string;
   thumbnail: string;
   url: string;

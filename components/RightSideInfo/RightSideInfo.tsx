@@ -75,7 +75,9 @@ const RightSideInfo: React.FC<{ anime: Media }> = ({ anime }) => {
 
       {anime.trailer?.site === "youtube" && (
         <>
-          <CustomTypo>Trailer</CustomTypo>
+          <Typography component="h3" variant="h6" color="primary.main" mb={2}>
+            Trailer
+          </Typography>
           <iframe
             className={styles.embed}
             src={`https://www.${anime.trailer.site}.com/embed/${anime.trailer.id}`}

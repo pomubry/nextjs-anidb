@@ -21,6 +21,7 @@ const useExpander = <T,>({
           sx={{
             gridColumn: { md: "span 2" },
             marginInline: "auto",
+            borderRadius: 5,
           }}
           onClick={() => setExpanded((prev) => !prev)}
         >

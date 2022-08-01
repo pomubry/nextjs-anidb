@@ -1,6 +1,5 @@
 import { Box, Typography, Paper } from "@mui/material";
 import Image from "next/image";
-import { useEffect } from "react";
 import { Characters } from "../../lib/IQueryId";
 import useExpander from "../../lib/useExpander";
 
@@ -10,7 +9,6 @@ const Characters: React.FC<{ characters: Characters }> = ({ characters }) => {
     maxNumber: 10,
   });
 
-  useEffect(() => console.log(sliceEnd), [sliceEnd]);
   return (
     <>
       {characters.edges.slice(0, sliceEnd).map((edge, index) => {
@@ -45,7 +43,14 @@ const Characters: React.FC<{ characters: Characters }> = ({ characters }) => {
                 <Typography component="h4" variant="subtitle2" sx={{ flex: 1 }}>
                   {edge.node.name.full}
                 </Typography>
-                <Typography component="h5" variant="body2">
+                <Typography
+                  component="h5"
+                  variant="body2"
+                  sx={{
+                    color:
+                      edge.role === "MAIN" ? "primary.main" : "secondary.main",
+                  }}
+                >
                   {edge.role}
                 </Typography>
               </Box>
