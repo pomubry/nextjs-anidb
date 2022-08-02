@@ -20,7 +20,10 @@ const CustomBox = ({ children }: { children: React.ReactNode }) => (
     marginY={2}
     display="grid"
     gap={2}
-    sx={{ gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}
+    sx={{
+      gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+      transition: "height 1s ease",
+    }}
   >
     {children}
   </Box>
@@ -92,7 +95,18 @@ const RightSideInfo: React.FC<{ anime: Media }> = ({ anime }) => {
       {!!anime.recommendations?.nodes?.length && (
         <>
           <CustomTypo>Recommendations</CustomTypo>
-          <Box className={styles.recCards}>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "1fr 1fr",
+                md: "repeat(4,1fr)",
+                lg: "repeat(5,1fr)",
+              },
+              gap: 2,
+              my: 2,
+            }}
+          >
             <Recommendations rec={anime.recommendations.nodes} />
           </Box>
         </>

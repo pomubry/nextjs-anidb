@@ -99,11 +99,11 @@ const Search = ({ pageInfo, media, queryProp }) => {
         <meta name="description" content="Anime list database" />
         <meta
           name="keywords"
-          content={`anime list, anime database, nextjs, nextani database, ${keywords}`}
+          content={`anime list, anime database, nextjs, nextani database, ${keywords.join(
+            ", "
+          )}`}
         />
-        <meta name="author" content="pomubry" />
-        <title>NextAni Database | Search</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>NextAni Database</title>
       </Head>
 
       <Container maxWidth="lg" sx={{ paddingY: (theme) => theme.spacing(7) }}>

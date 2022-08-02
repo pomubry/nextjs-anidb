@@ -7,16 +7,21 @@ import {
   ImageListItemBar,
 } from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Watch: React.FC<{ watch: StreamingEpisodes[] }> = ({ watch }) => {
   let isNotReversed = watch[0].title.includes("Episode 1 ");
   let arr = isNotReversed ? watch : watch.reverse();
+  const theme = useTheme();
+  const isAboveMedium = useMediaQuery(theme.breakpoints.up("sm"));
+
   return (
     <ImageList
-      rowHeight={100}
+      rowHeight={120}
       cols={2}
       sx={{
-        height: 400,
+        height: isAboveMedium ? 600 : 400,
         my: 2,
       }}
     >

@@ -94,7 +94,7 @@ export interface Recommendations {
 }
 
 export interface RecommendationsNode {
-  mediaRecommendation: MediaRecommendation;
+  mediaRecommendation: MediaRecommendation | null;
 }
 
 export interface MediaRecommendation {

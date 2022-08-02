@@ -15,9 +15,9 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { blue } from "@mui/material/colors";
 import { useTheme } from "@emotion/react";
 import { Switch, useMediaQuery } from "@mui/material";
-import { ToggleThemeContext } from "../../../src/theme";
-import navLinks from "../../../lib/navLinks";
-import StyledLink from "../../../src/Link";
+import { ToggleThemeContext } from "../../src/theme";
+import navLinks from "../../lib/navLinks";
+import StyledLink from "../../src/Link";
 
 export default function Nav() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);

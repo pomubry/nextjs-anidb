@@ -1,9 +1,9 @@
-import footerLinks from "../../../lib/footerLinks";
+import footerLinks from "../../lib/footerLinks";
 import { Box, Container, Grid, Link, Typography } from "@mui/material";
 
 export default function Footer() {
   return (
-    <Box component="footer" bgcolor="#11161d" py={5}>
+    <Box component="footer" bgcolor="#11161d" py={5} mt={2}>
       <Container maxWidth="lg">
         <Grid container spacing={5}>
           {/* Disclaimer */}

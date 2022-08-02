@@ -4,9 +4,10 @@ import fetchQuery from "../../lib/fetchQueryts";
 import fetchQueryId from "../../lib/fetchQueryId";
 import { useRouter } from "next/router";
 import { Media } from "../../lib/IQueryId";
-import CardHeaderId from "../../components/Mui/CardHeaderId";
+import CardHeaderId from "../../components/CardHeaderId";
 import LeftSideInfo from "../../components/LeftSideInfo/LeftSideInfo";
 import RightSideInfo from "../../components/RightSideInfo/RightSideInfo";
+import Head from "next/head";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // Fetch the initial top 50 anime
@@ -58,6 +59,21 @@ const Anime: NextPage<{ anime: Media }> = ({ anime }) => {
 
   return (
     <>
+      <Head>
+        <meta
+          name="description"
+          content={anime.description ?? anime.title.romaji}
+        />
+        <meta
+          name="keywords"
+          content={
+            anime.synonyms.join(", ") +
+            ", nextani database, anime list database"
+          }
+        />
+        <title>{`${anime.title.romaji} | NextAni`}</title>
+      </Head>
+
       <CardHeaderId anime={anime} />
 
       <Container maxWidth="lg" sx={{ mt: 5 }}>

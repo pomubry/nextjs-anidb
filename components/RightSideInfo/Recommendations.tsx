@@ -1,7 +1,6 @@
-import Link from "next/link";
-import Image from "next/image";
-import styles from "../../styles/RightSideInfo/Recommendations.module.css";
 import { RecommendationsNode } from "../../lib/IQueryId";
+import { Card, CardMedia, CardActions, Button } from "@mui/material";
+import Link from "../../src/Link";
 
 const Recommendations: React.FC<{ rec: RecommendationsNode[] }> = ({ rec }) => {
   return (
@@ -9,29 +8,24 @@ const Recommendations: React.FC<{ rec: RecommendationsNode[] }> = ({ rec }) => {
       {rec.map(
         ({ mediaRecommendation }) =>
           mediaRecommendation && (
-            <div key={mediaRecommendation.id}>
-              <div className={styles.recImg}>
-                <Link
+            <Card key={mediaRecommendation.id} sx={{ borderRadius: 3 }}>
+              <CardMedia
+                component="img"
+                height={250}
+                image={mediaRecommendation.coverImage.extraLarge}
+                alt={mediaRecommendation.title.romaji}
+              />
+              <CardActions>
+                <Button
+                  width="100%"
                   href={"/anime/" + mediaRecommendation.id}
-                  key={mediaRecommendation.id}
+                  component={Link}
+                  sx={{ textAlign: "center" }}
                 >
-                  <a>
-                    <div className={styles.recImgContainer}>
-                      <Image
-                        src={mediaRecommendation.coverImage.extraLarge}
-                        layout="fill"
-                        alt={mediaRecommendation.title.romaji}
-                      />
-                    </div>
-                  </a>
-                </Link>
-              </div>
-              <Link href={"/anime/" + mediaRecommendation.id}>
-                <a className={styles.recTitle}>
                   {mediaRecommendation.title.romaji}
-                </a>
-              </Link>
-            </div>
+                </Button>
+              </CardActions>
+            </Card>
           )
       )}
     </>
