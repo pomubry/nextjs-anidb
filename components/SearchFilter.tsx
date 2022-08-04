@@ -2,7 +2,7 @@ import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const yearList = () => {
   let arr = [
-    <MenuItem value="ANY" key={"anyYear"}>
+    <MenuItem value="ANY" key="yearMenuItem">
       Any
     </MenuItem>,
   ];
@@ -18,7 +18,25 @@ const yearList = () => {
   return arr;
 };
 
-const SearchFilter = ({ seasonProp, seasonYearProp }) => {
+interface SeasonPropType {
+  season: string;
+  setSeason: React.Dispatch<React.SetStateAction<string>>;
+}
+
+interface SeasonYearPropType {
+  seasonYear: number | string;
+  setSeasonYear: React.Dispatch<React.SetStateAction<number | string>>;
+}
+
+interface SearchFilterProp {
+  seasonProp: SeasonPropType;
+  seasonYearProp: SeasonYearPropType;
+}
+
+const SearchFilter: React.FC<SearchFilterProp> = ({
+  seasonProp,
+  seasonYearProp,
+}) => {
   return (
     <Box mb={2}>
       <FormControl sx={{ minWidth: 120 }}>
@@ -26,7 +44,7 @@ const SearchFilter = ({ seasonProp, seasonYearProp }) => {
         <Select
           labelId="seasonLabel-label"
           name="season"
-          value={seasonProp.season || season}
+          value={seasonProp.season}
           label="Season"
           onChange={(e) => seasonProp.setSeason(e.target.value)}
         >
@@ -43,7 +61,7 @@ const SearchFilter = ({ seasonProp, seasonYearProp }) => {
         <Select
           labelId="seasonYearLabel"
           name="seasonYear"
-          value={seasonYearProp.seasonYear || seasonYear}
+          value={seasonYearProp.seasonYear}
           label="Year"
           onChange={(e) => seasonYearProp.setSeasonYear(e.target.value)}
         >

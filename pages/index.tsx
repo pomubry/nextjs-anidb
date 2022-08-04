@@ -1,36 +1,48 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import type { GetServerSideProps, NextPage } from "next";
 import InfiniteScroll from "react-infinite-scroller";
-import fetchQuery from "../lib/fetchQuery";
 import CardAni from "../components/Mui/CardAni";
 import SearchForm from "../components/SearchForm";
 import { Container, Grid, CircularProgress, Box, Button } from "@mui/material";
 import ReplayIcon from "@mui/icons-material/Replay";
+import fetchQuery from "../lib/fetchQuery";
+import { IQueryCurrentSeason, IVariables } from "../lib/interface";
+import { PageInfo, Media } from "../lib/IQuery";
 
-export async function getServerSideProps({ query }) {
-  // If there are no queries, get current season
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  let query: IQueryCurrentSeason = { ...context.query };
+
   if (Object.keys(query).length === 0) {
+    // If there are no queries, get current season
     query.getCurrentSeason = true;
   }
 
-  const { pageInfo, media, validatedQueries, error } = await fetchQuery(query);
+  const res = await fetchQuery(query);
 
-  if (error) {
+  if (res.error) {
+    console.error("Error in getServerSideProps");
     return {
       notFound: true,
     };
   }
-
+  const { pageInfo, media, variables } = res;
   return {
     props: {
       pageInfo,
       media,
-      queryProp: validatedQueries,
+      queryProp: variables,
     },
   };
+};
+
+interface PropType {
+  pageInfo: PageInfo;
+  media: Media[];
+  queryProp: IVariables;
 }
 
-const Search = ({ pageInfo, media, queryProp }) => {
+const Home: NextPage<PropType> = ({ media, pageInfo, queryProp }) => {
   const [animeArr, setAnimeArr] = useState(media);
   const [pageDetails, setPageDetails] = useState(pageInfo);
   const [isFetchError, setIsFetchError] = useState(false);
@@ -44,30 +56,32 @@ const Search = ({ pageInfo, media, queryProp }) => {
   const fetchMore = async () => {
     if (!pageDetails.hasNextPage) return;
 
-    try {
-      let query = {
-        page: pageDetails.currentPage + 1,
-        season,
-        seasonYear,
-      };
-      const { pageInfo, media } = await fetchQuery(query);
-
-      let newArr = [...animeArr];
-
-      // Only add anime not yet in the state
-      media.forEach((animeToAdd) => {
-        let isUnique = newArr.every(
-          (includedAnime) => includedAnime.id !== animeToAdd.id
-        );
-        if (isUnique) newArr.push(animeToAdd);
-      });
-
-      setAnimeArr(newArr);
-      setPageDetails(pageInfo);
-      setIsFetchError(false);
-    } catch (error) {
+    const query = {
+      page: pageDetails.currentPage + 1,
+      season,
+      seasonYear,
+    };
+    const res = await fetchQuery(query);
+    if (res.error) {
       setIsFetchError(true);
+      return console.error("Error fetching more data");
     }
+
+    const { pageInfo, media } = res;
+
+    let newArr = [...animeArr];
+
+    // Only add anime not yet in the state
+    media.forEach((animeToAdd) => {
+      let isUnique = newArr.every(
+        (includedAnime) => includedAnime.id !== animeToAdd.id
+      );
+      if (isUnique) newArr.push(animeToAdd);
+    });
+
+    setAnimeArr(newArr);
+    setPageDetails(pageInfo);
+    setIsFetchError(false);
   };
 
   useEffect(() => {
@@ -126,4 +140,4 @@ const Search = ({ pageInfo, media, queryProp }) => {
   );
 };
 
-export default Search;
+export default Home;

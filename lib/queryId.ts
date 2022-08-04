@@ -1,5 +1,4 @@
-const queryId = (id: number) => {
-  const query = `query ($id: Int) {
+const query = `query ($id: Int) {
       Media (id: $id, type: ANIME) {
         id
         title {
@@ -141,6 +140,7 @@ const queryId = (id: number) => {
       }
     }`;
 
+const queryId = (id: number) => {
   const variables = { id };
   return { query, variables };
 };

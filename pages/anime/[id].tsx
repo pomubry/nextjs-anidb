@@ -1,6 +1,6 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { Box, CircularProgress, Container, Grid } from "@mui/material";
-import fetchQuery from "../../lib/fetchQueryts";
+import fetchQuery from "../../lib/fetchQuery";
 import fetchQueryId from "../../lib/fetchQueryId";
 import { useRouter } from "next/router";
 import { Media } from "../../lib/IQueryId";
@@ -11,16 +11,16 @@ import Head from "next/head";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // Fetch the initial top 50 anime
-  const { media, error } = await fetchQuery({});
+  const res = await fetchQuery({});
 
-  if (error) {
-    console.error("Error in getStaticProps:", error.message);
+  if (res.error) {
+    console.error("Error in getStaticProps");
     return {
       paths: [{ params: { id: "20" } }],
       fallback: true,
     };
   }
-
+  const { media } = res;
   const paths = media.map((anime) => ({ params: { id: anime.id.toString() } }));
   return {
     paths,
@@ -28,11 +28,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { media, error } = await fetchQueryId(Number(params!.id));
+export const getStaticProps: GetStaticProps = async (context) => {
+  const res = await fetchQueryId(Number(context.params?.id));
 
-  if (error) {
-    console.error("Error in getStaticProps:", error.message);
+  if (res.error) {
+    console.error("Error in getStaticProps");
     return {
       notFound: true,
       revalidate: 10,
@@ -41,7 +41,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   return {
     props: {
-      anime: media,
+      anime: res.media,
     },
     revalidate: 10,
   };

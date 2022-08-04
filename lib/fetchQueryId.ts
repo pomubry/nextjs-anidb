@@ -1,18 +1,19 @@
 import axios from "axios";
-import { IErrorClause } from "./interface";
+import errorLogger from "./errorLogger";
+import { FetchQueryIdReturn } from "./interface";
 import { IQueryId } from "./IQueryId";
-import queryId from "./queryIdts";
+import queryId from "./queryId";
 
-const fetchQueryId = async (id: number) => {
+const fetchQueryId = async (id: number): Promise<FetchQueryIdReturn> => {
   try {
     const { data } = await axios.post<IQueryId>(
       "https://graphql.anilist.co",
       queryId(id)
     );
-    return { media: data.data.Media };
+    return { media: data.data.Media, error: false };
   } catch (error) {
-    let err = error as IErrorClause;
-    return { error: err };
+    errorLogger(error);
+    return { error: true };
   }
 };
 

@@ -1,13 +1,7 @@
 import { IQueryCurrentSeason, IVariables } from "./interface";
 
-const query = ({
-  getCurrentSeason,
-  page = 1,
-  season,
-  seasonYear,
-  search,
-}: IQueryCurrentSeason) => {
-  let query = `query (
+// query will be sent to the API as body
+let query = `query (
     $page: Int,
     $seasonYear: Int,
     $season: MediaSeason,
@@ -60,20 +54,33 @@ const query = ({
     }
   }`;
 
+const queryMethod = ({
+  getCurrentSeason,
+  page = 1,
+  season,
+  seasonYear,
+  search,
+}: IQueryCurrentSeason) => {
+  // variables will be sent to the API as body
   let variables: IVariables = { page };
 
   const date = new Date();
 
-  const isSeasonValid = (season: string) =>
-    ["WINTER", "SPRING", "SUMMER", "FALL"].includes(season);
+  const isSeasonValid = (season: string | undefined): season is string => {
+    if (typeof season === "undefined") return false;
+    return ["WINTER", "SPRING", "SUMMER", "FALL"].includes(season);
+  };
 
-  const isSeasonYearValid = (seasonYear: number) =>
-    seasonYear >= 1940 && seasonYear <= date.getFullYear() + 1;
+  const isSeasonYearValid = (
+    seasonYear: number | string | undefined
+  ): seasonYear is number | string => {
+    let num = Number(seasonYear);
+    return num >= 1940 && num <= date.getFullYear() + 1;
+  };
 
-  // Any invalid queries will be explicitly set to null & filter later before sending to API
-  if (seasonYear && isSeasonYearValid(seasonYear))
-    variables.seasonYear = seasonYear;
-  if (season && !isSeasonValid(season)) variables.season = season;
+  // Any invalid queries will be left out and not be sent to the API
+  if (isSeasonYearValid(seasonYear)) variables.seasonYear = Number(seasonYear);
+  if (isSeasonValid(season)) variables.season = season;
   if (search) variables.search = search;
 
   // if `getCurrentSeason` is specified, override all other queries above
@@ -107,4 +114,4 @@ const query = ({
   };
 };
 
-export default query;
+export default queryMethod;

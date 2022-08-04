@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import FilterListOffIcon from "@mui/icons-material/FilterListOff";
@@ -14,9 +14,10 @@ import {
   useTheme,
   IconButton,
 } from "@mui/material";
-import SearchFilter from "./Mui/SearchFilter";
+import SearchFilter from "./SearchFilter";
+import { IVariables } from "../lib/interface";
 
-const SearchForm = ({ queryProp }) => {
+const SearchForm: React.FC<{ queryProp: IVariables }> = ({ queryProp }) => {
   const [search, setSearch] = useState(queryProp?.search || "");
   const [season, setSeason] = useState(queryProp?.season || "ANY");
   const [seasonYear, setSeasonYear] = useState(queryProp?.seasonYear || "ANY");
@@ -39,17 +40,20 @@ const SearchForm = ({ queryProp }) => {
     };
   }, [season, seasonYear]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     let variables = { season, seasonYear, search };
     const ignoredValues = ["", "ANY"];
     let str = "/?";
 
     for (let key in variables) {
-      if (!ignoredValues.includes(variables[key])) {
-        str += `${key}=${variables[key]}&`;
+      const value = variables[key as keyof typeof variables];
+      // `value` could be of type number but `ignoredValues` is string[], so convert `value` to string
+      if (!ignoredValues.includes(String(value))) {
+        str += `${key}=${value}&`;
       }
     }
+
     router.push(str.slice(0, str.lastIndexOf("&")));
   };
 
