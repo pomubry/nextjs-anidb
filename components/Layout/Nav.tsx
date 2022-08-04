@@ -13,17 +13,24 @@ import Link from "@mui/material/Link";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { blue } from "@mui/material/colors";
-import { useTheme } from "@emotion/react";
 import { Switch, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { ToggleThemeContext } from "../../src/theme";
 import navLinks from "../../lib/navLinks";
 import StyledLink from "../../src/Link";
+import { IContext } from "../../lib/interface";
 
 export default function Nav() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const theme = useTheme();
   const lessThanSmall = useMediaQuery(theme.breakpoints.down("sm"));
-  const { mode, toggleTheme } = React.useContext(ToggleThemeContext);
+
+  const { mode, toggleTheme } = React.useContext(
+    ToggleThemeContext
+  ) as IContext;
+
+  const [anchorElNav, setAnchorElNav] = React.useState<
+    (EventTarget & HTMLButtonElement) | null
+  >(null);
 
   return (
     <nav>

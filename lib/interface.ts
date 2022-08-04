@@ -20,6 +20,7 @@ export interface IContext {
   toggleTheme: () => void;
 }
 
+// For react child
 export interface IChildren {
   children: React.ReactNode;
 }

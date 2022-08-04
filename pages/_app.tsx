@@ -6,7 +6,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import ToggleTheme from "../src/theme";
 import createEmotionCache from "../src/createEmotionCache";
-import MuiLayout from "../components/Layout/MuiLayout";
+import Layout from "../components/Layout/Layout";
 import "../styles/globals.css";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -35,9 +35,9 @@ export default function MyApp(props: MyAppProps) {
       <ToggleTheme>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <MuiLayout>
+        <Layout>
           <Component {...pageProps} />
-        </MuiLayout>
+        </Layout>
       </ToggleTheme>
     </CacheProvider>
   );

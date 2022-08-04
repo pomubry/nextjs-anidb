@@ -2,10 +2,11 @@ import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import CardImg from "./CardImg";
 import CardDesc from "./CardDesc";
+import { Media } from "../lib/IQuery";
 
 const contentHeight = "20rem";
 
-const CardAni = ({ anime }) => {
+const CardAni: React.FC<{ anime: Media }> = ({ anime }) => {
   return (
     <Grid item xs={12} md={6}>
       <Card raised sx={{ borderRadius: 5, overflow: "hidden" }}>
@@ -23,7 +24,7 @@ const CardAni = ({ anime }) => {
               display: "flex",
               flexDirection: "column",
               height: { xs: "none", sm: contentHeight },
-              maxHeight: { xs: "max-content", sm: "none" },
+              maxHeight: { xs: 400, sm: "none" },
             }}
           >
             <CardDesc anime={anime} />

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import type { GetServerSideProps, NextPage } from "next";
 import InfiniteScroll from "react-infinite-scroller";
-import CardAni from "../components/Mui/CardAni";
+import CardAni from "../components/CardAni";
 import SearchForm from "../components/SearchForm";
 import { Container, Grid, CircularProgress, Box, Button } from "@mui/material";
 import ReplayIcon from "@mui/icons-material/Replay";

@@ -3,9 +3,13 @@ import Box from "@mui/material/Box";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import Link from "../../src/Link";
+import Link from "../src/Link";
+import { Media } from "../lib/IQuery";
 
-const CardImg = ({ anime, contentHeight }) => {
+const CardImg: React.FC<{ anime: Media; contentHeight: string }> = ({
+  anime,
+  contentHeight,
+}) => {
   return (
     <Link href={`/anime/${anime.id}`}>
       <CardActionArea>
