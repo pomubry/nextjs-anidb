@@ -1,7 +1,7 @@
 import { Paper, Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Ranking } from "../../lib/IQueryId";
+import { Ranking } from "../../lib/interface/IQueryId";
 
 const Rankings: React.FC<{ rankings: Ranking[] }> = ({ rankings }) => {
   return (

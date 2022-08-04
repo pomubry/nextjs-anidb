@@ -1,4 +1,4 @@
-import { RecommendationsNode } from "../../lib/IQueryId";
+import { RecommendationsNode } from "../../lib/interface/IQueryId";
 import { Card, CardMedia, CardActions, Button } from "@mui/material";
 import Link from "../../src/Link";
 

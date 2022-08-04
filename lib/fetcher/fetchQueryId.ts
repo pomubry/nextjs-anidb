@@ -1,8 +1,8 @@
 import axios from "axios";
 import errorLogger from "./errorLogger";
-import { FetchQueryIdReturn } from "./interface";
-import { IQueryId } from "./IQueryId";
-import queryId from "./queryId";
+import { FetchQueryIdReturn } from "../interface/interface";
+import { IQueryId } from "../interface/IQueryId";
+import queryId from "../query/queryId";
 
 const fetchQueryId = async (id: number): Promise<FetchQueryIdReturn> => {
   try {

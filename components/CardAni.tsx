@@ -2,7 +2,7 @@ import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import CardImg from "./CardImg";
 import CardDesc from "./CardDesc";
-import { Media } from "../lib/IQuery";
+import { Media } from "../lib/interface/IQuery";
 
 const contentHeight = "20rem";
 

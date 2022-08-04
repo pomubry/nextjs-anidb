@@ -15,7 +15,7 @@ import {
   IconButton,
 } from "@mui/material";
 import SearchFilter from "./SearchFilter";
-import { IVariables } from "../lib/interface";
+import { IVariables } from "../lib/interface/interface";
 
 const SearchForm: React.FC<{ queryProp: IVariables }> = ({ queryProp }) => {
   const [search, setSearch] = useState(queryProp?.search || "");

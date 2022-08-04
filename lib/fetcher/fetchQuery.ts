@@ -1,8 +1,8 @@
 import axios from "axios";
 import errorLogger from "./errorLogger";
-import { FetchQueryReturn, IQueryCurrentSeason } from "./interface";
-import { IFetchQuery } from "./IQuery";
-import queryMany from "./queryMany";
+import { FetchQueryReturn, IQueryCurrentSeason } from "../interface/interface";
+import { IFetchQuery } from "../interface/IQuery";
+import queryMany from "../query/queryMany";
 
 const fetchQuery = async (
   queries: IQueryCurrentSeason

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { StreamingEpisodes } from "../../lib/IQueryId";
+import { StreamingEpisodes } from "../../lib/interface/IQueryId";
 import {
   IconButton,
   ImageList,
@@ -18,7 +18,7 @@ const Watch: React.FC<{ watch: StreamingEpisodes[] }> = ({ watch }) => {
 
   return (
     <ImageList
-      rowHeight={120}
+      rowHeight={150}
       cols={2}
       sx={{
         height: isAboveMedium ? 600 : 400,

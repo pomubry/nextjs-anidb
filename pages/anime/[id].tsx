@@ -1,9 +1,9 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { Box, CircularProgress, Container, Grid } from "@mui/material";
-import fetchQuery from "../../lib/fetchQuery";
-import fetchQueryId from "../../lib/fetchQueryId";
+import fetchQuery from "../../lib/fetcher/fetchQuery";
+import fetchQueryId from "../../lib/fetcher/fetchQueryId";
 import { useRouter } from "next/router";
-import { Media } from "../../lib/IQueryId";
+import { Media } from "../../lib/interface/IQueryId";
 import CardHeaderId from "../../components/CardHeaderId";
 import LeftSideInfo from "../../components/LeftSideInfo/LeftSideInfo";
 import RightSideInfo from "../../components/RightSideInfo/RightSideInfo";
@@ -14,7 +14,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const res = await fetchQuery({});
 
   if (res.error) {
-    console.error("Error in getStaticProps");
+    console.error("Error in getStaticPaths");
     return {
       paths: [{ params: { id: "20" } }],
       fallback: true,

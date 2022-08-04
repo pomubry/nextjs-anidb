@@ -4,7 +4,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Link from "../src/Link";
-import { Media } from "../lib/IQuery";
+import { Media } from "../lib/interface/IQuery";
 
 const CardImg: React.FC<{ anime: Media; contentHeight: string }> = ({
   anime,

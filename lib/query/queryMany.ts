@@ -1,4 +1,4 @@
-import { IQueryCurrentSeason, IVariables } from "./interface";
+import { IQueryCurrentSeason, IVariables } from "../interface/interface";
 
 // query will be sent to the API as body
 let query = `query (

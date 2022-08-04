@@ -6,9 +6,9 @@ import CardAni from "../components/CardAni";
 import SearchForm from "../components/SearchForm";
 import { Container, Grid, CircularProgress, Box, Button } from "@mui/material";
 import ReplayIcon from "@mui/icons-material/Replay";
-import fetchQuery from "../lib/fetchQuery";
-import { IQueryCurrentSeason, IVariables } from "../lib/interface";
-import { PageInfo, Media } from "../lib/IQuery";
+import fetchQuery from "../lib/fetcher/fetchQuery";
+import { IQueryCurrentSeason, IVariables } from "../lib/interface/interface";
+import { PageInfo, Media } from "../lib/interface/IQuery";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   let query: IQueryCurrentSeason = { ...context.query };

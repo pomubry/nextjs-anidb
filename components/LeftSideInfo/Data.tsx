@@ -1,5 +1,5 @@
 import { Box, Paper, Typography } from "@mui/material";
-import { Media, StudiosNode } from "../../lib/IQueryId";
+import { Media, StudiosNode } from "../../lib/interface/IQueryId";
 
 const CustomBox = ({ children }: { children: React.ReactNode }) => (
   <Box marginY={2}>{children}</Box>
@@ -22,7 +22,7 @@ const Data: React.FC<{ anime: Media }> = ({ anime }) => {
     <Paper
       elevation={3}
       sx={{
-        p: 2,
+        p: { xs: 1, sm: 2 },
         borderRadius: 3,
         minHeight: "100%",
         display: "flex",

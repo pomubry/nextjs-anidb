@@ -3,7 +3,7 @@ import Footer from "./Footer";
 import { Fab, Box } from "@mui/material";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import Head from "next/head";
-import { IChildren } from "../../lib/interface";
+import { IChildren } from "../../lib/interface/interface";
 
 export default function Layout({ children }: IChildren) {
   return (

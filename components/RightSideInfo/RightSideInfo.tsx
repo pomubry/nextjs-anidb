@@ -1,11 +1,10 @@
-import styles from "../../styles/RightSideInfo/RightSideInfo.module.css";
 import Relations from "./Relations";
 import Characters from "./Characters";
 import Staff from "./Staff";
 import StatusDistribution from "./StatusDistribution";
 import Watch from "./Watch";
 import Recommendations from "./Recommendations";
-import { Media } from "../../lib/IQueryId";
+import { Media } from "../../lib/interface/IQueryId";
 import { Box, Typography } from "@mui/material";
 import React from "react";
 
@@ -81,14 +80,15 @@ const RightSideInfo: React.FC<{ anime: Media }> = ({ anime }) => {
           <Typography component="h3" variant="h6" color="primary.main" mb={2}>
             Trailer
           </Typography>
-          <iframe
-            className={styles.embed}
+          <Box
+            component="iframe"
             src={`https://www.${anime.trailer.site}.com/embed/${anime.trailer.id}`}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
-          ></iframe>
+            sx={{ width: "100%", aspectRatio: "16 / 9" }}
+          ></Box>
         </>
       )}
 

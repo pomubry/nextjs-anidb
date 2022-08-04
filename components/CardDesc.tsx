@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import { Media } from "../../lib/IQuery";
+import { Media } from "../lib/interface/IQuery";
 
 const Spacer = () => (
   <Typography variant="subtitle2" component="span">

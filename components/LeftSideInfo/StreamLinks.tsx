@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { ExternalLink } from "../../lib/IQueryId";
+import { ExternalLink } from "../../lib/interface/IQueryId";
 
 const bgColor = (site: string) => {
   switch (site.toLowerCase()) {

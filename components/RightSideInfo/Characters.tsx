@@ -1,6 +1,6 @@
 import { Box, Typography, Paper } from "@mui/material";
 import Image from "next/image";
-import { Characters } from "../../lib/IQueryId";
+import { Characters } from "../../lib/interface/IQueryId";
 import useExpander from "../../lib/useExpander";
 
 const Characters: React.FC<{ characters: Characters }> = ({ characters }) => {

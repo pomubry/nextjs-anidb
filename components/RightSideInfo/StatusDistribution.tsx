@@ -1,5 +1,5 @@
 import { Box, Chip, Paper, Tooltip, Typography } from "@mui/material";
-import { Stats } from "../../lib/IQueryId";
+import { Stats } from "../../lib/interface/IQueryId";
 
 const StatusDistribution: React.FC<{ stats: Stats }> = ({ stats }) => {
   const total = stats.statusDistribution.reduce((acc, current) => {

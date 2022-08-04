@@ -1,5 +1,5 @@
 import { Paper, Typography } from "@mui/material";
-import { Tag } from "../../lib/IQueryId";
+import { Tag } from "../../lib/interface/IQueryId";
 
 const Tags: React.FC<{ tags: Tag[] }> = ({ tags }) => {
   return (

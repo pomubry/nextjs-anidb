@@ -1,4 +1,4 @@
-import footerLinks from "../../lib/footerLinks";
+import footerLinks from "../../lib/links/footerLinks";
 import { Box, Container, Grid, Link, Typography } from "@mui/material";
 
 export default function Footer() {

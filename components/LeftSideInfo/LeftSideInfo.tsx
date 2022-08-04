@@ -2,7 +2,7 @@ import Rankings from "./Rankings";
 import Data from "./Data";
 import Tags from "./Tags";
 import StreamLinks from "./StreamLinks";
-import { Media } from "../../lib/IQueryId";
+import { Media } from "../../lib/interface/IQueryId";
 import { Box, Typography } from "@mui/material";
 
 const xsTemplate = `
@@ -20,6 +20,7 @@ const LeftSideInfo: React.FC<{ anime: Media }> = ({ anime }) => {
         gridTemplateAreas: {
           xs: xsTemplate,
         },
+        alignItems: "center",
       }}
     >
       {/* This component contains 4 parts: Rankings, Data, Tags, and Streaming Links */}

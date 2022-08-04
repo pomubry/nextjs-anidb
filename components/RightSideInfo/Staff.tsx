@@ -1,5 +1,5 @@
 import { Card, CardMedia, CardContent, Typography } from "@mui/material";
-import { Staff } from "../../lib/IQueryId";
+import { Staff } from "../../lib/interface/IQueryId";
 import useExpander from "../../lib/useExpander";
 
 const Staff: React.FC<{ staff: Staff }> = ({ staff }) => {

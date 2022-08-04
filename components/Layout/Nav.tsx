@@ -16,9 +16,9 @@ import { blue } from "@mui/material/colors";
 import { Switch, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { ToggleThemeContext } from "../../src/theme";
-import navLinks from "../../lib/navLinks";
+import navLinks from "../../lib/links/navLinks";
 import StyledLink from "../../src/Link";
-import { IContext } from "../../lib/interface";
+import { IContext } from "../../lib/interface/interface";
 
 export default function Nav() {
   const theme = useTheme();

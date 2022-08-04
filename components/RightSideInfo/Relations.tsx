@@ -1,5 +1,5 @@
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
-import { Relations } from "../../lib/IQueryId";
+import { Relations } from "../../lib/interface/IQueryId";
 import useExpander from "../../lib/useExpander";
 
 const Relations: React.FC<{ relations: Relations }> = ({ relations }) => {

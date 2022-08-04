@@ -1,4 +1,4 @@
-import { Media } from "../lib/IQueryId";
+import { Media } from "../lib/interface/IQueryId";
 import parse from "html-react-parser";
 import {
   Box,

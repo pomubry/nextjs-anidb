@@ -1,6 +1,6 @@
 import React, { createContext, useMemo, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { IChildren, IContext } from "../lib/interface";
+import { IChildren, IContext } from "../lib/interface/interface";
 
 export const ToggleThemeContext = createContext<IContext | null>(null);
 
