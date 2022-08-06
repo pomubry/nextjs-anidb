@@ -34,7 +34,7 @@ export default function Nav() {
 
   return (
     <nav>
-      <AppBar position="static">
+      <AppBar position="static" style={{ backgroundColor: "#272727" }}>
         <Container maxWidth={lessThanSmall ? "xs" : "lg"}>
           <Toolbar
             disableGutters

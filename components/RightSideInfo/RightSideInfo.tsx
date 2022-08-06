@@ -9,7 +9,7 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 
 const CustomTypo = ({ children }: { children: React.ReactNode }) => (
-  <Typography component="h3" variant="h6" color="primary.main">
+  <Typography component="h2" variant="h6" color="primary.main">
     {children}
   </Typography>
 );

@@ -1,9 +1,22 @@
 import footerLinks from "../../lib/links/footerLinks";
-import { Box, Container, Grid, Link, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import { useContext } from "react";
+import { ToggleThemeContext } from "../../src/theme";
+import { IContext } from "../../lib/interface/interface";
 
 export default function Footer() {
+  const { mode } = useContext(ToggleThemeContext) as IContext;
+
   return (
-    <Box component="footer" bgcolor="#11161d" py={5} mt={2}>
+    <Box component="footer" bgcolor="#121212" py={5} mt={2}>
       <Container maxWidth="lg">
         <Grid container spacing={5}>
           {/* Disclaimer */}
@@ -17,10 +30,25 @@ export default function Footer() {
               justifyContent: { sm: "center", md: "flex-start" },
             }}
           >
-            <Typography variant="h6" component="h2" color="info.main" mb={3}>
-              Disclaimer:
-            </Typography>
-            <Typography variant="body2" color="#fff">
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              mb={2}
+            >
+              <Typography variant="h6" component="h2" color="info.main">
+                Disclaimer:
+              </Typography>
+              <IconButton
+                aria-label="Github icon link"
+                href="https://github.com/pomubry/nextani"
+                target="_blank"
+                rel="noopener"
+              >
+                <GitHubIcon htmlColor="white" />
+              </IconButton>
+            </Box>
+            <Typography variant="body2" color="white">
               This website is not the official Anilist.co. This is a small
               project made for learning purposes only. However, all data are
               fetched from Anilist&apos;s API.
@@ -42,16 +70,16 @@ export default function Footer() {
                 key={linksIdx}
               >
                 {links.map((link, linkIdx) => (
-                  <Link
+                  <Button
                     href={link.link}
-                    underline="none"
                     target="_blank"
                     rel="noopener"
                     key={linkIdx}
-                    color="#90caf9"
+                    sx={{ textAlign: "center" }}
+                    color={mode === "dark" ? "primary" : "info"}
                   >
                     {link.name}
-                  </Link>
+                  </Button>
                 ))}
               </Grid>
             ))}

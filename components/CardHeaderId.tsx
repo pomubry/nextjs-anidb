@@ -41,10 +41,12 @@ const CardHeaderId: React.FC<{ anime: Media }> = ({ anime }) => {
                 transform: {
                   md: anime.bannerImage && "translateY(-30%)",
                 },
+                boxShadow:
+                  "0px 11px 15px -7px rgba(0,0,0,0.3),0px 24px 38px 3px rgba(0,0,0,0.3),0px 9px 46px 8px rgba(0,0,0,0.3)",
               }}
             />
             <Box>
-              <Typography component="h1" variant="h4">
+              <Typography component="h1" variant="h4" color="primary">
                 {anime.title.romaji}
               </Typography>
               {anime.description && (

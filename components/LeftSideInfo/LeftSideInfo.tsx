@@ -37,7 +37,7 @@ const LeftSideInfo: React.FC<{ anime: Media }> = ({ anime }) => {
 
       {!!anime.tags.length && (
         <Box sx={{ gridArea: "tags" }}>
-          <Typography component="h3" variant="h6" marginY={2}>
+          <Typography component="h2" variant="h6" marginY={2} color="primary">
             Tags
           </Typography>
           <Tags tags={anime.tags} />
@@ -46,7 +46,7 @@ const LeftSideInfo: React.FC<{ anime: Media }> = ({ anime }) => {
 
       {!!anime.externalLinks.length && (
         <Box sx={{ gridArea: "streamlinks" }}>
-          <Typography component="h3" variant="h6" marginY={2}>
+          <Typography component="h2" variant="h6" marginY={2} color="primary">
             External & Streaming links
           </Typography>
           <StreamLinks links={anime.externalLinks} />

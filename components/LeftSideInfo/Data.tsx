@@ -6,7 +6,7 @@ const CustomBox = ({ children }: { children: React.ReactNode }) => (
 );
 
 const CustomTypo = ({ children }: { children: React.ReactNode }) => (
-  <Typography component="h3" variant="h6">
+  <Typography component="h3" variant="h6" color="primary">
     {children}
   </Typography>
 );
