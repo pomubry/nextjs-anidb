@@ -97,7 +97,7 @@ export default function Nav() {
                       target="_blank"
                       rel="noopener"
                       underline="none"
-                      color="grey"
+                      color="primary"
                     >
                       {link.name}
                     </Link>
