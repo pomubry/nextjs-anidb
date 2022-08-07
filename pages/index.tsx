@@ -4,7 +4,14 @@ import type { GetServerSideProps, NextPage } from "next";
 import InfiniteScroll from "react-infinite-scroller";
 import CardAni from "../components/CardAni";
 import SearchForm from "../components/SearchForm";
-import { Container, Grid, CircularProgress, Box, Button } from "@mui/material";
+import {
+  Container,
+  Grid,
+  CircularProgress,
+  Box,
+  Button,
+  Typography,
+} from "@mui/material";
 import ReplayIcon from "@mui/icons-material/Replay";
 import fetchQuery from "../lib/fetcher/fetchQuery";
 import { IQueryCurrentSeason, IVariables } from "../lib/interface/interface";
@@ -26,6 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       notFound: true,
     };
   }
+
   const { pageInfo, media, variables } = res;
   return {
     props: {
@@ -121,6 +129,10 @@ const Home: NextPage<PropType> = ({ media, pageInfo, queryProp }) => {
       </Head>
 
       <Container maxWidth="lg" sx={{ paddingY: (theme) => theme.spacing(7) }}>
+        <Typography component="h1" variant="h4" mb={3} color="primary">
+          NextAni Database
+        </Typography>
+
         <SearchForm queryProp={queryProp} />
 
         <InfiniteScroll

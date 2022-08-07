@@ -8,13 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import { useContext } from "react";
-import { ToggleThemeContext } from "../../src/theme";
-import { IContext } from "../../lib/interface/interface";
 
 export default function Footer() {
-  const { mode } = useContext(ToggleThemeContext) as IContext;
-
   return (
     <Box component="footer" bgcolor="#121212" py={5} mt={2}>
       <Container maxWidth="lg">
@@ -36,7 +31,7 @@ export default function Footer() {
               alignItems="center"
               mb={2}
             >
-              <Typography variant="h6" component="h2" color="info.main">
+              <Typography variant="h6" component="h2" color="#90caf9">
                 Disclaimer:
               </Typography>
               <IconButton
@@ -75,8 +70,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener"
                     key={linkIdx}
-                    sx={{ textAlign: "center" }}
-                    color={mode === "dark" ? "primary" : "info"}
+                    sx={{ textAlign: "center", color: "#90caf9" }}
                   >
                     {link.name}
                   </Button>

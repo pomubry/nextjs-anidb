@@ -33,126 +33,135 @@ export default function Nav() {
   >(null);
 
   return (
-    <nav>
-      <AppBar position="static" style={{ backgroundColor: "#272727" }}>
-        <Container maxWidth={lessThanSmall ? "xs" : "lg"}>
-          <Toolbar
-            disableGutters
-            sx={{
-              display: "flex",
-            }}
-          >
-            {/* Left logo */}
-            <Box sx={{ display: "flex", flex: 1 }}>
-              <StyledLink underline="none" href="/" sx={{ display: "flex" }}>
-                <Typography
-                  variant="h3"
-                  sx={{ fontWeight: 700, color: "white", mr: -1 }}
-                >
-                  N
-                </Typography>
-                <Typography
-                  variant="h3"
-                  sx={{ fontWeight: 700, color: blue[300] }}
-                >
-                  A
-                </Typography>
-              </StyledLink>
-            </Box>
+    <>
+      <AppBar
+        position="static"
+        component="nav"
+        style={{ backgroundColor: "#121212" }}
+        color="transparent"
+      >
+        <Toolbar>
+          <Container maxWidth={lessThanSmall ? "xs" : "lg"}>
+            <Toolbar
+              disableGutters
+              sx={{
+                display: "flex",
+              }}
+            >
+              {/* Left logo */}
+              <Box sx={{ display: "flex", flex: 1 }}>
+                <StyledLink underline="none" href="/" sx={{ display: "flex" }}>
+                  <Typography
+                    variant="h3"
+                    sx={{ fontWeight: 700, color: "white", mr: -1 }}
+                  >
+                    N
+                  </Typography>
+                  <Typography
+                    variant="h3"
+                    sx={{ fontWeight: 700, color: blue[300] }}
+                  >
+                    A
+                  </Typography>
+                </StyledLink>
+              </Box>
 
-            {/* Right-side menu icon at xs viewport only */}
-            <Box sx={{ display: { xs: "flex", sm: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={(e) => setAnchorElNav(e.currentTarget)}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={() => setAnchorElNav(null)}
-                sx={{
-                  display: { xs: "block", md: "none" },
-                }}
-              >
-                {navLinks.map((link, idx) => (
-                  <MenuItem onClick={() => setAnchorElNav(null)} key={idx}>
+              {/* Right-side menu icon at xs viewport only */}
+              <Box sx={{ display: { xs: "flex", sm: "none" } }}>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={(e) => setAnchorElNav(e.currentTarget)}
+                  color="inherit"
+                >
+                  <MenuIcon sx={{ color: "white" }} />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={() => setAnchorElNav(null)}
+                  sx={{
+                    display: { xs: "block", md: "none" },
+                  }}
+                >
+                  {navLinks.map((link, idx) => (
+                    <MenuItem onClick={() => setAnchorElNav(null)} key={idx}>
+                      <Link
+                        href={link.link}
+                        target="_blank"
+                        rel="noopener"
+                        underline="none"
+                        color={(theme) =>
+                          theme.palette.mode === "light" ? "#222" : "#90caf9"
+                        }
+                      >
+                        {link.name}
+                      </Link>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+
+              {/* Right-side links from small viewport and above */}
+              <Box sx={{ display: { xs: "none", sm: "flex", gap: 10 } }}>
+                {navLinks.map((link, idx) =>
+                  link.name !== "Sign Up" ? (
                     <Link
                       href={link.link}
                       target="_blank"
                       rel="noopener"
                       underline="none"
-                      color="primary"
+                      key={idx}
                     >
-                      {link.name}
+                      <Button sx={{ color: "#90caf9" }}>{link.name}</Button>
                     </Link>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-
-            {/* Right-side links from small viewport and above */}
-            <Box sx={{ display: { xs: "none", sm: "flex", gap: 10 } }}>
-              {navLinks.map((link, idx) =>
-                link.name !== "Sign Up" ? (
-                  <Link
-                    href={link.link}
-                    target="_blank"
-                    rel="noopener"
-                    underline="none"
-                    key={idx}
-                  >
-                    <Button sx={{ color: "white" }}>{link.name}</Button>
-                  </Link>
-                ) : (
-                  <Link
-                    href={link.link}
-                    target="_blank"
-                    rel="noopener"
-                    underline="none"
-                    color="white"
-                    key={idx}
-                  >
-                    <Button
-                      variant="contained"
-                      color="info"
-                      sx={{ color: "white" }}
+                  ) : (
+                    <Link
+                      href={link.link}
+                      target="_blank"
+                      rel="noopener"
+                      underline="none"
+                      color="white"
+                      key={idx}
                     >
-                      {link.name}
-                    </Button>
-                  </Link>
-                )
-              )}
-            </Box>
+                      <Button
+                        variant="contained"
+                        color="info"
+                        sx={{ color: "white" }}
+                      >
+                        {link.name}
+                      </Button>
+                    </Link>
+                  )
+                )}
+              </Box>
 
-            {/* Theme Toggle */}
-            <Switch
-              onChange={toggleTheme}
-              checked={mode === "dark"}
-              inputProps={{ "aria-label": "dark mode switch" }}
-              icon={<Brightness4Icon sx={{ transform: "translateY(-9%)" }} />}
-              checkedIcon={
-                <Brightness7Icon sx={{ transform: "translateY(-9%)" }} />
-              }
-            />
-          </Toolbar>
-        </Container>
+              {/* Theme Toggle */}
+              <Switch
+                onChange={toggleTheme}
+                checked={mode === "dark"}
+                inputProps={{ "aria-label": "dark mode switch" }}
+                icon={<Brightness4Icon sx={{ transform: "translateY(-9%)" }} />}
+                checkedIcon={
+                  <Brightness7Icon sx={{ transform: "translateY(-9%)" }} />
+                }
+              />
+            </Toolbar>
+          </Container>
+        </Toolbar>
       </AppBar>
-    </nav>
+    </>
   );
 }

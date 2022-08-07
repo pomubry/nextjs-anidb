@@ -66,10 +66,9 @@ const Anime: NextPage<{ anime: Media }> = ({ anime }) => {
         />
         <meta
           name="keywords"
-          content={
-            anime.synonyms.join(", ") +
-            ", nextani database, anime list database"
-          }
+          content={`${anime.synonyms.join(", ")}, ${
+            anime.title.romaji
+          }, nextani database, anime list database`}
         />
         <title>{`${anime.title.romaji} | NextAni`}</title>
       </Head>

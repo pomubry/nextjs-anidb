@@ -22,7 +22,7 @@ export interface Media {
   coverImage: CoverImage;
   description: string | null;
   episodes: number | null;
-  format: string;
+  format: string | null;
   genres: string[];
   nextAiringEpisode: NextAiringEpisode | null;
   season: Season | null;
