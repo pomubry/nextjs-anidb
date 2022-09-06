@@ -8,6 +8,7 @@ import CardHeaderId from "../../components/CardHeaderId";
 import LeftSideInfo from "../../components/LeftSideInfo/LeftSideInfo";
 import RightSideInfo from "../../components/RightSideInfo/RightSideInfo";
 import Head from "next/head";
+import SearchForm from "../../components/SearchForm";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // Fetch the initial top 50 anime
@@ -75,7 +76,9 @@ const Anime: NextPage<{ anime: Media }> = ({ anime }) => {
 
       <CardHeaderId anime={anime} />
 
-      <Container maxWidth="lg" sx={{ mt: 5 }}>
+      <Container maxWidth="lg" sx={{ mt: 4 }}>
+        <SearchForm queryProp={{}} />
+
         <Grid container spacing={3}>
           {/* xs should be grid area stuff; currently at `auto` */}
           <Grid item xs={12} sm={4} md={3}>
