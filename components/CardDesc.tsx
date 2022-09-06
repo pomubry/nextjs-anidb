@@ -23,7 +23,7 @@ const CardDesc: React.FC<{ anime: Media }> = ({ anime }) => {
     <>
       <CardContent
         sx={{
-          overflow: "scroll",
+          overflow: "auto",
           flex: 1,
           boxShadow: (theme) => theme.shadows[5],
         }}
@@ -71,7 +71,7 @@ const CardDesc: React.FC<{ anime: Media }> = ({ anime }) => {
       {/* Genre */}
       <CardContent
         sx={{
-          overflowX: "scroll",
+          overflowX: "auto",
           display: "flex",
           flexWrap: "nowrap",
         }}

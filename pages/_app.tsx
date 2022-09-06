@@ -34,7 +34,7 @@ export default function MyApp(props: MyAppProps) {
       </Head>
       <ToggleTheme>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
+        <CssBaseline enableColorScheme />
         <Layout>
           <Component {...pageProps} />
         </Layout>
