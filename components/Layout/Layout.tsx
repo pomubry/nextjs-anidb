@@ -26,7 +26,7 @@ export default function Layout({ children }: IChildren) {
         <Fab
           color="primary"
           sx={{ position: "fixed", bottom: 25, right: 25 }}
-          href="#"
+          onClick={() => window.scrollTo({ top: 0 })}
         >
           <NavigationIcon />
         </Fab>

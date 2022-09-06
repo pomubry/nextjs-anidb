@@ -19,7 +19,7 @@ const Relations: React.FC<{ relations: Relations }> = ({ relations }) => {
             component="img"
             image={anime.coverImage.extraLarge}
             alt={anime.title.romaji}
-            sx={{ flex: 2 }}
+            sx={{ flex: 2, maxWidth: 130 }}
           />
           <CardContent
             sx={{ display: "flex", flexDirection: "column", flex: 6 }}

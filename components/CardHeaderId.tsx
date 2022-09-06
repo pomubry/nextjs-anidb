@@ -27,7 +27,7 @@ const CardHeaderId: React.FC<{ anime: Media }> = ({ anime }) => {
           <CardContent
             sx={{
               display: "grid",
-              gap: { sm: 2 },
+              gap: { xs: 5 },
               gridTemplateColumns: { xs: "1fr", sm: "2fr 2fr", md: "1fr 3fr" },
             }}
           >
