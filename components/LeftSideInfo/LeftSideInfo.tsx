@@ -1,9 +1,9 @@
+import { Box, Typography } from "@mui/material";
 import Rankings from "./Rankings";
 import Data from "./Data";
 import Tags from "./Tags";
 import StreamLinks from "./StreamLinks";
 import { Media } from "../../lib/interface/IQueryId";
-import { Box, Typography } from "@mui/material";
 
 const xsTemplate = `
 'data rankings'

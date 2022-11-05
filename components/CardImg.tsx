@@ -23,9 +23,9 @@ const CardImg: React.FC<{ anime: Media; contentHeight: string }> = ({
         >
           <Image
             src={anime.coverImage.extraLarge}
-            layout="fill"
-            objectFit="cover"
             alt={anime.title.romaji}
+            fill
+            style={{ objectFit: "cover" }}
           />
           <Box
             sx={{

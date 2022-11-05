@@ -1,14 +1,14 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { Box, CircularProgress, Container, Grid } from "@mui/material";
-import fetchQuery from "../../lib/fetcher/fetchQuery";
-import fetchQueryId from "../../lib/fetcher/fetchQueryId";
+import Head from "next/head";
 import { useRouter } from "next/router";
-import { Media } from "../../lib/interface/IQueryId";
+import { Box, CircularProgress, Container, Grid } from "@mui/material";
 import CardHeaderId from "../../components/CardHeaderId";
 import LeftSideInfo from "../../components/LeftSideInfo/LeftSideInfo";
 import RightSideInfo from "../../components/RightSideInfo/RightSideInfo";
-import Head from "next/head";
 import SearchForm from "../../components/SearchForm";
+import fetchQuery from "../../lib/fetcher/fetchQuery";
+import fetchQueryId from "../../lib/fetcher/fetchQueryId";
+import { Media } from "../../lib/interface/IQueryId";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // Fetch the initial top 50 anime

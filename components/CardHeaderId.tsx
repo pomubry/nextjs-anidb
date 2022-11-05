@@ -1,4 +1,3 @@
-import { Media } from "../lib/interface/IQueryId";
 import parse from "html-react-parser";
 import {
   Box,
@@ -8,6 +7,7 @@ import {
   Container,
   Typography,
 } from "@mui/material";
+import { Media } from "../lib/interface/IQueryId";
 
 const CardHeaderId: React.FC<{ anime: Media }> = ({ anime }) => {
   return (

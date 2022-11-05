@@ -1,5 +1,5 @@
-import { Box, Typography, Paper } from "@mui/material";
 import Image from "next/image";
+import { Box, Typography, Paper } from "@mui/material";
 import { Characters } from "../../lib/interface/IQueryId";
 import useExpander from "../../lib/useExpander";
 
@@ -29,8 +29,8 @@ const Characters: React.FC<{ characters: Characters }> = ({ characters }) => {
                 <Image
                   src={edge.node.image.large}
                   alt={edge.node.name.full}
-                  layout="fill"
-                  objectFit="cover"
+                  fill
+                  style={{ objectFit: "cover" }}
                 />
               </Box>
               <Box
@@ -83,8 +83,8 @@ const Characters: React.FC<{ characters: Characters }> = ({ characters }) => {
                   <Image
                     src={edge.voiceActors[0].image.large}
                     alt={edge.voiceActors[0].name.full}
-                    layout="fill"
-                    objectFit="cover"
+                    fill
+                    style={{ objectFit: "cover" }}
                   />
                 </Box>
               </Box>

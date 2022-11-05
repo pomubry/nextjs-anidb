@@ -1,3 +1,5 @@
+import React from "react";
+import { Box, Typography } from "@mui/material";
 import Relations from "./Relations";
 import Characters from "./Characters";
 import Staff from "./Staff";
@@ -5,8 +7,6 @@ import StatusDistribution from "./StatusDistribution";
 import Watch from "./Watch";
 import Recommendations from "./Recommendations";
 import { Media } from "../../lib/interface/IQueryId";
-import { Box, Typography } from "@mui/material";
-import React from "react";
 
 const CustomTypo = ({ children }: { children: React.ReactNode }) => (
   <Typography component="h2" variant="h6" color="primary.main">

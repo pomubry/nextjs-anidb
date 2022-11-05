@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { StreamingEpisodes } from "../../lib/interface/IQueryId";
 import {
   IconButton,
   ImageList,
@@ -7,8 +6,9 @@ import {
   ImageListItemBar,
 } from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
-import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+import { StreamingEpisodes } from "../../lib/interface/IQueryId";
 
 const Watch: React.FC<{ watch: StreamingEpisodes[] }> = ({ watch }) => {
   let isNotReversed = watch[0].title.includes("Episode 1 ");
@@ -30,8 +30,8 @@ const Watch: React.FC<{ watch: StreamingEpisodes[] }> = ({ watch }) => {
           <Image
             src={item.thumbnail}
             alt={item.title}
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: "cover" }}
           />
           <ImageListItemBar
             title={item.title}

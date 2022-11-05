@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import type { GetServerSideProps, NextPage } from "next";
 import InfiniteScroll from "react-infinite-scroller";
-import CardAni from "../components/CardAni";
-import SearchForm from "../components/SearchForm";
 import {
   Container,
   Grid,
@@ -13,6 +11,8 @@ import {
   Typography,
 } from "@mui/material";
 import ReplayIcon from "@mui/icons-material/Replay";
+import CardAni from "../components/CardAni";
+import SearchForm from "../components/SearchForm";
 import fetchQuery from "../lib/fetcher/fetchQuery";
 import { IQueryCurrentSeason, IVariables } from "../lib/interface/interface";
 import { PageInfo, Media } from "../lib/interface/IQuery";
