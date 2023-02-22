@@ -1,99 +1,65 @@
 import parse from "html-react-parser";
-import Box from "@mui/material/Box";
-import CardContent from "@mui/material/CardContent";
-import Chip from "@mui/material/Chip";
-import Typography from "@mui/material/Typography";
-import { Media } from "../lib/interface/IQuery";
+import { FragmentType, useFragment } from "../lib/gql";
+import { CardDescFragment } from "../lib/query/queryHome";
 
-const CustomTypo: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <Typography variant="subtitle2" component="span" color="secondary">
+interface PropType {
+  anime: FragmentType<typeof CardDescFragment>;
+}
+
+const Spacer = () => <span> • </span>;
+
+const SpanDetails = ({ children }: { children: React.ReactNode }) => (
+  <span className="text-xs text-blue-700 dark:text-blue-300 min-[767px]:text-sm">
     {children}
-  </Typography>
+  </span>
 );
 
-const Spacer = () => (
-  <Typography variant="subtitle2" component="span">
-    {" "}
-    •{" "}
-  </Typography>
-);
-
-const CardDesc: React.FC<{ anime: Media }> = ({ anime }) => {
+const CardDesc = (props: PropType) => {
+  const anime = useFragment(CardDescFragment, props.anime);
   return (
-    <>
-      <CardContent
-        sx={{
-          overflow: "auto",
-          flex: 1,
-          boxShadow: (theme) => theme.shadows[5],
-        }}
-      >
-        {/* 1st row */}
-        <Typography component="h2" variant="body1" color="primary">
-          {anime.season} {anime.seasonYear}
-        </Typography>
+    <div className="flex flex-col overflow-x-scroll p-3">
+      <h4 className="text-sm font-bold text-purple-700 dark:text-purple-300 min-[767px]:text-base">
+        {anime.season} {anime.seasonYear}
+      </h4>
+      <div>
+        {!!anime.format && (
+          <>
+            <SpanDetails>
+              {anime.format === "TV" ? "TV Show" : anime.format}
+            </SpanDetails>
+            <Spacer />
+          </>
+        )}
 
-        {/* 2nd row */}
-        <Box>
-          {anime.format && (
-            <>
-              <CustomTypo>
-                {anime.format === "TV" ? "TV Show" : anime.format}
-              </CustomTypo>
-              <Spacer />
-            </>
-          )}
+        {!!anime.episodes && (
+          <>
+            <SpanDetails>{`${anime.episodes} episodes`}</SpanDetails>
+            <Spacer />
+          </>
+        )}
 
-          {anime.episodes && (
-            <>
-              <CustomTypo>
-                {anime.episodes > 0
-                  ? anime.episodes + " episodes"
-                  : "? episodes"}
-              </CustomTypo>
-              <Spacer />
-            </>
-          )}
-
-          <CustomTypo>Trend Score: {anime.trending}</CustomTypo>
-        </Box>
-
-        {/* main text */}
-        <Typography variant="body1" marginTop={3}>
-          {parse(
-            anime.description !== null
-              ? anime.description
-              : "No description was added yet for this anime."
-          )}
-        </Typography>
-      </CardContent>
-
-      {/* Genre */}
-      <CardContent
-        sx={{
-          overflowX: "auto",
-          display: "flex",
-          flexWrap: "nowrap",
-        }}
-      >
-        {anime.genres?.map((genre, index) => (
-          <Chip
-            key={index}
-            variant="filled"
-            size="small"
-            sx={{
-              backgroundColor: anime.coverImage.color,
-              margin: 0.5,
-              color: (theme) =>
-                anime.coverImage.color
-                  ? theme.palette.getContrastText(anime.coverImage.color)
-                  : "gray",
-            }}
-            label={genre}
-          />
-        ))}
-      </CardContent>
-    </>
+        <SpanDetails>Trend Score: {anime.trending ?? "N/A"}</SpanDetails>
+      </div>
+      <p className="flex-1 overflow-y-scroll pt-3 text-sm min-[767px]:text-base">
+        {parse(
+          anime.description ??
+            "<i>There are no descriptions for this anime yet.</i>"
+        )}
+      </p>
+      <ul className="flex gap-2 overflow-x-scroll pt-3">
+        {anime.genres?.map((genre) => {
+          if (!genre) return null;
+          return (
+            <li
+              key={genre}
+              className="whitespace-nowrap rounded-md bg-slate-900 px-2 text-xs text-blue-400 min-[767px]:text-sm"
+            >
+              {genre}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 };
 

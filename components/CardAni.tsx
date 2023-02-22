@@ -1,37 +1,22 @@
-import Card from "@mui/material/Card";
-import Grid from "@mui/material/Grid";
 import CardImg from "./CardImg";
 import CardDesc from "./CardDesc";
-import { Media } from "../lib/interface/IQuery";
+import { FragmentType, useFragment } from "../lib/gql";
+import { AnimeFragment } from "../lib/query/queryHome";
 
-const contentHeight = "20rem";
+interface PropType {
+  anime: FragmentType<typeof AnimeFragment>;
+}
 
-const CardAni: React.FC<{ anime: Media }> = ({ anime }) => {
+const CardAni = (props: PropType) => {
+  const anime = useFragment(AnimeFragment, props.anime);
+
   return (
-    <Grid item xs={12} md={6}>
-      <Card raised sx={{ borderRadius: 5, overflow: "hidden" }}>
-        <Grid container columns={20}>
-          {/* Image & Title */}
-          <Grid item xs={20} sm={9}>
-            <CardImg anime={anime} contentHeight={contentHeight} />
-          </Grid>
-          {/* Description & Genre */}
-          <Grid
-            item
-            xs={20}
-            sm={11}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              height: { xs: "none", sm: contentHeight },
-              maxHeight: { xs: 400, sm: "none" },
-            }}
-          >
-            <CardDesc anime={anime} />
-          </Grid>
-        </Grid>
-      </Card>
-    </Grid>
+    <li
+      className={`grid grid-cols-[4fr_6fr] grid-rows-[13rem] overflow-hidden rounded-lg shadow-2xl shadow-slate-700 min-[500px]:grid-rows-[17rem]`}
+    >
+      <CardImg anime={anime} />
+      <CardDesc anime={anime} />
+    </li>
   );
 };
 

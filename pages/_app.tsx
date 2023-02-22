@@ -1,50 +1,60 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import { AppProps } from "next/app";
-import Head from "next/head";
-import CssBaseline from "@mui/material/CssBaseline";
-import { CacheProvider, EmotionCache } from "@emotion/react";
-import ToggleTheme from "../src/theme";
-import createEmotionCache from "../src/createEmotionCache";
+import { useEffect, useState } from "react";
+import type { AppProps } from "next/app";
 import Layout from "../components/Layout/Layout";
 import "../styles/globals.css";
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
-import { useTheme } from "@mui/material/styles";
+import {
+  QueryClient,
+  QueryClientProvider,
+  Hydrate,
+  DehydratedState,
+} from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-// Client-side cache, shared for the whole session of the user in the browser.
-const clientSideEmotionCache = createEmotionCache();
+export const getInitialTheme = () => {
+  if (
+    localStorage.theme === "dark" ||
+    (!("theme" in localStorage) &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
+};
 
-interface MyAppProps extends AppProps {
-  emotionCache?: EmotionCache;
-}
+export default function MyApp(
+  props: AppProps<{ dehydratedState: DehydratedState }>
+) {
+  const [isMounted, setIsMounted] = useState(false);
+  const [queryClient] = useState(() => new QueryClient());
+  const { Component, pageProps } = props;
 
-export default function MyApp(props: MyAppProps) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-  const theme = useTheme();
+  useEffect(() => {
+    if (!isMounted) {
+      getInitialTheme();
+      setIsMounted(true);
+    }
+
+    const darkModePreference = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    );
+
+    darkModePreference.addEventListener("change", getInitialTheme);
+
+    return () =>
+      darkModePreference.removeEventListener("change", getInitialTheme);
+  }, [isMounted]);
+
+  if (!isMounted) return null;
 
   return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        {/* PWA primary color */}
-        <meta name="theme-color" content={theme.palette.primary.main} />
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-      <ToggleTheme>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline enableColorScheme />
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
         <Layout>
           <Component {...pageProps} />
         </Layout>
-      </ToggleTheme>
-    </CacheProvider>
+      </Hydrate>
+      <ReactQueryDevtools />
+    </QueryClientProvider>
   );
 }
-
-MyApp.propTypes = {
-  Component: PropTypes.elementType.isRequired,
-  emotionCache: PropTypes.object,
-  pageProps: PropTypes.object.isRequired,
-};

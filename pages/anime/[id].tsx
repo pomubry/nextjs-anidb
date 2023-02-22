@@ -1,94 +1,152 @@
-import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
+import {
+  dehydrate,
+  DehydratedState,
+  QueryClient,
+  useQuery,
+} from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { Box, CircularProgress, Container, Grid } from "@mui/material";
+import { ClientError } from "graphql-request";
+
 import CardHeaderId from "../../components/CardHeaderId";
-import LeftSideInfo from "../../components/LeftSideInfo/LeftSideInfo";
-import RightSideInfo from "../../components/RightSideInfo/RightSideInfo";
+import LeftInfo from "../../components/LeftInfo";
+import RightInfo from "../../components/RightInfo";
 import SearchForm from "../../components/SearchForm";
-import fetchQuery from "../../lib/fetcher/fetchQuery";
-import fetchQueryId from "../../lib/fetcher/fetchQueryId";
-import { Media } from "../../lib/interface/IQueryId";
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  // Fetch the initial top 50 anime
-  const res = await fetchQuery({});
+import { fetchAnime } from "../../lib/query/queryAnime";
 
-  if (res.error) {
-    console.error("Error in getStaticPaths");
+interface GSSP {
+  dehydratedState: DehydratedState;
+}
+
+export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
+  const idParams = context.params?.id as string | undefined;
+  if (!idParams) {
     return {
-      paths: [{ params: { id: "20" } }],
-      fallback: true,
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
     };
   }
-  const { media } = res;
-  const paths = media.map((anime) => ({ params: { id: anime.id.toString() } }));
-  return {
-    paths,
-    fallback: true,
-  };
-};
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const res = await fetchQueryId(Number(context.params?.id));
+  const id = +idParams;
 
-  if (res.error) {
-    console.error("Error in getStaticProps");
+  const queryClient = new QueryClient();
+  const queryKey = ["anime", id];
+  await queryClient.prefetchQuery({
+    queryKey,
+    queryFn: async () => {
+      console.log("ssr fetch ran", id);
+      return await fetchAnime(id);
+    },
+  });
+
+  const error = queryClient.getQueryState(queryKey)?.error;
+
+  if (error) {
+    console.log("Fetching error in the getServerSideProps:");
+    console.log(error);
     return {
       notFound: true,
-      revalidate: 10,
     };
   }
 
   return {
     props: {
-      anime: res.media,
+      dehydratedState: dehydrate(queryClient),
     },
-    revalidate: 10,
   };
 };
 
-const Anime: NextPage<{ anime: Media }> = ({ anime }) => {
-  const { isFallback } = useRouter();
+const Anime: NextPage = () => {
+  const router = useRouter();
+  const id = +(router.query.id as string);
 
-  if (isFallback)
+  const { data, error, isError, isPreviousData } = useQuery({
+    refetchOnWindowFocus: false,
+    keepPreviousData: true,
+    retry: 1,
+    queryKey: ["anime", id],
+    queryFn: async () => {
+      console.log("useQuery ran", id);
+      return fetchAnime(id);
+    },
+  });
+
+  if (isError) {
+    const err = error as ClientError;
+    let errorList: React.ReactNode[];
+
+    if (err.response.errors && err.response.errors.length > 0) {
+      errorList = err.response.errors.map((err, i) => (
+        <li className="my-1" key={i}>
+          - {err.message}
+        </li>
+      ));
+    } else {
+      errorList = [
+        <li className="my-1" key="err.message">
+          - {err.message}
+        </li>,
+      ];
+    }
     return (
-      <Box sx={{ display: "grid", placeContent: "center" }}>
-        <CircularProgress key="circularKey" />
-      </Box>
+      <div className="container mx-auto p-3">
+        <h2 className="font-bold text-red-600">Anilist Errors:</h2>
+        <ul className="ml-3">{errorList}</ul>
+      </div>
     );
+  }
+
+  if (!data?.anime) {
+    return (
+      <div className="container mx-auto p-3">
+        <h2 className="font-bold text-red-600">No data was found!</h2>
+      </div>
+    );
+  }
+
+  const description =
+    data.anime.description ||
+    data.anime.title?.romaji ||
+    "NextAni ID: " + data.anime.id;
+
+  const keywords = data.anime.synonyms?.join(", ") || description;
+
+  const title = data.anime.title?.romaji ? `${data.anime.title.romaji} | ` : "";
 
   return (
     <>
       <Head>
-        <meta
-          name="description"
-          content={anime.description ?? anime.title.romaji}
-        />
+        <meta name="description" content={description} />
         <meta
           name="keywords"
-          content={`${anime.synonyms.join(", ")}, ${
-            anime.title.romaji
-          }, nextani database, anime list database`}
+          content={keywords + ", nextani database, anime list"}
         />
-        <title>{`${anime.title.romaji} | NextAni`}</title>
+        <title>{title}NextAni</title>
       </Head>
 
-      <CardHeaderId anime={anime} />
+      <CardHeaderId anime={data.anime} />
 
-      <Container maxWidth="lg" sx={{ mt: 4 }}>
-        <SearchForm queryProp={{}} />
+      <div
+        className={`mx-auto max-w-6xl px-5 ${
+          isPreviousData ? "select-none opacity-50" : "select-auto opacity-100"
+        }`}
+      >
+        <SearchForm />
 
-        <Grid container spacing={3}>
+        <div className="mt-10 gap-10 sm:flex">
           {/* xs should be grid area stuff; currently at `auto` */}
-          <Grid item xs={12} sm={4} md={3}>
-            <LeftSideInfo anime={anime} />
-          </Grid>
-          <Grid item xs={12} sm={8} md={9}>
-            <RightSideInfo anime={anime} />
-          </Grid>
-        </Grid>
-      </Container>
+          <div className="flex-1">
+            <LeftInfo anime={data.anime} />
+          </div>
+          <div className="flex-1 max-sm:mt-5 sm:flex-[3]">
+            <RightInfo anime={data.anime} />
+          </div>
+        </div>
+      </div>
     </>
   );
 };

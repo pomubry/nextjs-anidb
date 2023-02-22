@@ -1,167 +1,123 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-import Link from "@mui/material/Link";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
-import { blue } from "@mui/material/colors";
-import { Switch, useMediaQuery } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import { ToggleThemeContext } from "../../src/theme";
+import Link from "next/link";
+import { useState } from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { RiMoonClearFill, RiSunFill } from "react-icons/ri";
 import navLinks from "../../lib/links/navLinks";
-import StyledLink from "../../src/Link";
-import { IContext } from "../../lib/interface/interface";
 
-export default function Nav() {
-  const theme = useTheme();
-  const lessThanSmall = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const { mode, toggleTheme } = React.useContext(
-    ToggleThemeContext
-  ) as IContext;
-
-  const [anchorElNav, setAnchorElNav] = React.useState<
-    (EventTarget & HTMLButtonElement) | null
-  >(null);
+const LinksMobile = () => {
+  const [isShown, setIsShown] = useState(false);
 
   return (
-    <>
-      <AppBar
-        position="static"
-        component="nav"
-        style={{ backgroundColor: "#121212" }}
-        color="transparent"
+    <div className="relative mx-2 min-[550px]:hidden">
+      <GiHamburgerMenu
+        className="cursor-pointer text-xl dark:text-slate-200"
+        aria-label="Nav Options"
+        onClick={() => setIsShown(true)}
+      />
+      <div
+        onClick={() => setIsShown(false)}
+        className={`${
+          isShown ? "fixed" : "hidden"
+        } inset-0 z-10 animate-modalAnim bg-slate-900/25 opacity-90 backdrop-blur`}
+      ></div>
+      <div
+        className={`${
+          isShown ? "absolute" : "hidden"
+        } right-0 z-20 flex w-max animate-navAnim flex-col rounded-md bg-slate-200 py-2 dark:bg-slate-800 dark:text-slate-200`}
       >
-        <Toolbar>
-          <Container maxWidth={lessThanSmall ? "xs" : "lg"}>
-            <Toolbar
-              disableGutters
-              sx={{
-                display: "flex",
-              }}
-            >
-              {/* Left logo */}
-              <Box sx={{ display: "flex", flex: 1 }}>
-                <StyledLink underline="none" href="/" sx={{ display: "flex" }}>
-                  <Typography
-                    variant="h3"
-                    sx={{ fontWeight: 700, color: "white", mr: -1 }}
-                  >
-                    N
-                  </Typography>
-                  <Typography
-                    variant="h3"
-                    sx={{ fontWeight: 700, color: blue[300] }}
-                  >
-                    A
-                  </Typography>
-                </StyledLink>
-              </Box>
-
-              {/* Right-side menu icon at xs viewport only */}
-              <Box sx={{ display: { xs: "flex", sm: "none" } }}>
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={(e) => setAnchorElNav(e.currentTarget)}
-                  color="inherit"
-                >
-                  <MenuIcon sx={{ color: "white" }} />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorElNav}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  open={Boolean(anchorElNav)}
-                  onClose={() => setAnchorElNav(null)}
-                  sx={{
-                    display: { xs: "block", md: "none" },
-                  }}
-                >
-                  {navLinks.map((link, idx) => (
-                    <MenuItem onClick={() => setAnchorElNav(null)} key={idx}>
-                      <Link
-                        href={link.link}
-                        target="_blank"
-                        rel="noopener"
-                        underline="none"
-                        color={(theme) =>
-                          theme.palette.mode === "light" ? "#222" : "#90caf9"
-                        }
-                      >
-                        {link.name}
-                      </Link>
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </Box>
-
-              {/* Right-side links from small viewport and above */}
-              <Box sx={{ display: { xs: "none", sm: "flex", gap: 10 } }}>
-                {navLinks.map((link, idx) =>
-                  link.name !== "Sign Up" ? (
-                    <Link
-                      href={link.link}
-                      target="_blank"
-                      rel="noopener"
-                      underline="none"
-                      key={idx}
-                    >
-                      <Button sx={{ color: "#90caf9" }}>{link.name}</Button>
-                    </Link>
-                  ) : (
-                    <Link
-                      href={link.link}
-                      target="_blank"
-                      rel="noopener"
-                      underline="none"
-                      color="white"
-                      key={idx}
-                    >
-                      <Button
-                        variant="contained"
-                        color="info"
-                        sx={{ color: "white" }}
-                      >
-                        {link.name}
-                      </Button>
-                    </Link>
-                  )
-                )}
-              </Box>
-
-              {/* Theme Toggle */}
-              <Switch
-                onChange={toggleTheme}
-                checked={mode === "dark"}
-                inputProps={{ "aria-label": "dark mode switch" }}
-                icon={<Brightness4Icon sx={{ transform: "translateY(-9%)" }} />}
-                checkedIcon={
-                  <Brightness7Icon sx={{ transform: "translateY(-9%)" }} />
-                }
-              />
-            </Toolbar>
-          </Container>
-        </Toolbar>
-      </AppBar>
-    </>
+        {navLinks.map((link) => (
+          <a
+            href={link.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-3 text-center hover:bg-slate-300 focus:border-2 focus:border-purple-400 hover:dark:bg-slate-900"
+            key={link.link}
+          >
+            {link.name}
+          </a>
+        ))}
+      </div>
+    </div>
   );
-}
+};
+
+const LinksWeb = () => (
+  <div className="hidden min-[550px]:block">
+    {navLinks.map((link) => {
+      return link.name === "Sign Up" ? (
+        <a
+          href={link.link}
+          target="_blank"
+          rel="nooopener noreferrer"
+          key={link.link}
+          className="mx-2 rounded-md bg-purple-300 p-2 font-bold text-slate-800"
+        >
+          {link.name}
+        </a>
+      ) : (
+        <a
+          href={link.link}
+          target="_blank"
+          rel="nooopener noreferrer"
+          key={link.name}
+          className="rounded-md p-2 font-semibold duration-300 hover:bg-purple-300 dark:text-slate-200 dark:hover:bg-slate-800/50"
+        >
+          {link.name}
+        </a>
+      );
+    })}
+  </div>
+);
+
+const Nav = () => {
+  const [isDarkMode, setIsDarkMode] = useState(
+    document.documentElement.classList.contains("dark")
+  );
+
+  const toggleColorMode = () => {
+    const isDarkMode = document.documentElement.classList.contains("dark");
+    if (isDarkMode) {
+      localStorage.theme = "light";
+      document.documentElement.classList.remove("dark");
+      setIsDarkMode(false);
+    } else {
+      localStorage.theme = "dark";
+      document.documentElement.classList.add("dark");
+      setIsDarkMode(true);
+    }
+  };
+
+  return (
+    <div className="bg-slate-400 p-3 transition dark:bg-slate-900">
+      <nav className="mx-auto flex max-w-6xl items-center">
+        <div className="flex-1">
+          <Link
+            href="/"
+            shallow
+            title="NextAni Homepage"
+            aria-label="Homepage link"
+          >
+            <span className="text-5xl font-extrabold text-slate-800 transition dark:text-slate-200">
+              N
+            </span>
+            <span className="inline-block -translate-x-[30%] text-5xl font-extrabold text-purple-300">
+              A
+            </span>
+          </Link>
+        </div>
+        <div className="flex items-center gap-3">
+          <LinksMobile />
+          <LinksWeb />
+          <button aria-label="Theme mode toggle" onClick={toggleColorMode}>
+            {isDarkMode ? (
+              <RiSunFill className="text-xl" />
+            ) : (
+              <RiMoonClearFill className="text-xl" />
+            )}
+          </button>
+        </div>
+      </nav>
+    </div>
+  );
+};
+export default Nav;

@@ -1,85 +1,50 @@
+import { SiGithub } from "react-icons/si";
 import footerLinks from "../../lib/links/footerLinks";
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  Typography,
-} from "@mui/material";
-import GitHubIcon from "@mui/icons-material/GitHub";
 
-export default function Footer() {
+const Footer = () => {
   return (
-    <Box component="footer" bgcolor="#121212" py={5} mt={2}>
-      <Container maxWidth="lg">
-        <Grid container spacing={5}>
-          {/* Disclaimer */}
-          <Grid
-            item
-            xs={12}
-            sm={5}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: { sm: "center", md: "flex-start" },
-            }}
-          >
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              mb={2}
+    <footer className="mt-5 bg-slate-400 text-slate-800 transition dark:bg-slate-900 dark:text-slate-200">
+      <div className="mx-auto grid max-w-6xl grid-cols-[1fr] items-center gap-10 p-3 min-[650px]:grid-cols-[repeat(2,1fr)]">
+        <div>
+          <div className="flex items-center">
+            <span className="mb-2 flex-1 text-3xl font-bold">Disclaimer:</span>
+            <a
+              href="https://github.com/pomubry"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Github account link"
             >
-              <Typography variant="h6" component="h2" color="#90caf9">
-                Disclaimer:
-              </Typography>
-              <IconButton
-                aria-label="Github icon link"
-                href="https://github.com/pomubry/nextani"
-                target="_blank"
-                rel="noopener"
-              >
-                <GitHubIcon htmlColor="white" />
-              </IconButton>
-            </Box>
-            <Typography variant="body2" color="white">
-              This website is not the official Anilist.co. This is a small
-              project made for learning purposes only. However, all data are
-              fetched from Anilist&apos;s API.
-            </Typography>
-          </Grid>
+              <SiGithub className="text-xl text-slate-900 dark:text-slate-200" />
+            </a>
+          </div>
+          <p className="text-sm min-[650px]:text-base">
+            This website is not the official Anilist.co. This is a small project
+            made for learning purposes only. However, all data are fetched from
+            Anilist&apos;s API.
+          </p>
+        </div>
 
-          {/* Links */}
-          <Grid container item xs={12} sm={7} spacing={3}>
-            {footerLinks.map((links, linksIdx) => (
-              <Grid
-                item
-                xs={6}
-                md={3}
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: { xs: 0.5, sm: 1 },
-                }}
-                key={linksIdx}
-              >
-                {links.map((link, linkIdx) => (
-                  <Button
+        <div className="grid grid-cols-[repeat(2,1fr)] items-center gap-5 min-[900px]:grid-cols-[repeat(4,1fr)]">
+          {footerLinks.map((links) => {
+            return (
+              <div className="flex flex-col" key={links[0].link}>
+                {links.map((link) => (
+                  <a
+                    className="rounded-md p-3 text-center font-semibold duration-300 hover:bg-slate-900/10 hover:dark:bg-slate-800/50"
                     href={link.link}
                     target="_blank"
-                    rel="noopener"
-                    key={linkIdx}
-                    sx={{ textAlign: "center", color: "#90caf9" }}
+                    rel="noopener noreferrer"
+                    key={link.name}
                   >
                     {link.name}
-                  </Button>
+                  </a>
                 ))}
-              </Grid>
-            ))}
-          </Grid>
-        </Grid>
-      </Container>
-    </Box>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </footer>
   );
-}
+};
+export default Footer;

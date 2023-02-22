@@ -1,36 +1,13 @@
 import { useState } from "react";
-import { Button } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
-const useExpander = <T,>({
-  arr,
-  maxNumber,
-}: {
-  arr: T[];
-  maxNumber: number;
-}) => {
+const useExpander = ({ maxNumber }: { maxNumber: number }) => {
   const [expanded, setExpanded] = useState(false);
+  const handleExpand = () => setExpanded((prev) => !prev);
 
   return {
     sliceEnd: expanded ? undefined : maxNumber,
-    ExpandButton: () =>
-      arr.length > maxNumber ? (
-        <Button
-          variant="outlined"
-          sx={{
-            gridColumn: { md: "span 2" },
-            marginInline: "auto",
-            borderRadius: 5,
-          }}
-          onClick={() => setExpanded((prev) => !prev)}
-        >
-          {expanded ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          {expanded ? "Hide" : "Show More"}
-        </Button>
-      ) : (
-        <></>
-      ),
+    expanded,
+    handleExpand,
   };
 };
 export default useExpander;

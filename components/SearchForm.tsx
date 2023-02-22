@@ -1,101 +1,116 @@
-import React, { useMemo, useState } from "react";
 import { useRouter } from "next/router";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import FilterListOffIcon from "@mui/icons-material/FilterListOff";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  InputAdornment,
-  OutlinedInput,
-  ToggleButton,
-  useMediaQuery,
-  useTheme,
-  IconButton,
-} from "@mui/material";
-import SearchFilter from "./SearchFilter";
-import { IVariables } from "../lib/interface/interface";
+import React, { FormEventHandler } from "react";
+import { BiSearchAlt } from "react-icons/bi";
+import { QueryHomePageQueryVariables } from "../lib/gql/graphql";
 
-const SearchForm: React.FC<{ queryProp: IVariables }> = ({ queryProp }) => {
-  const [search, setSearch] = useState(queryProp?.search || "");
-  const [season, setSeason] = useState(queryProp?.season || "ANY");
-  const [seasonYear, setSeasonYear] = useState(queryProp?.seasonYear || "ANY");
-  const [expanded, setExpanded] = useState(false);
+const YearList = () => {
+  let arr = [
+    <option value={"ALL"} key={"ALLKEY"}>
+      All
+    </option>,
+  ];
+  let start = new Date().getFullYear() + 1;
+  for (let i = start; i >= 1940; i--) {
+    let jsx = (
+      <option value={i} key={i}>
+        {i}
+      </option>
+    );
+    arr.push(jsx);
+  }
+
+  return <>{arr}</>;
+};
+
+interface PropType {
+  queryProp?: QueryHomePageQueryVariables;
+}
+
+const SearchForm = ({ queryProp = {} }: PropType) => {
   const router = useRouter();
 
-  // To identify where <SearchFilterWithProps/> will render.
-  const theme = useTheme();
-  const lessThanSmall = useMediaQuery(theme.breakpoints.down("sm"));
-
-  // Wrapped it in a useMemo since the text input would lag when typing or deleting text
-  const SearchFilterWithProps = useMemo(() => {
-    return function jsxWithProp() {
-      return (
-        <SearchFilter
-          seasonProp={{ season, setSeason }}
-          seasonYearProp={{ seasonYear, setSeasonYear }}
-        />
-      );
-    };
-  }, [season, seasonYear]);
-
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    let variables = { season, seasonYear, search };
-    const ignoredValues = ["", "ANY"];
-    let str = "/?";
 
-    for (let key in variables) {
-      const value = variables[key as keyof typeof variables];
-      // `value` could be of type number but `ignoredValues` is string[], so convert `value` to string
-      if (!ignoredValues.includes(String(value))) {
-        str += `${key}=${value}&`;
-      }
+    const formData = new FormData(e.currentTarget);
+    const query = Object.fromEntries(
+      formData.entries()
+    ) as QueryHomePageQueryVariables;
+
+    if (query["search"]!.length < 1) {
+      delete query["search"];
     }
 
-    router.push(str.slice(0, str.lastIndexOf("&")));
+    router.push(
+      {
+        pathname: "/",
+        query: { ...query, page: 1 },
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit}>
-      <Box mb={2} sx={{ display: "flex" }}>
-        <FormControl sx={{ marginRight: "auto" }}>
-          <InputLabel htmlFor="outlined-adornment-amount">
-            Search Anime
-          </InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-amount"
-            label="Search Anime"
+    <section
+      className="mt-5 dark:text-slate-200"
+      key={JSON.stringify(queryProp)}
+    >
+      <h2>Search Anime</h2>
+      <form
+        onSubmit={handleSubmit}
+        className="mt-2 grid grid-cols-[1fr] gap-3 min-[480px]:grid-cols-[repeat(2,1fr)]"
+      >
+        <div className="relative flex items-center rounded-md border-2 border-slate-800 dark:border-purple-300">
+          <button aria-label="Search Button" type="submit" className="p-2">
+            <BiSearchAlt className="text-xl" />
+          </button>
+          <input
+            type="search"
             name="search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            startAdornment={
-              <InputAdornment position="start" sx={{ marginRight: 0 }}>
-                <IconButton aria-label="submit" type="submit">
-                  <SearchRoundedIcon />
-                </IconButton>
-              </InputAdornment>
-            }
-            sx={{ paddingLeft: 0.5 }}
+            defaultValue={queryProp.search || ""}
+            placeholder="Summer Time Rendering"
+            className="w-full border-l-2 border-slate-900 bg-inherit indent-2 placeholder:text-slate-600 focus-visible:outline-none dark:border-slate-300 dark:placeholder:text-slate-400"
           />
-        </FormControl>
+        </div>
 
-        {lessThanSmall ? (
-          <ToggleButton
-            sx={{ marginLeft: 1 }}
-            value="check"
-            selected={expanded}
-            onChange={() => setExpanded((e) => !e)}
+        <div className="ml-auto flex gap-5 ">
+          <select
+            name="season"
+            placeholder="Pick Season"
+            defaultValue={queryProp.season || "ALL"}
+            className="cursor-pointer rounded-md border-2 border-slate-800 bg-inherit py-2 px-4 dark:border-purple-300"
           >
-            {expanded ? <FilterListOffIcon /> : <FilterListIcon />}
-          </ToggleButton>
-        ) : (
-          <SearchFilterWithProps />
-        )}
-      </Box>
-      {expanded && lessThanSmall && <SearchFilterWithProps />}
-    </Box>
+            <option value="ALL">All</option>
+
+            <optgroup label="Jan, Feb, Mar">
+              <option value="WINTER">WINTER</option>
+            </optgroup>
+
+            <optgroup label="Apr, May, Jun">
+              <option value="SPRING">Spring</option>
+            </optgroup>
+
+            <optgroup label="Jul, Aug, Sep">
+              <option value="SUMMER">Summer</option>
+            </optgroup>
+
+            <optgroup label="Oct, Nov, Dec">
+              <option value="FALL">Fall</option>
+            </optgroup>
+          </select>
+
+          <select
+            name="seasonYear"
+            placeholder="Pick Year"
+            defaultValue={queryProp.seasonYear || "ALL"}
+            className="cursor-pointer rounded-md border-2 border-slate-800 bg-inherit py-2 px-4 dark:border-purple-300"
+          >
+            <YearList />
+          </select>
+        </div>
+      </form>
+    </section>
   );
 };
 

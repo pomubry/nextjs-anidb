@@ -1,63 +1,57 @@
+import Image from "next/image";
 import parse from "html-react-parser";
-import {
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  Container,
-  Typography,
-} from "@mui/material";
-import { Media } from "../lib/interface/IQueryId";
+import { FragmentType, useFragment } from "../lib/gql";
+import { CardHeadIdFragment } from "../lib/query/queryAnime";
 
-const CardHeaderId: React.FC<{ anime: Media }> = ({ anime }) => {
+interface PropType {
+  anime: FragmentType<typeof CardHeadIdFragment>;
+}
+
+const CardHeaderId = (props: PropType) => {
+  const anime = useFragment(CardHeadIdFragment, props.anime);
+
   return (
     <>
-      <Card>
+      <div className="shadow-xl">
         {anime.bannerImage && (
-          <CardMedia
-            component="img"
-            image={anime.bannerImage}
-            alt={anime.title.romaji}
-            sx={{
-              height: { xs: "10rem", sm: "15rem", md: "20rem", lg: "25rem" },
-            }}
-          />
-        )}
-        <Container maxWidth="lg">
-          <CardContent
-            sx={{
-              display: "grid",
-              gap: { xs: 5 },
-              gridTemplateColumns: { xs: "1fr", sm: "2fr 2fr", md: "1fr 3fr" },
-            }}
-          >
-            <CardMedia
-              component="img"
-              image={anime.coverImage.extraLarge}
-              alt={anime.title.romaji}
-              sx={{
-                maxWidth: 300,
-                placeSelf: "center",
-                transform: {
-                  md: anime.bannerImage && "translateY(-30%)",
-                },
-                boxShadow:
-                  "0px 11px 15px -7px rgba(0,0,0,0.3),0px 24px 38px 3px rgba(0,0,0,0.3),0px 9px 46px 8px rgba(0,0,0,0.3)",
-              }}
+          <div className="relative h-40 w-full sm:h-60 md:h-80 lg:h-96">
+            <Image
+              src={anime.bannerImage}
+              alt={
+                anime.title?.romaji || `Banner image of anime ID: ${anime.id}`
+              }
+              fill
+              className="object-cover"
             />
-            <Box>
-              <Typography component="h1" variant="h4" color="primary">
-                {anime.title.romaji}
-              </Typography>
+          </div>
+        )}
+        <div className="mx-auto mt-5 max-w-6xl">
+          <div className="relative grid grid-cols-[1fr] grid-rows-[auto,auto] gap-5 p-5 sm:grid-cols-[1fr,1fr] sm:grid-rows-[auto] md:grid-cols-[1fr,2fr]">
+            <Image
+              src={anime.coverImage?.extraLarge!}
+              alt={
+                anime.title?.romaji || `Cover image of anime ID: ${anime.id}`
+              }
+              width={300}
+              height={300}
+              className={`${
+                anime.bannerImage ? "image-offset" : ""
+              } mx-auto h-auto w-auto shadow-2xl shadow-black`}
+            />
+
+            <div>
+              <h1 className="mb-7 text-3xl font-bold text-blue-500 dark:text-blue-300">
+                {anime.title?.romaji}
+              </h1>
               {anime.description && (
-                <Typography variant="body1" mt={2}>
+                <p className="mt-2 text-slate-800 dark:text-slate-200">
                   {parse(anime.description)}
-                </Typography>
+                </p>
               )}
-            </Box>
-          </CardContent>
-        </Container>
-      </Card>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

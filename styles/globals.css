@@ -1,12 +1,58 @@
-html {
-  scroll-behavior: smooth;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  option,
+  optgroup {
+    @apply bg-slate-900 text-slate-200;
+  }
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 3px;
+  height: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: gray;
+}
+
+@media (min-width: 640px) {
+  .image-offset {
+    transform: translateY(-25%);
+  }
+}
+
+.area-anime-id {
+  grid-template-areas:
+    "data rankings"
+    "data tags"
+    "data streamlinks";
+}
+
+@media (min-width: 640px) {
+  .area-anime-id {
+    grid-template-areas:
+      "rankings"
+      "data"
+      "tags"
+      "streamlinks";
+  }
+}
+
+.area-data {
+  grid-area: data;
+}
+
+.area-rankings {
+  grid-area: rankings;
+}
+
+.area-tags {
+  grid-area: tags;
+}
+
+.area-streamlinks {
+  grid-area: streamlinks;
 }
