@@ -260,18 +260,33 @@ export const StreamLinksFragment = graphql(`
 export const RightInfoFragment = graphql(`
   fragment RightInfoFragment on Media {
     characters(sort: FAVOURITES_DESC) {
+      edges {
+        id
+      }
       ...CharactersFragment
     }
     recommendations(sort: RATING_DESC) {
+      nodes {
+        id
+      }
       ...RecommendationsFragment
     }
     relations {
+      edges {
+        id
+      }
       ...RelationsFragment
     }
     staff {
+      edges {
+        id
+      }
       ...StaffFragment
     }
     stats {
+      statusDistribution {
+        status
+      }
       ...StatsDistributionFragment
     }
     streamingEpisodes {

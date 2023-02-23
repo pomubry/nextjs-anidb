@@ -22,7 +22,7 @@ const Staff = (props: PropType) => {
           if (!obj || !obj.node) return null;
           return (
             <li
-              className="flex h-[110px] overflow-hidden rounded-md bg-slate-300 text-sm shadow-2xl dark:bg-slate-900 md:text-base"
+              className="flex h-[110px] overflow-hidden rounded-md bg-slate-100 text-sm shadow-2xl dark:bg-slate-900 md:text-base"
               key={obj.id ?? `${obj.node.id}-${obj.role}`}
             >
               <div className="relative max-w-[130px] flex-[2]">

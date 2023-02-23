@@ -56,7 +56,7 @@ const StatusDistribution = (props: PropType) => {
   };
 
   return (
-    <div className="my-2 mb-10 overflow-hidden rounded-md bg-slate-300 shadow-2xl dark:bg-slate-900">
+    <div className="my-2 mb-10 overflow-hidden rounded-md bg-slate-100 shadow-2xl dark:bg-slate-900">
       {/* Status and number of users */}
       <ul className="flex flex-wrap justify-around gap-5 p-3">
         {stats.statusDistribution.map((stat) => {

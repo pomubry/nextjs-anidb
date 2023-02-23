@@ -19,18 +19,18 @@ const Watch = (props: PropType) => {
         className="object-cover"
       />
       <div className="absolute bottom-0 w-full bg-slate-900/70 p-2 text-slate-100">
-        <a
-          title={episode.title ?? "Title: N/A"}
-          href={episode.url ?? "#"}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 hover:underline"
-        >
-          <h3 className="flex-[9] truncate text-sm md:text-base">
+        <h3 className="flex items-center text-sm hover:underline md:text-base">
+          <a
+            title={episode.title ?? "Title: N/A"}
+            href={episode.url ?? "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 truncate"
+          >
             {episode.title ?? "Title: N/A"}
-          </h3>
-          <BiLinkExternal className="flex-1 text-lg" />
-        </a>
+          </a>
+          <BiLinkExternal className="text-lg" />
+        </h3>
       </div>
     </li>
   );

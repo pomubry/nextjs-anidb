@@ -17,7 +17,7 @@ const Recommendations = (props: PropType) => {
         const mediaRecommendation = recommendation.mediaRecommendation;
         return (
           <li
-            className="overflow-hidden rounded-md bg-slate-300 dark:bg-slate-900"
+            className="overflow-hidden rounded-md bg-slate-100 dark:bg-slate-900"
             key={mediaRecommendation.id}
           >
             <div className="relative aspect-[1/1.25] w-full object-cover">
@@ -32,15 +32,15 @@ const Recommendations = (props: PropType) => {
               />
             </div>
             <div className="p-2 text-center">
-              <Link
-                href={"/anime/" + mediaRecommendation.id}
-                title={mediaRecommendation.title?.romaji ?? "Title: N/A"}
-                className="inline-block w-full rounded-md p-2 font-semibold text-blue-500 duration-300 hover:bg-blue-400/20 dark:text-blue-300"
-              >
-                <h3 className="line-clamp-4">
+              <h3 className="rounded-md p-2 font-semibold text-blue-500 duration-300 hover:bg-blue-400/20 dark:text-blue-300">
+                <Link
+                  href={"/anime/" + mediaRecommendation.id}
+                  title={mediaRecommendation.title?.romaji ?? "Title: N/A"}
+                  className="line-clamp-4"
+                >
                   {mediaRecommendation.title?.romaji ?? "Title: N/A"}
-                </h3>
-              </Link>
+                </Link>
+              </h3>
             </div>
           </li>
         );

@@ -38,7 +38,6 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
   await queryClient.prefetchQuery({
     queryKey,
     queryFn: async () => {
-      console.log("ssr fetch ran", id);
       return await fetchAnime(id);
     },
   });
@@ -70,7 +69,6 @@ const Anime: NextPage = () => {
     retry: 1,
     queryKey: ["anime", id],
     queryFn: async () => {
-      console.log("useQuery ran", id);
       return fetchAnime(id);
     },
   });

@@ -42,7 +42,7 @@ const RightInfo = (props: PropType) => {
       {/* This component contains 6 parts: 
           Relations, Characters, Staff, StatusDistribution, Watch, Trailer, & Recommendations */}
 
-      {!!anime.relations && (
+      {!!anime.relations?.edges?.length && (
         <>
           <Head2 title="Relations" />
           <CustomBox>
@@ -51,7 +51,7 @@ const RightInfo = (props: PropType) => {
         </>
       )}
 
-      {!!anime.characters && (
+      {!!anime.characters?.edges?.length && (
         <>
           <Head2 title="Characters" />
           <CustomBox>
@@ -60,7 +60,7 @@ const RightInfo = (props: PropType) => {
         </>
       )}
 
-      {!!anime.staff && (
+      {!!anime.staff?.edges?.length && (
         <>
           <Head2 title="Staff" />
           <CustomBox className="sm:grid-cols-[1fr,1fr]">
@@ -69,7 +69,7 @@ const RightInfo = (props: PropType) => {
         </>
       )}
 
-      {!!anime.stats && (
+      {!!anime.stats?.statusDistribution?.length && (
         <>
           <Head2 title="Status Distribution" />
           <StatusDistribution stats={anime.stats} />
@@ -100,7 +100,7 @@ const RightInfo = (props: PropType) => {
         </>
       )}
 
-      {!!anime.recommendations && (
+      {!!anime.recommendations?.nodes?.length && (
         <>
           <Head2 title="Recommendations" />
           <ul className="my-2 grid grid-cols-[1fr,1fr] gap-4 sm:grid-cols-[repeat(3,1fr)] md:grid-cols-[repeat(4,1fr)] lg:grid-cols-[repeat(5,1fr)]">

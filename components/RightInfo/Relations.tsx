@@ -59,7 +59,7 @@ const Relations = (props: PropType) => {
           return (
             <li
               key={anime.id}
-              className="relative flex overflow-hidden rounded-md bg-slate-300 shadow-2xl dark:bg-slate-900 dark:text-slate-200"
+              className="relative flex overflow-hidden rounded-md bg-slate-100 shadow-2xl dark:bg-slate-900 dark:text-slate-200"
             >
               <div className="relative min-h-[150px] flex-[2]">
                 <Image
@@ -76,12 +76,17 @@ const Relations = (props: PropType) => {
                 <p className="mb-2">{cleanString(anime.relationType ?? "")}</p>
 
                 {/tv|movie|ova/i.test(anime.node.format ?? "") ? (
-                  <Link
-                    href={`/anime/${anime.node.id}`}
-                    className="mb-auto hover:underline"
+                  <h3
+                    title={anime.node.title?.romaji ?? "Title: N/A"}
+                    className="mb-auto font-bold text-purple-500 line-clamp-2 dark:text-purple-300"
                   >
-                    <Head3 title={anime.node.title?.romaji ?? "Title: N/A"} />
-                  </Link>
+                    <Link
+                      href={`/anime/${anime.node.id}`}
+                      className="hover:underline"
+                    >
+                      {anime.node.title?.romaji ?? "Title: N/A"}
+                    </Link>
+                  </h3>
                 ) : (
                   <Head3 title={anime.node.title?.romaji ?? "Title: N/A"} />
                 )}

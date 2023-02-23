@@ -12,7 +12,7 @@ const CardAni = (props: PropType) => {
 
   return (
     <li
-      className={`grid grid-cols-[4fr_6fr] grid-rows-[13rem] overflow-hidden rounded-lg shadow-2xl shadow-slate-700 min-[500px]:grid-rows-[17rem]`}
+      className={`grid grid-cols-[4fr_6fr] grid-rows-[13rem] overflow-hidden rounded-lg bg-slate-100 shadow-2xl shadow-slate-700 dark:bg-slate-900 min-[500px]:grid-rows-[17rem]`}
     >
       <CardImg anime={anime} />
       <CardDesc anime={anime} />
