@@ -259,6 +259,7 @@ export const StreamLinksFragment = graphql(`
 // RightInfo
 export const RightInfoFragment = graphql(`
   fragment RightInfoFragment on Media {
+    idMal
     characters(sort: FAVOURITES_DESC) {
       edges {
         id

@@ -1,12 +1,21 @@
+import { useQuery } from "@tanstack/react-query";
 import { FragmentType, useFragment } from "../../lib/gql";
 import { RightInfoFragment } from "../../lib/query/queryAnime";
 import { Head2 } from "../LeftInfo";
 import Relations from "./Relations";
 import Characters from "./Characters";
+import Themes from "./Themes";
 import Staff from "./Staff";
 import StatusDistribution from "./StatusDistribution";
 import Watch from "./Watch";
 import Recommendations from "./Recommendations";
+
+interface MALThemes {
+  data: {
+    openings: string[];
+    endings: string[];
+  };
+}
 
 interface BoxType {
   children: React.ReactNode;
@@ -29,6 +38,18 @@ const CustomBox = ({ children, className }: BoxType) => {
 
 const RightInfo = (props: PropType) => {
   const anime = useFragment(RightInfoFragment, props.anime);
+  const { data } = useQuery({
+    refetchOnWindowFocus: false,
+    retry: 1,
+    queryKey: ["idMal", anime.idMal],
+    queryFn: async () => {
+      console.log("Fetching", anime.idMal);
+      const res = await fetch(
+        `https://api.jikan.moe/v4/anime/${anime.idMal}/themes`
+      );
+      return (await res.json()) as MALThemes;
+    },
+  });
 
   let isNotReversed =
     anime.streamingEpisodes &&
@@ -57,6 +78,20 @@ const RightInfo = (props: PropType) => {
           <CustomBox>
             <Characters characters={anime.characters} />
           </CustomBox>
+        </>
+      )}
+
+      {(!!data?.data.openings.length || !!data?.data.endings.length) && (
+        <>
+          <Head2 title="Themes" />
+          <div className="mb-10 flex gap-3">
+            {!!data.data.openings.length && (
+              <Themes themes={data.data.openings} heading="Openings" />
+            )}
+            {!!data.data.endings.length && (
+              <Themes themes={data.data.endings} heading="Endings" />
+            )}
+          </div>
         </>
       )}
 
