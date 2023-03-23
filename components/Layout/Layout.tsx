@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex min-h-screen flex-col justify-between bg-slate-400/60 text-slate-800 transition dark:bg-slate-900/[.95] dark:text-slate-200">
+      <div className="flex min-h-screen flex-col justify-between bg-slate-200 text-slate-800 transition dark:bg-slate-800 dark:text-slate-200">
         <Nav />
 
         <main>{children}</main>

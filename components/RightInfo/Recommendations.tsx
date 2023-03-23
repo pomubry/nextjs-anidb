@@ -17,7 +17,7 @@ const Recommendations = (props: PropType) => {
         const mediaRecommendation = recommendation.mediaRecommendation;
         return (
           <li
-            className="overflow-hidden rounded-md bg-slate-100 dark:bg-slate-900"
+            className="overflow-hidden rounded-md bg-slate-100 shadow-xl dark:bg-slate-900"
             key={mediaRecommendation.id}
           >
             <div className="relative aspect-[1/1.25] w-full object-cover">
@@ -36,7 +36,7 @@ const Recommendations = (props: PropType) => {
                 <Link
                   href={"/anime/" + mediaRecommendation.id}
                   title={mediaRecommendation.title?.romaji ?? "Title: N/A"}
-                  className="line-clamp-4"
+                  className="break-words line-clamp-4"
                 >
                   {mediaRecommendation.title?.romaji ?? "Title: N/A"}
                 </Link>

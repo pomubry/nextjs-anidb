@@ -176,7 +176,7 @@ const Home: NextPage<PageProp> = ({ dehydratedState }) => {
       </Head>
 
       <div className="mx-auto max-w-6xl p-3 pb-9 dark:text-slate-200">
-        <h1 className="text-4xl font-bold">NextAni Database</h1>
+        <h1 className="text-4xl font-bold duration-300">NextAni Database</h1>
         <SearchForm queryProp={{ ...data.variables }} />
 
         <ul

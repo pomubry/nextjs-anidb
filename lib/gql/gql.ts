@@ -31,6 +31,12 @@ const documents = {
     "\n  fragment AnimeFragment on Media {\n    id\n    title {\n      romaji\n    }\n    coverImage {\n      extraLarge\n      color\n    }\n    description\n    episodes\n    format\n    genres\n    nextAiringEpisode {\n      id\n    }\n    season\n    seasonYear\n    studios(isMain: true) {\n      edges {\n        node {\n          name\n          isAnimationStudio\n        }\n      }\n    }\n    trending\n    ...CardImageFragment\n    ...CardDescFragment\n  }\n": types.AnimeFragmentFragmentDoc,
     "\n  fragment CardImageFragment on Media {\n    id\n    title {\n      romaji\n    }\n    coverImage {\n      extraLarge\n      color\n    }\n    studios(isMain: true) {\n      edges {\n        node {\n          name\n          isAnimationStudio\n        }\n      }\n    }\n  }\n": types.CardImageFragmentFragmentDoc,
     "\n  fragment CardDescFragment on Media {\n    id\n    description\n    episodes\n    format\n    genres\n    season\n    seasonYear\n    trending\n  }\n": types.CardDescFragmentFragmentDoc,
+    "\n  query queryStaff(\n    $id: Int\n    $sort: [MediaSort]\n    $characterPage: Int\n    $staffPage: Int\n  ) {\n    Staff(id: $id) {\n      ...VAHeaderFragment\n      id\n      description\n      name {\n        full\n      }\n      characterMedia(page: $characterPage, sort: $sort) {\n        ...VACharactersFragment\n      }\n      staffMedia(page: $staffPage, sort: $sort) {\n        ...VAStaffRolesFragment\n      }\n    }\n  }\n": types.QueryStaffDocument,
+    "\n  fragment VAHeaderFragment on Staff {\n    age\n    bloodType\n    dateOfBirth {\n      year\n      month\n      day\n    }\n    dateOfDeath {\n      year\n      month\n      day\n    }\n    description\n    gender\n    homeTown\n    image {\n      large\n    }\n    name {\n      full\n      native\n      alternative\n    }\n    yearsActive\n  }\n": types.VaHeaderFragmentFragmentDoc,
+    "\n  fragment VACharactersFragment on MediaConnection {\n    pageInfo {\n      total\n      currentPage\n      hasNextPage\n    }\n    edges {\n      ...CharacterEdgeFragment\n      id\n      node {\n        startDate {\n          year\n        }\n      }\n    }\n  }\n": types.VaCharactersFragmentFragmentDoc,
+    "\n  fragment VAStaffRolesFragment on MediaConnection {\n    pageInfo {\n      total\n      currentPage\n      hasNextPage\n    }\n    edges {\n      ...RoleEdgeFragment\n      id\n      node {\n        startDate {\n          year\n        }\n      }\n    }\n  }\n": types.VaStaffRolesFragmentFragmentDoc,
+    "\n  fragment CharacterEdgeFragment on MediaEdge {\n    id\n    characterRole\n    characters {\n      image {\n        large\n      }\n      name {\n        full\n      }\n    }\n    node {\n      id\n      coverImage {\n        large\n      }\n      title {\n        romaji\n      }\n      type\n    }\n  }\n": types.CharacterEdgeFragmentFragmentDoc,
+    "\n  fragment RoleEdgeFragment on MediaEdge {\n    node {\n      id\n      coverImage {\n        large\n      }\n      title {\n        romaji\n      }\n      type\n    }\n    staffRole\n  }\n": types.RoleEdgeFragmentFragmentDoc,
 };
 
 /**
@@ -119,6 +125,30 @@ export function graphql(source: "\n  fragment CardImageFragment on Media {\n    
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  fragment CardDescFragment on Media {\n    id\n    description\n    episodes\n    format\n    genres\n    season\n    seasonYear\n    trending\n  }\n"): (typeof documents)["\n  fragment CardDescFragment on Media {\n    id\n    description\n    episodes\n    format\n    genres\n    season\n    seasonYear\n    trending\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query queryStaff(\n    $id: Int\n    $sort: [MediaSort]\n    $characterPage: Int\n    $staffPage: Int\n  ) {\n    Staff(id: $id) {\n      ...VAHeaderFragment\n      id\n      description\n      name {\n        full\n      }\n      characterMedia(page: $characterPage, sort: $sort) {\n        ...VACharactersFragment\n      }\n      staffMedia(page: $staffPage, sort: $sort) {\n        ...VAStaffRolesFragment\n      }\n    }\n  }\n"): (typeof documents)["\n  query queryStaff(\n    $id: Int\n    $sort: [MediaSort]\n    $characterPage: Int\n    $staffPage: Int\n  ) {\n    Staff(id: $id) {\n      ...VAHeaderFragment\n      id\n      description\n      name {\n        full\n      }\n      characterMedia(page: $characterPage, sort: $sort) {\n        ...VACharactersFragment\n      }\n      staffMedia(page: $staffPage, sort: $sort) {\n        ...VAStaffRolesFragment\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  fragment VAHeaderFragment on Staff {\n    age\n    bloodType\n    dateOfBirth {\n      year\n      month\n      day\n    }\n    dateOfDeath {\n      year\n      month\n      day\n    }\n    description\n    gender\n    homeTown\n    image {\n      large\n    }\n    name {\n      full\n      native\n      alternative\n    }\n    yearsActive\n  }\n"): (typeof documents)["\n  fragment VAHeaderFragment on Staff {\n    age\n    bloodType\n    dateOfBirth {\n      year\n      month\n      day\n    }\n    dateOfDeath {\n      year\n      month\n      day\n    }\n    description\n    gender\n    homeTown\n    image {\n      large\n    }\n    name {\n      full\n      native\n      alternative\n    }\n    yearsActive\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  fragment VACharactersFragment on MediaConnection {\n    pageInfo {\n      total\n      currentPage\n      hasNextPage\n    }\n    edges {\n      ...CharacterEdgeFragment\n      id\n      node {\n        startDate {\n          year\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  fragment VACharactersFragment on MediaConnection {\n    pageInfo {\n      total\n      currentPage\n      hasNextPage\n    }\n    edges {\n      ...CharacterEdgeFragment\n      id\n      node {\n        startDate {\n          year\n        }\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  fragment VAStaffRolesFragment on MediaConnection {\n    pageInfo {\n      total\n      currentPage\n      hasNextPage\n    }\n    edges {\n      ...RoleEdgeFragment\n      id\n      node {\n        startDate {\n          year\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  fragment VAStaffRolesFragment on MediaConnection {\n    pageInfo {\n      total\n      currentPage\n      hasNextPage\n    }\n    edges {\n      ...RoleEdgeFragment\n      id\n      node {\n        startDate {\n          year\n        }\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  fragment CharacterEdgeFragment on MediaEdge {\n    id\n    characterRole\n    characters {\n      image {\n        large\n      }\n      name {\n        full\n      }\n    }\n    node {\n      id\n      coverImage {\n        large\n      }\n      title {\n        romaji\n      }\n      type\n    }\n  }\n"): (typeof documents)["\n  fragment CharacterEdgeFragment on MediaEdge {\n    id\n    characterRole\n    characters {\n      image {\n        large\n      }\n      name {\n        full\n      }\n    }\n    node {\n      id\n      coverImage {\n        large\n      }\n      title {\n        romaji\n      }\n      type\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  fragment RoleEdgeFragment on MediaEdge {\n    node {\n      id\n      coverImage {\n        large\n      }\n      title {\n        romaji\n      }\n      type\n    }\n    staffRole\n  }\n"): (typeof documents)["\n  fragment RoleEdgeFragment on MediaEdge {\n    node {\n      id\n      coverImage {\n        large\n      }\n      title {\n        romaji\n      }\n      type\n    }\n    staffRole\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

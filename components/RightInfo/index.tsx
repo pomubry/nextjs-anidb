@@ -43,7 +43,6 @@ const RightInfo = (props: PropType) => {
     retry: 1,
     queryKey: ["idMal", anime.idMal],
     queryFn: async () => {
-      console.log("Fetching", anime.idMal);
       const res = await fetch(
         `https://api.jikan.moe/v4/anime/${anime.idMal}/themes`
       );
@@ -59,30 +58,30 @@ const RightInfo = (props: PropType) => {
     : anime.streamingEpisodes?.reverse();
 
   return (
-    <div>
+    <>
       {/* This component contains 6 parts: 
           Relations, Characters, Staff, StatusDistribution, Watch, Trailer, & Recommendations */}
 
       {!!anime.relations?.edges?.length && (
-        <>
+        <section>
           <Head2 title="Relations" />
           <CustomBox>
             <Relations relations={anime.relations} />
           </CustomBox>
-        </>
+        </section>
       )}
 
       {!!anime.characters?.edges?.length && (
-        <>
+        <section>
           <Head2 title="Characters" />
           <CustomBox>
             <Characters characters={anime.characters} />
           </CustomBox>
-        </>
+        </section>
       )}
 
       {(!!data?.data.openings.length || !!data?.data.endings.length) && (
-        <>
+        <section>
           <Head2 title="Themes" />
           <div className="mb-10 flex gap-3">
             {!!data.data.openings.length && (
@@ -92,27 +91,27 @@ const RightInfo = (props: PropType) => {
               <Themes themes={data.data.endings} heading="Endings" />
             )}
           </div>
-        </>
+        </section>
       )}
 
       {!!anime.staff?.edges?.length && (
-        <>
+        <section>
           <Head2 title="Staff" />
           <CustomBox className="sm:grid-cols-[1fr,1fr]">
             <Staff staff={anime.staff} />
           </CustomBox>
-        </>
+        </section>
       )}
 
       {!!anime.stats?.statusDistribution?.length && (
-        <>
+        <section>
           <Head2 title="Status Distribution" />
           <StatusDistribution stats={anime.stats} />
-        </>
+        </section>
       )}
 
       {!!sortedEpisodes?.length && (
-        <>
+        <section>
           <Head2 title="Watch" />
           <ul className="my-2 mb-10 grid max-h-[400px] grid-cols-2 gap-2 overflow-y-scroll md:max-h-[600px]">
             {sortedEpisodes.map((episode) => {
@@ -120,11 +119,11 @@ const RightInfo = (props: PropType) => {
               return <Watch episode={episode} key={episode.url} />;
             })}
           </ul>
-        </>
+        </section>
       )}
 
       {anime.trailer?.site === "youtube" && (
-        <>
+        <section>
           <Head2 title="Trailer" />
           <iframe
             src={`https://www.${anime.trailer.site}.com/embed/${anime.trailer.id}`}
@@ -132,18 +131,18 @@ const RightInfo = (props: PropType) => {
             allowFullScreen
             className="mb-10 aspect-video w-full"
           ></iframe>
-        </>
+        </section>
       )}
 
       {!!anime.recommendations?.nodes?.length && (
-        <>
+        <section>
           <Head2 title="Recommendations" />
           <ul className="my-2 grid grid-cols-[1fr,1fr] gap-4 sm:grid-cols-[repeat(3,1fr)] md:grid-cols-[repeat(4,1fr)] lg:grid-cols-[repeat(5,1fr)]">
             <Recommendations rec={anime.recommendations} />
           </ul>
-        </>
+        </section>
       )}
-    </div>
+    </>
   );
 };
 

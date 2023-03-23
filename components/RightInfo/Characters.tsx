@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import ExpandButton from "../ExpandButton";
 import { FragmentType, useFragment } from "../../lib/gql";
 import { CharactersFragment } from "../../lib/query/queryAnime";
@@ -27,7 +28,7 @@ const Characters = (props: PropType) => {
               edge.id ??
               `${edge.node.id}-${edge.voiceActors && edge.voiceActors[0]?.id}`
             }
-            className="grid min-h-[7rem] grid-cols-[1fr,1fr] overflow-hidden rounded-md bg-slate-100 text-sm shadow-2xl dark:bg-slate-900 md:text-xs lg:text-sm"
+            className="grid min-h-[7rem] grid-cols-[1fr,1fr] overflow-hidden rounded-md bg-slate-100 text-sm shadow-xl dark:bg-slate-900 md:text-xs lg:text-sm"
           >
             {/* Anime character on the left */}
             <div className="grid grid-cols-[1fr,2fr] gap-1">
@@ -61,7 +62,12 @@ const Characters = (props: PropType) => {
               <div className="grid grid-cols-[2fr,1fr] gap-1">
                 <div className="flex flex-col p-1 text-end">
                   <h3 className="flex-1 text-blue-500 dark:text-blue-300">
-                    {edge.voiceActors[0].name?.full || "N/A"}
+                    <Link
+                      href={`/va/${edge.voiceActors[0].id}`}
+                      className="hover:underline"
+                    >
+                      {edge.voiceActors[0].name?.full || "N/A"}
+                    </Link>
                   </h3>
                   <p>JAPANESE</p>
                 </div>
