@@ -8,21 +8,20 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { ClientError } from "graphql-request";
+
 import VAHeader from "../../components/va/VAHeader";
 import VACharacters from "../../components/va/VACharacters";
+import VAStaffRoles from "../../components/va/VAStaffRoles";
+
 import {
+  cleanStaffQuery,
   fetchStaff,
   staffSchema,
-  staffSchemaType,
 } from "../../lib/query/queryVoiceActor";
-import { getEntries } from "../../lib/utils";
-import VAStaffRoles from "../../components/va/VAStaffRoles";
 
 interface GSSP {
   dehydratedState: DehydratedState;
 }
-
-type cleanQueryType = Partial<Omit<staffSchemaType, "id">>;
 
 export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
   const res = staffSchema.safeParse(context.query);
@@ -37,23 +36,19 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
     };
   }
 
-  const cleanQuery = getEntries(res.data).reduce((acc, cur) => {
-    const [key, value] = cur;
-    if (key === "id" || value === 1) return acc;
-    return { ...acc, [key]: value };
-  }, {} as cleanQueryType);
+  const cleanQuery = cleanStaffQuery(res.data);
 
   const redirect =
     // Redirect if there's a difference between `context.query` and `cleanQuery`
     // i.e. ?charPage=3&charPage=4 will redirect to ?charPage=3
-    getEntries(cleanQuery).some((a) => {
-      if (!a) return false;
-      const [key, value] = a;
+    Object.entries(cleanQuery).some((entry) => {
+      const [key, value] = entry;
       const queryValue = context.query[key];
-      return queryValue !== value?.toString();
+      return queryValue !== value.toString();
     }) ||
     // Redirect if there are excessive/irrelevant queries
     // i.e. for this page, we only need `cp`, `sp`,
+    // -1 is for [id] query
     Object.keys(context.query).length - 1 !== Object.keys(cleanQuery).length;
 
   if (redirect) {

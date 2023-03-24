@@ -160,6 +160,11 @@ export const staffSchema = z.object({
 
 export type staffSchemaType = z.infer<typeof staffSchema>;
 
+export const cleanStaffQuery = (query: staffSchemaType) => ({
+  ...(query.cp > 1 && { cp: query.cp }),
+  ...(query.sp > 1 && { sp: query.sp }),
+});
+
 export const fetchStaff = async (query: staffSchemaType) => {
   const data = await request("https://graphql.anilist.co", queryStaff, {
     id: query.id,

@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { cleanStaffQuery, staffSchema } from "./query/queryVoiceActor";
 
 type Entries<T> = {
   [K in keyof T]: [K, T[K]];
@@ -17,14 +18,15 @@ export const useVAPageQuery = () => {
   const router = useRouter();
 
   const handleQuery = ({ cmd, query, currentPage }: QueryHandlerType) => {
-    const { id, ...restQueries } = router.query;
+    const res = staffSchema.parse(router.query);
+    res[query] = cmd === "NEXT" ? currentPage + 1 : currentPage - 1;
+
+    const cleanQuery = cleanStaffQuery(res);
+
     router.push(
       {
-        pathname: `/va/${id}`,
-        query: {
-          ...restQueries,
-          [query]: cmd === "NEXT" ? currentPage + 1 : currentPage - 1,
-        },
+        pathname: `/va/${res.id}`,
+        query: cleanQuery,
       },
       undefined,
       { shallow: true }
