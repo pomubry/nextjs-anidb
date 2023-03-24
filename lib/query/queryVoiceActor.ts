@@ -134,28 +134,30 @@ export const RoleEdgeFragment = graphql(`
   }
 `);
 
+const numberSchema = z.coerce.number().positive();
+
 export const staffSchema = z.object({
-  id: z.coerce.number().positive(),
-  cp: z.coerce
-    .number()
-    .positive()
-    .catch((e) => {
-      if (Array.isArray(e.input)) {
-        return z.coerce.number().catch(1).parse(e.input[0]);
-      } else {
-        return 1;
-      }
-    }),
-  sp: z.coerce
-    .number()
-    .positive()
-    .catch((e) => {
-      if (Array.isArray(e.input)) {
-        return z.coerce.number().catch(1).parse(e.input[0]);
-      } else {
-        return 1;
-      }
-    }),
+  id: numberSchema,
+  cp: numberSchema.catch((e) => {
+    if (Array.isArray(e.input)) {
+      const res = (e.input as string[]).find(
+        (input) => numberSchema.safeParse(input).success
+      );
+      return res ? +res : 1;
+    } else {
+      return 1;
+    }
+  }),
+  sp: numberSchema.catch((e) => {
+    if (Array.isArray(e.input)) {
+      const res = (e.input as string[]).find(
+        (input) => numberSchema.safeParse(input).success
+      );
+      return res ? +res : 1;
+    } else {
+      return 1;
+    }
+  }),
 });
 
 export type staffSchemaType = z.infer<typeof staffSchema>;

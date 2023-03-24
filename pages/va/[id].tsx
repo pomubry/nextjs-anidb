@@ -39,8 +39,8 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
   const cleanQuery = cleanStaffQuery(res.data);
 
   const redirect =
-    // Redirect if there's a difference between `context.query` and `cleanQuery`
-    // i.e. ?charPage=3&charPage=4 will redirect to ?charPage=3
+    // Redirect if there's a difference between `context.query` and `cleanQuery` (means there's a wrong query)
+    // i.e. ?cp=abc will redirect to ?cp=1
     Object.entries(cleanQuery).some((entry) => {
       const [key, value] = entry;
       const queryValue = context.query[key];
@@ -48,6 +48,7 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
     }) ||
     // Redirect if there are excessive/irrelevant queries
     // i.e. for this page, we only need `cp`, `sp`,
+    // i.e. ?cp=abc&cp=4&random=query will redirect to ?cp=4
     // -1 is for [id] query
     Object.keys(context.query).length - 1 !== Object.keys(cleanQuery).length;
 
