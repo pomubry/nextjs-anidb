@@ -30,8 +30,8 @@ const Tag = ({ tag, tagValue }: TagType) => {
   if (tagValue.length === 0) return null;
 
   return (
-    <p className="text-sm">
-      <span className="font-extrabold">{tag}:</span> {tagValue}
+    <p>
+      <strong className="font-extrabold">{tag}:</strong> {tagValue}
     </p>
   );
 };
@@ -82,7 +82,11 @@ const VAHeader = (props: PropType) => {
         <div className="order-1 text-center md:order-2 md:text-left">
           <h1 className="text-2xl font-bold">{staff.name?.full}</h1>
           <p className="mt-3 text-sm">
-            {staff.name?.native ? staff.name.native + ", " : ""}
+            {staff.name?.native && alternativeNames
+              ? staff.name.native + ", "
+              : staff.name?.native
+              ? staff.name.native
+              : ""}
             {alternativeNames}
           </p>
         </div>
@@ -90,8 +94,8 @@ const VAHeader = (props: PropType) => {
 
       <div className="gap-5 p-5 md:grid md:grid-cols-[1fr_2fr]">
         <div></div>
-        <div className="flex flex-col gap-3">
-          <div className="mb-3">
+        <div>
+          <div className="">
             <Tag tag="Birth" tagValue={dateOfBirth} />
             <Tag tag="Death" tagValue={dateOfDeath} />
             <Tag tag="Age" tagValue={staff.age?.toString() || ""} />
@@ -101,6 +105,7 @@ const VAHeader = (props: PropType) => {
             <Tag tag="Years Active" tagValue={yearsActive} />
           </div>
           <ReactMarkdown
+            className="flex flex-col gap-3"
             components={{
               a: ({ node, ...props }) => (
                 <a
@@ -109,6 +114,12 @@ const VAHeader = (props: PropType) => {
                   className="text-blue-600 hover:underline dark:text-blue-300"
                   {...props}
                 />
+              ),
+              p: ({ node, ...props }) => (
+                <p className="whitespace-pre-wrap" {...props} />
+              ),
+              strong: ({ node, ...props }) => (
+                <strong className="font-extrabold" {...props} />
               ),
             }}
           >

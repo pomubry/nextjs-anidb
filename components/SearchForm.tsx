@@ -1,7 +1,11 @@
-import { useRouter } from "next/router";
 import React, { FormEventHandler } from "react";
+import { useRouter } from "next/router";
 import { BiSearchAlt } from "react-icons/bi";
-import { QueryHomePageQueryVariables } from "../lib/gql/graphql";
+import {
+  cleanHomeQuery,
+  homeSchema,
+  homeSchemaType,
+} from "../lib/query/queryHome";
 
 const YearList = () => {
   let arr = [
@@ -23,28 +27,26 @@ const YearList = () => {
 };
 
 interface PropType {
-  queryProp?: QueryHomePageQueryVariables;
+  query: homeSchemaType;
 }
 
-const SearchForm = ({ queryProp = {} }: PropType) => {
+const SearchForm = ({ query }: PropType) => {
   const router = useRouter();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const query = Object.fromEntries(
-      formData.entries()
-    ) as QueryHomePageQueryVariables;
+    const query = Object.fromEntries(formData.entries());
 
-    if (query["search"]!.length < 1) {
-      delete query["search"];
-    }
+    const res = homeSchema.parse(query);
+    res.pg = 1;
+    const cleanQuery = cleanHomeQuery(res);
 
     router.push(
       {
         pathname: "/",
-        query: { ...query, page: 1 },
+        query: cleanQuery,
       },
       undefined,
       { shallow: true }
@@ -52,10 +54,7 @@ const SearchForm = ({ queryProp = {} }: PropType) => {
   };
 
   return (
-    <section
-      className="mt-5 dark:text-slate-200"
-      key={JSON.stringify(queryProp)}
-    >
+    <section className="mt-5 dark:text-slate-200" key={JSON.stringify(query)}>
       <h2>Search Anime</h2>
       <form
         onSubmit={handleSubmit}
@@ -67,8 +66,8 @@ const SearchForm = ({ queryProp = {} }: PropType) => {
           </button>
           <input
             type="search"
-            name="search"
-            defaultValue={queryProp.search || ""}
+            name="sr"
+            defaultValue={query.sr || ""}
             placeholder="Summer Time Rendering"
             className="w-full border-l-2 border-slate-900 bg-inherit indent-2 placeholder:text-slate-600 focus-visible:outline-none dark:border-slate-300 dark:placeholder:text-slate-400"
           />
@@ -76,9 +75,9 @@ const SearchForm = ({ queryProp = {} }: PropType) => {
 
         <div className="ml-auto flex gap-5 ">
           <select
-            name="season"
+            name="ss"
             placeholder="Pick Season"
-            defaultValue={queryProp.season || "ALL"}
+            defaultValue={query.ss || "ALL"}
             className="cursor-pointer rounded-md border-2 border-slate-800 bg-inherit py-2 px-4 dark:border-purple-300"
           >
             <option value="ALL">All</option>
@@ -101,9 +100,9 @@ const SearchForm = ({ queryProp = {} }: PropType) => {
           </select>
 
           <select
-            name="seasonYear"
+            name="yr"
             placeholder="Pick Year"
-            defaultValue={queryProp.seasonYear || "ALL"}
+            defaultValue={query.yr || "ALL"}
             className="cursor-pointer rounded-md border-2 border-slate-800 bg-inherit py-2 px-4 dark:border-purple-300"
           >
             <YearList />

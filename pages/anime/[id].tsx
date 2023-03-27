@@ -129,14 +129,13 @@ const Anime: NextPage = () => {
       <CardHeaderId anime={data.anime} />
 
       <div
-        className={`mx-auto max-w-6xl px-5 ${
+        className={`mx-auto max-w-7xl px-5 ${
           isPreviousData ? "select-none opacity-50" : "select-auto opacity-100"
         }`}
       >
-        <SearchForm />
+        <SearchForm query={{ ss: "ALL", yr: "ALL", pg: 1, sr: "" }} />
 
         <div className="mt-10 gap-10 sm:flex">
-          {/* xs should be grid area stuff; currently at `auto` */}
           <div className="flex-1">
             <LeftInfo anime={data.anime} />
           </div>

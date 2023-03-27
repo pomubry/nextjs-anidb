@@ -162,7 +162,7 @@ const VoiceActor: NextPage = () => {
       <VAHeader staff={staff} />
 
       <div
-        className={`container mx-auto my-10 px-5 ${
+        className={`container mx-auto my-10 flex flex-col gap-20 px-5 ${
           isPreviousData && "opacity-50"
         }`}
       >

@@ -25,7 +25,7 @@ const CardHeaderId = (props: PropType) => {
             />
           </div>
         )}
-        <div className="mx-auto mt-5 max-w-6xl">
+        <div className="mx-auto mt-5 max-w-7xl">
           <div className="relative grid grid-cols-[1fr] grid-rows-[auto,auto] gap-5 p-5 sm:grid-cols-[1fr,1fr] sm:grid-rows-[auto] md:grid-cols-[1fr,2fr]">
             <Image
               src={anime.coverImage?.extraLarge!}

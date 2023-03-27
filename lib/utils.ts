@@ -1,12 +1,6 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { cleanStaffQuery, staffSchema } from "./query/queryVoiceActor";
-
-type Entries<T> = {
-  [K in keyof T]: [K, T[K]];
-}[keyof T][];
-
-export const getEntries = <T extends object>(obj: T) =>
-  Object.entries(obj) as Entries<T>;
 
 export interface QueryHandlerType {
   cmd: "PREVIOUS" | "NEXT";
@@ -34,4 +28,15 @@ export const useVAPageQuery = () => {
   };
 
   return handleQuery;
+};
+
+export const useExpander = ({ maxNumber }: { maxNumber: number }) => {
+  const [expanded, setExpanded] = useState(false);
+  const handleExpand = () => setExpanded((prev) => !prev);
+
+  return {
+    sliceEnd: expanded ? undefined : maxNumber,
+    expanded,
+    handleExpand,
+  };
 };

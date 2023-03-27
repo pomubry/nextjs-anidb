@@ -3,7 +3,7 @@ import Link from "next/link";
 import ExpandButton from "../ExpandButton";
 import { FragmentType, useFragment } from "../../lib/gql";
 import { CharactersFragment } from "../../lib/query/queryAnime";
-import useExpander from "../../lib/useExpander";
+import { useExpander } from "../../lib/utils";
 
 interface PropType {
   characters: FragmentType<typeof CharactersFragment>;

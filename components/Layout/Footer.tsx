@@ -3,7 +3,7 @@ import footerLinks from "../../lib/links/footerLinks";
 
 const Footer = () => {
   return (
-    <footer className="mt-5 bg-slate-400 text-slate-800 transition dark:bg-slate-900 dark:text-slate-200">
+    <footer className="mt-5 bg-slate-300 text-slate-800 transition dark:bg-slate-900 dark:text-slate-200">
       <div className="mx-auto grid max-w-6xl grid-cols-[1fr] items-center gap-10 p-3 min-[650px]:grid-cols-[repeat(2,1fr)]">
         <div>
           <div className="flex items-center">

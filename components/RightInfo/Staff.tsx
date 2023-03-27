@@ -2,7 +2,7 @@ import Image from "next/image";
 import ExpandButton from "../ExpandButton";
 import { FragmentType, useFragment } from "../../lib/gql";
 import { StaffFragment } from "../../lib/query/queryAnime";
-import useExpander from "../../lib/useExpander";
+import { useExpander } from "../../lib/utils";
 
 interface PropType {
   staff: FragmentType<typeof StaffFragment>;

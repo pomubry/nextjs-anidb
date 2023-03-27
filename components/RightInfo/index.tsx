@@ -1,6 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { FragmentType, useFragment } from "../../lib/gql";
-import { RightInfoFragment } from "../../lib/query/queryAnime";
 import { Head2 } from "../LeftInfo";
 import Relations from "./Relations";
 import Characters from "./Characters";
@@ -9,6 +7,9 @@ import Staff from "./Staff";
 import StatusDistribution from "./StatusDistribution";
 import Watch from "./Watch";
 import Recommendations from "./Recommendations";
+
+import { FragmentType, useFragment } from "../../lib/gql";
+import { RightInfoFragment } from "../../lib/query/queryAnime";
 
 interface MALThemes {
   data: {
