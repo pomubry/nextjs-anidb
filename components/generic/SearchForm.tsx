@@ -5,7 +5,7 @@ import {
   cleanHomeQuery,
   homeSchema,
   homeSchemaType,
-} from "../lib/query/queryHome";
+} from "../../lib/query/queryHome";
 
 const YearList = () => {
   let arr = [

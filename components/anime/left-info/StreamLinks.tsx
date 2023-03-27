@@ -1,5 +1,5 @@
-import { FragmentType, useFragment } from "../../lib/gql";
-import { StreamLinksFragment } from "../../lib/query/queryAnime";
+import { FragmentType, useFragment } from "../../../lib/gql";
+import { StreamLinksFragment } from "../../../lib/query/queryAnime";
 
 interface PropType {
   link: FragmentType<typeof StreamLinksFragment>;
@@ -30,7 +30,7 @@ const StreamLinks = (props: PropType) => {
   return !!link.url ? (
     <li
       key={link.url}
-      className={`my-2 list-none rounded-md text-center font-bold duration-200 ${bgColor(
+      className={`my-2 list-none rounded-md text-center font-bold shadow-xl duration-200 ${bgColor(
         link.site
       )}`}
     >

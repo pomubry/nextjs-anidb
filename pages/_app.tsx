@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
-import Layout from "../components/Layout/Layout";
-import "../styles/globals.css";
 import {
   QueryClient,
   QueryClientProvider,
@@ -9,6 +7,8 @@ import {
   DehydratedState,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Layout from "../components/layout/Layout";
+import "../styles/globals.css";
 
 export const getInitialTheme = () => {
   if (

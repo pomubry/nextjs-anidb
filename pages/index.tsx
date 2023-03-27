@@ -15,9 +15,9 @@ import type { ClientError } from "graphql-request";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { URLSearchParams } from "url";
 
-import CardAni from "../components/CardAni";
-import Pagination from "../components/Pagination";
-import SearchForm from "../components/SearchForm";
+import CardAni from "../components/homepage/CardAni";
+import Pagination from "../components/homepage/Pagination";
+import SearchForm from "../components/generic/SearchForm";
 
 import {
   cleanHomeQuery,
@@ -189,7 +189,7 @@ const Home: NextPage<PageProp> = () => {
         <title>NextAni Database</title>
       </Head>
 
-      <div className="mx-auto max-w-7xl p-3 pb-9 dark:text-slate-200">
+      <div className="mx-auto max-w-7xl p-3 pb-9">
         <h1 className="text-4xl font-bold duration-300">NextAni Database</h1>
         <SearchForm query={queryKey} />
 

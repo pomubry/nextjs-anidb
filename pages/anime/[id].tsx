@@ -9,10 +9,10 @@ import {
 import { useRouter } from "next/router";
 import { ClientError } from "graphql-request";
 
-import CardHeaderId from "../../components/CardHeaderId";
-import LeftInfo from "../../components/LeftInfo";
-import RightInfo from "../../components/RightInfo";
-import SearchForm from "../../components/SearchForm";
+import AnimeHeader from "../../components/anime/AnimeHeader";
+import LeftInfo from "../../components/anime/left-info";
+import RightInfo from "../../components/anime/right-info";
+import SearchForm from "../../components/generic/SearchForm";
 
 import { fetchAnime } from "../../lib/query/queryAnime";
 
@@ -126,7 +126,7 @@ const Anime: NextPage = () => {
         <title>{title}NextAni</title>
       </Head>
 
-      <CardHeaderId anime={data.anime} />
+      <AnimeHeader anime={data.anime} />
 
       <div
         className={`mx-auto max-w-7xl px-5 ${

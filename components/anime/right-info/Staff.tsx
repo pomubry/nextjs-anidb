@@ -1,8 +1,8 @@
 import Image from "next/image";
-import ExpandButton from "../ExpandButton";
-import { FragmentType, useFragment } from "../../lib/gql";
-import { StaffFragment } from "../../lib/query/queryAnime";
-import { useExpander } from "../../lib/utils";
+import ExpandButton from "./ExpandButton";
+import { FragmentType, useFragment } from "../../../lib/gql";
+import { StaffFragment } from "../../../lib/query/queryAnime";
+import { useExpander } from "../../../lib/utils";
 
 interface PropType {
   staff: FragmentType<typeof StaffFragment>;
@@ -20,7 +20,7 @@ const Staff = (props: PropType) => {
         if (!obj || !obj.node) return null;
         return (
           <li
-            className="flex h-[110px] overflow-hidden rounded-md bg-slate-100 text-sm shadow-2xl dark:bg-slate-900 md:text-base"
+            className="flex h-[110px] overflow-hidden rounded-md bg-slate-100 text-sm shadow-xl dark:bg-slate-900 md:text-base"
             key={obj.id ?? `${obj.node.id}-${obj.role}`}
           >
             <div className="relative max-w-[130px] flex-[2]">

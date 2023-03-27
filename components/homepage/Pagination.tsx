@@ -1,4 +1,4 @@
-import { PageInfo } from "../lib/gql/graphql";
+import { PageInfo } from "../../lib/gql/graphql";
 
 interface BtnType {
   pageNum: number;
@@ -18,8 +18,8 @@ const Pagination = ({ currentPage, setPage, lastPage }: PropType) => {
       disabled={currentPage === pageNum}
       className={`h-8 w-8 overflow-ellipsis rounded-full text-xs duration-300 sm:h-10 sm:w-10 sm:text-sm ${
         currentPage === pageNum
-          ? "bg-purple-600 text-slate-300 dark:bg-purple-300 dark:text-slate-800"
-          : "border-2 border-purple-400 text-slate-800 hover:bg-purple-400 dark:text-slate-300 hover:dark:text-slate-800"
+          ? "bg-blue-300 text-slate-900"
+          : "hover:bg-blue-400 hover:text-slate-900"
       }`}
     >
       {pageNum}

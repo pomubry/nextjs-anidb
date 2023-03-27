@@ -1,5 +1,5 @@
-import { FragmentType, useFragment } from "../../lib/gql";
-import { TagsFragment } from "../../lib/query/queryAnime";
+import { FragmentType, useFragment } from "../../../lib/gql";
+import { TagsFragment } from "../../../lib/query/queryAnime";
 
 interface PropType {
   tags: FragmentType<typeof TagsFragment>;

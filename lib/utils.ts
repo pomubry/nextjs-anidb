@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { cleanStaffQuery, staffSchema } from "./query/queryVoiceActor";
 
-export interface QueryHandlerType {
+interface QueryHandlerType {
   cmd: "PREVIOUS" | "NEXT";
   query: "cp" | "sp";
   currentPage: number;

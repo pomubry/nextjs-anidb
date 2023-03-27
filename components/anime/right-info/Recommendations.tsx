@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FragmentType, useFragment } from "../../lib/gql";
-import { RecommendationsFragment } from "../../lib/query/queryAnime";
+import { FragmentType, useFragment } from "../../../lib/gql";
+import { RecommendationsFragment } from "../../../lib/query/queryAnime";
 
 interface PropType {
   rec: FragmentType<typeof RecommendationsFragment>;

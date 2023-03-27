@@ -1,13 +1,13 @@
 import Image from "next/image";
 import parse from "html-react-parser";
-import { FragmentType, useFragment } from "../lib/gql";
-import { CardHeadIdFragment } from "../lib/query/queryAnime";
+import { FragmentType, useFragment } from "../../lib/gql";
+import { CardHeadIdFragment } from "../../lib/query/queryAnime";
 
 interface PropType {
   anime: FragmentType<typeof CardHeadIdFragment>;
 }
 
-const CardHeaderId = (props: PropType) => {
+const AnimeHeader = (props: PropType) => {
   const anime = useFragment(CardHeadIdFragment, props.anime);
 
   return (
@@ -25,7 +25,7 @@ const CardHeaderId = (props: PropType) => {
             />
           </div>
         )}
-        <div className="mx-auto mt-5 max-w-7xl">
+        <div className="mx-auto mt-5 max-w-7xl pb-5">
           <div className="relative grid grid-cols-[1fr] grid-rows-[auto,auto] gap-5 p-5 sm:grid-cols-[1fr,1fr] sm:grid-rows-[auto] md:grid-cols-[1fr,2fr]">
             <Image
               src={anime.coverImage?.extraLarge!}
@@ -36,7 +36,7 @@ const CardHeaderId = (props: PropType) => {
               height={300}
               className={`${
                 anime.bannerImage ? "image-offset" : ""
-              } mx-auto h-auto w-auto shadow-2xl shadow-black`}
+              } mx-auto h-auto w-auto shadow-xl shadow-slate-900`}
             />
 
             <div>
@@ -55,4 +55,4 @@ const CardHeaderId = (props: PropType) => {
     </>
   );
 };
-export default CardHeaderId;
+export default AnimeHeader;

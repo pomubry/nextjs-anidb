@@ -12,7 +12,7 @@ const Themes = ({ themes, heading }: PropType) => {
       <ul className="text-xs sm:text-sm">
         {themes.map((song) => (
           <li
-            className="my-2 rounded-md bg-slate-100 p-3 dark:bg-slate-900"
+            className="my-2 rounded-md bg-slate-100 p-3 shadow-xl dark:bg-slate-900"
             key={song}
           >
             {song}

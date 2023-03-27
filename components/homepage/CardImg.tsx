@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FragmentType, useFragment } from "../lib/gql";
-import { CardImageFragment } from "../lib/query/queryHome";
+import { FragmentType, useFragment } from "../../lib/gql";
+import { CardImageFragment } from "../../lib/query/queryHome";
 
 interface PropType {
   anime: FragmentType<typeof CardImageFragment>;

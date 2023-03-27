@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import ExpandButton from "../ExpandButton";
-import { FragmentType, useFragment } from "../../lib/gql";
-import { RelationsFragment } from "../../lib/query/queryAnime";
-import { useExpander } from "../../lib/utils";
+import ExpandButton from "./ExpandButton";
+import { FragmentType, useFragment } from "../../../lib/gql";
+import { RelationsFragment } from "../../../lib/query/queryAnime";
+import { useExpander } from "../../../lib/utils";
 
 interface PropType {
   relations: FragmentType<typeof RelationsFragment>;
@@ -59,7 +59,7 @@ const Relations = (props: PropType) => {
           return (
             <li
               key={anime.id}
-              className="relative flex overflow-hidden rounded-md bg-slate-100 shadow-2xl dark:bg-slate-900 dark:text-slate-200"
+              className="relative flex overflow-hidden rounded-md bg-slate-100 shadow-xl dark:bg-slate-900 dark:text-slate-200"
             >
               <div className="relative min-h-[150px] flex-[2]">
                 <Image
