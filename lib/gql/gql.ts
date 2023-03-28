@@ -10,7 +10,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * 2. It is not minifiable, so the string of a GraphQL query will be multiple times inside the bundle.
  * 3. It does not support dead code elimination, so it will add unused operations.
  *
- * Therefore it is highly recommended to use the babel-plugin for production.
+ * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
     "\n  query queryAnime($id: Int) {\n    Media(id: $id, type: ANIME) {\n      id\n      idMal\n      title {\n        romaji\n        english\n        native\n      }\n      averageScore\n      bannerImage\n      characters(sort: FAVOURITES_DESC) {\n        edges {\n          node {\n            id\n            image {\n              large\n            }\n            name {\n              full\n            }\n          }\n          role\n          voiceActors(language: JAPANESE) {\n            id\n            image {\n              large\n            }\n            name {\n              full\n            }\n          }\n        }\n      }\n      coverImage {\n        extraLarge\n        color\n      }\n      description\n      duration\n      endDate {\n        year\n        month\n        day\n      }\n      episodes\n      externalLinks {\n        site\n        url\n      }\n      favourites\n      format\n      genres\n      meanScore\n      nextAiringEpisode {\n        id\n      }\n      popularity\n      rankings {\n        rank\n        type\n        year\n        season\n        allTime\n        context\n      }\n      recommendations(sort: RATING_DESC) {\n        nodes {\n          mediaRecommendation {\n            id\n            title {\n              romaji\n            }\n            coverImage {\n              extraLarge\n            }\n          }\n        }\n      }\n      relations {\n        edges {\n          id\n          relationType(version: 2)\n          node {\n            id\n            title {\n              romaji\n            }\n            format\n            status\n            coverImage {\n              extraLarge\n            }\n          }\n        }\n      }\n      season\n      seasonYear\n      source\n      staff {\n        edges {\n          role\n          node {\n            id\n            name {\n              full\n            }\n            image {\n              large\n            }\n          }\n        }\n      }\n      startDate {\n        year\n        month\n        day\n      }\n      stats {\n        statusDistribution {\n          status\n          amount\n        }\n      }\n      status\n      streamingEpisodes {\n        title\n        thumbnail\n        url\n      }\n      studios {\n        nodes {\n          id\n          name\n          isAnimationStudio\n        }\n      }\n      synonyms\n      tags {\n        rank\n        name\n      }\n      trailer {\n        id\n        site\n      }\n      ...CardHeadIdFragment\n      ...LeftInfoFragment\n      ...RightInfoFragment\n    }\n  }\n": types.QueryAnimeDocument,
@@ -45,7 +45,7 @@ const documents = {
  *
  * @example
  * ```ts
- * const query = gql(`query GetUser($id: ID!) { user(id: $id) { name } }`);
+ * const query = graphql(`query GetUser($id: ID!) { user(id: $id) { name } }`);
  * ```
  *
  * The query argument is unknown!

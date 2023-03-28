@@ -1,6 +1,6 @@
-/** @type {import('tailwindcss').Config} */
+import type { Config } from "tailwindcss";
 
-module.exports = {
+export default {
   darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -11,8 +11,8 @@ module.exports = {
     extend: {
       keyframes: {
         modal: {
-          from: { opacity: 0 },
-          to: { opacity: 0.9 },
+          from: { opacity: "0" },
+          to: { opacity: "0.9" },
         },
         navLink: {
           from: { transform: "translateY(1rem)" },
@@ -25,5 +25,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@tailwindcss/line-clamp")],
-};
+  plugins: [],
+} satisfies Config;

@@ -1,4 +1,4 @@
-import parse from "html-react-parser";
+import DOMPurify from "dompurify";
 import { FragmentType, useFragment } from "../../lib/gql";
 import { CardDescFragment } from "../../lib/query/queryHome";
 
@@ -16,6 +16,12 @@ const SpanDetails = ({ children }: { children: React.ReactNode }) => (
 
 const CardDesc = (props: PropType) => {
   const anime = useFragment(CardDescFragment, props.anime);
+
+  const cleanHtml = DOMPurify.sanitize(
+    anime.description ?? "<i>There are no descriptions for this anime yet.</i>",
+    { USE_PROFILES: { html: true } }
+  );
+
   return (
     <div className="flex flex-col overflow-x-scroll p-3">
       <h4 className="text-sm font-bold text-purple-700 dark:text-purple-300 min-[767px]:text-base">
@@ -40,12 +46,12 @@ const CardDesc = (props: PropType) => {
 
         <SpanDetails>Trend Score: {anime.trending ?? "N/A"}</SpanDetails>
       </div>
-      <p className="flex-1 overflow-y-scroll pt-3 text-sm min-[767px]:text-base">
-        {parse(
-          anime.description ??
-            "<i>There are no descriptions for this anime yet.</i>"
-        )}
-      </p>
+      <p
+        className="flex-1 overflow-y-scroll pt-3 text-sm min-[767px]:text-base"
+        dangerouslySetInnerHTML={{
+          __html: cleanHtml,
+        }}
+      />
       <ul className="flex gap-2 overflow-x-scroll pt-3">
         {anime.genres?.map((genre) => {
           if (!genre) return null;

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import parse from "html-react-parser";
+import DOMPurify from "dompurify";
 import { FragmentType, useFragment } from "../../lib/gql";
 import { CardHeadIdFragment } from "../../lib/query/queryAnime";
 
@@ -9,6 +9,11 @@ interface PropType {
 
 const AnimeHeader = (props: PropType) => {
   const anime = useFragment(CardHeadIdFragment, props.anime);
+
+  const cleanHtml = DOMPurify.sanitize(
+    anime.description ?? "<i>There are no descriptions for this anime yet.</i>",
+    { USE_PROFILES: { html: true } }
+  );
 
   return (
     <>
@@ -44,9 +49,12 @@ const AnimeHeader = (props: PropType) => {
                 {anime.title?.romaji}
               </h1>
               {anime.description && (
-                <p className="mt-2 text-slate-800 dark:text-slate-200">
-                  {parse(anime.description)}
-                </p>
+                <p
+                  className="mt-2 text-slate-800 dark:text-slate-200"
+                  dangerouslySetInnerHTML={{
+                    __html: cleanHtml,
+                  }}
+                />
               )}
             </div>
           </div>
