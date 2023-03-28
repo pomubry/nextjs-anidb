@@ -80,10 +80,12 @@ const SearchForm = ({ query }: PropType) => {
             defaultValue={query.ss || "ALL"}
             className="cursor-pointer rounded-md border-2 border-slate-800 bg-inherit py-2 px-4 dark:border-purple-300"
           >
-            <option value="ALL">All</option>
+            <optgroup label="All Seasons">
+              <option value="ALL">All</option>
+            </optgroup>
 
             <optgroup label="Jan, Feb, Mar">
-              <option value="WINTER">WINTER</option>
+              <option value="WINTER">Winter</option>
             </optgroup>
 
             <optgroup label="Apr, May, Jun">
