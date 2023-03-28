@@ -1,7 +1,7 @@
 import CardImg from "./CardImg";
 import CardDesc from "./CardDesc";
-import { FragmentType, useFragment } from "../../lib/gql";
-import { AnimeFragment } from "../../lib/query/queryHome";
+import { FragmentType, useFragment } from "@/lib/gql";
+import { AnimeFragment } from "@/lib/query/queryHome";
 
 interface PropType {
   anime: FragmentType<typeof AnimeFragment>;

@@ -1,5 +1,5 @@
 import { BsArrowLeftSquareFill } from "react-icons/bs";
-import { useVAPageQuery } from "../../lib/utils";
+import { useVAPageQuery } from "@/lib/utils";
 
 interface PropType {
   heading: "Characters" | "Anime Staff Roles";

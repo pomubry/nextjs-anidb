@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FragmentType, useFragment } from "../../lib/gql";
-import { CardImageFragment } from "../../lib/query/queryHome";
+import { FragmentType, useFragment } from "@/lib/gql";
+import { CardImageFragment } from "@/lib/query/queryHome";
 
 interface PropType {
   anime: FragmentType<typeof CardImageFragment>;
@@ -33,7 +33,7 @@ const CardImg = (props: PropType) => {
         <Link href={`/anime/${anime.id}`}>
           <h2
             title={anime.title?.romaji ?? `Anime ID: ${anime.id}`}
-            className="text-sm text-slate-200 line-clamp-3 hover:underline min-[767px]:text-base"
+            className="line-clamp-3 text-sm text-slate-200 hover:underline min-[767px]:text-base"
           >
             {anime.title?.romaji ?? "Title: N/A"}
           </h2>

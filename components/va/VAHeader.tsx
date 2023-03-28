@@ -1,6 +1,6 @@
 import ReactMarkdown from "react-markdown";
-import { FragmentType, useFragment } from "../../lib/gql";
-import { VAHeaderFragment } from "../../lib/query/queryVoiceActor";
+import { FragmentType, useFragment } from "@/lib/gql";
+import { VAHeaderFragment } from "@/lib/query/queryVoiceActor";
 
 interface PropType {
   staff: FragmentType<typeof VAHeaderFragment>;

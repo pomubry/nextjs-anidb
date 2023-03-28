@@ -8,8 +8,8 @@ import StatusDistribution from "./StatusDistribution";
 import Watch from "./Watch";
 import Recommendations from "./Recommendations";
 
-import { FragmentType, useFragment } from "../../../lib/gql";
-import { RightInfoFragment } from "../../../lib/query/queryAnime";
+import { FragmentType, useFragment } from "@/lib/gql";
+import { RightInfoFragment } from "@/lib/query/queryAnime";
 
 interface MALThemes {
   data: {

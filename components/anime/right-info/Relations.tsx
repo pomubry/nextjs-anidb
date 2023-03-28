@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import ExpandButton from "./ExpandButton";
-import { FragmentType, useFragment } from "../../../lib/gql";
-import { RelationsFragment } from "../../../lib/query/queryAnime";
-import { useExpander } from "../../../lib/utils";
+import { FragmentType, useFragment } from "@/lib/gql";
+import { RelationsFragment } from "@/lib/query/queryAnime";
+import { useExpander } from "@/lib/utils";
 
 interface PropType {
   relations: FragmentType<typeof RelationsFragment>;
@@ -31,7 +31,7 @@ const cleanString = (str: string) => str.replace(/_/g, "");
 const Head3 = ({ title }: { title: string }) => (
   <h3
     title={title}
-    className="mb-auto font-bold text-purple-500 line-clamp-2 dark:text-purple-300"
+    className="line-clamp-2 mb-auto font-bold text-purple-500 dark:text-purple-300"
   >
     {title}
   </h3>
@@ -78,7 +78,7 @@ const Relations = (props: PropType) => {
                 {/tv|movie|ova/i.test(anime.node.format ?? "") ? (
                   <h3
                     title={anime.node.title?.romaji ?? "Title: N/A"}
-                    className="mb-auto font-bold text-purple-500 line-clamp-2 dark:text-purple-300"
+                    className="line-clamp-2 mb-auto font-bold text-purple-500 dark:text-purple-300"
                   >
                     <Link
                       href={`/anime/${anime.node.id}`}

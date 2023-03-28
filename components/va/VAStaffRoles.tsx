@@ -1,7 +1,7 @@
 import SectionHeader from "./SectionHeader";
 import RoleCard from "./RoleCard";
-import { FragmentType, useFragment } from "../../lib/gql";
-import { VAStaffRolesFragment } from "../../lib/query/queryVoiceActor";
+import { FragmentType, useFragment } from "@/lib/gql";
+import { VAStaffRolesFragment } from "@/lib/query/queryVoiceActor";
 
 interface PropType {
   staffRole: FragmentType<typeof VAStaffRolesFragment>;

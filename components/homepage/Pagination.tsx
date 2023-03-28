@@ -1,4 +1,4 @@
-import { PageInfo } from "../../lib/gql/graphql";
+import { PageInfo } from "@/lib/gql/graphql";
 
 interface BtnType {
   pageNum: number;

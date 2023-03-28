@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RiMoonClearFill, RiSunFill } from "react-icons/ri";
-import navLinks from "../../lib/links/navLinks";
+import navLinks from "@/lib/links/navLinks";
 
 const LinksMobile = () => {
   const [isShown, setIsShown] = useState(false);
@@ -18,12 +18,12 @@ const LinksMobile = () => {
         onClick={() => setIsShown(false)}
         className={`${
           isShown ? "fixed" : "hidden"
-        } inset-0 z-10 animate-modalAnim bg-slate-900/25 opacity-90 backdrop-blur`}
+        } animate-modalAnim inset-0 z-10 bg-slate-900/25 opacity-90 backdrop-blur`}
       ></div>
       <div
         className={`${
           isShown ? "absolute" : "hidden"
-        } right-0 z-20 flex w-max animate-navAnim flex-col rounded-md bg-slate-200 py-2 dark:bg-slate-800 dark:text-slate-200`}
+        } animate-navAnim right-0 z-20 flex w-max flex-col rounded-md bg-slate-200 py-2 dark:bg-slate-800 dark:text-slate-200`}
       >
         {navLinks.map((link) => (
           <a

@@ -1,7 +1,7 @@
 import CharacterCard from "./CharacterCard";
 import SectionHeader from "./SectionHeader";
-import { FragmentType, useFragment } from "../../lib/gql";
-import { VACharactersFragment } from "../../lib/query/queryVoiceActor";
+import { FragmentType, useFragment } from "@/lib/gql";
+import { VACharactersFragment } from "@/lib/query/queryVoiceActor";
 
 interface PropType {
   characterMedia: FragmentType<typeof VACharactersFragment>;

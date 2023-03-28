@@ -1,6 +1,6 @@
 import { AiFillHeart, AiFillStar } from "react-icons/ai";
-import { FragmentType, useFragment } from "../../../lib/gql";
-import { RankingsFragment } from "../../../lib/query/queryAnime";
+import { FragmentType, useFragment } from "@/lib/gql";
+import { RankingsFragment } from "@/lib/query/queryAnime";
 
 interface PropType {
   rank: FragmentType<typeof RankingsFragment>;

@@ -1,5 +1,5 @@
 import { SiGithub } from "react-icons/si";
-import footerLinks from "../../lib/links/footerLinks";
+import footerLinks from "@/lib/links/footerLinks";
 
 const Footer = () => {
   return (

@@ -9,12 +9,12 @@ import {
 import { useRouter } from "next/router";
 import { ClientError } from "graphql-request";
 
-import AnimeHeader from "../../components/anime/AnimeHeader";
-import LeftInfo from "../../components/anime/left-info";
-import RightInfo from "../../components/anime/right-info";
-import SearchForm from "../../components/generic/SearchForm";
+import AnimeHeader from "@/components/anime/AnimeHeader";
+import LeftInfo from "@/components/anime/left-info";
+import RightInfo from "@/components/anime/right-info";
+import SearchForm from "@/components/generic/SearchForm";
 
-import { fetchAnime } from "../../lib/query/queryAnime";
+import { fetchAnime } from "@/lib/query/queryAnime";
 
 interface GSSP {
   dehydratedState: DehydratedState;

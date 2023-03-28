@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FragmentType, useFragment } from "../../lib/gql";
-import { RoleEdgeFragment } from "../../lib/query/queryVoiceActor";
+import { FragmentType, useFragment } from "@/lib/gql";
+import { RoleEdgeFragment } from "@/lib/query/queryVoiceActor";
 
 interface PropType {
   role: FragmentType<typeof RoleEdgeFragment>;
@@ -10,7 +10,7 @@ interface PropType {
 const Head3 = ({ title }: { title: string | null | undefined }) => (
   <h3
     title={title || ""}
-    className={`rounded-md px-2 pt-2 text-sm font-semibold duration-300 line-clamp-3 hover:bg-blue-400/20`}
+    className={`line-clamp-3 rounded-md px-2 pt-2 text-sm font-semibold duration-300 hover:bg-blue-400/20`}
   >
     {title}
   </h3>
@@ -36,7 +36,7 @@ const RoleCard = (props: PropType) => {
             </Link>
             <span
               title={role.staffRole || "N/A"}
-              className="text-xs text-purple-600 line-clamp-4 dark:text-purple-300"
+              className="line-clamp-4 text-xs text-purple-600 dark:text-purple-300"
             >
               {role.staffRole}
             </span>

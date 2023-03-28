@@ -1,6 +1,6 @@
-import { FragmentType, useFragment } from "../../../lib/gql";
-import type { Studio } from "../../../lib/gql/graphql";
-import { DataFragment } from "../../../lib/query/queryAnime";
+import { FragmentType, useFragment } from "@/lib/gql";
+import type { Studio } from "@/lib/gql/graphql";
+import { DataFragment } from "@/lib/query/queryAnime";
 
 interface PropType {
   anime: FragmentType<typeof DataFragment>;

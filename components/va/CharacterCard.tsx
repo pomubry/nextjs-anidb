@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FragmentType, useFragment } from "../../lib/gql";
-import { CharacterEdgeFragment } from "../../lib/query/queryVoiceActor";
+import { FragmentType, useFragment } from "@/lib/gql";
+import { CharacterEdgeFragment } from "@/lib/query/queryVoiceActor";
 
 interface PropType {
   char: FragmentType<typeof CharacterEdgeFragment>;
@@ -19,7 +19,7 @@ const Head3 = ({
     title={title || ""}
     className={`rounded-md ${
       isCharacter ? "p-2" : "px-2 pt-2"
-    } text-sm font-semibold duration-300 line-clamp-3 hover:bg-blue-400/20`}
+    } line-clamp-3 text-sm font-semibold duration-300 hover:bg-blue-400/20`}
   >
     {title}
   </h3>

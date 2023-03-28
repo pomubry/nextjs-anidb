@@ -3,8 +3,8 @@ import Rankings from "./Rankings";
 import Data from "./Data";
 import Tags from "./Tags";
 import StreamLinks from "./StreamLinks";
-import { FragmentType, useFragment } from "../../../lib/gql";
-import { LeftInfoFragment } from "../../../lib/query/queryAnime";
+import { FragmentType, useFragment } from "@/lib/gql";
+import { LeftInfoFragment } from "@/lib/query/queryAnime";
 
 interface PropType {
   anime: FragmentType<typeof LeftInfoFragment>;

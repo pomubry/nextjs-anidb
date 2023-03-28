@@ -15,9 +15,9 @@ import type { ClientError } from "graphql-request";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { URLSearchParams } from "url";
 
-import CardAni from "../components/homepage/CardAni";
-import Pagination from "../components/homepage/Pagination";
-import SearchForm from "../components/generic/SearchForm";
+import CardAni from "@/components/homepage/CardAni";
+import Pagination from "@/components/homepage/Pagination";
+import SearchForm from "@/components/generic/SearchForm";
 
 import {
   cleanHomeQuery,
@@ -25,7 +25,7 @@ import {
   getCurrentSeason,
   getCurrentYear,
   homeSchema,
-} from "../lib/query/queryHome";
+} from "@/lib/query/queryHome";
 
 interface GSSP {
   dehydratedState: DehydratedState;

@@ -9,15 +9,15 @@ import {
 } from "@tanstack/react-query";
 import { ClientError } from "graphql-request";
 
-import VAHeader from "../../components/va/VAHeader";
-import VACharacters from "../../components/va/VACharacters";
-import VAStaffRoles from "../../components/va/VAStaffRoles";
+import VAHeader from "@/components/va/VAHeader";
+import VACharacters from "@/components/va/VACharacters";
+import VAStaffRoles from "@/components/va/VAStaffRoles";
 
 import {
   cleanStaffQuery,
   fetchStaff,
   staffSchema,
-} from "../../lib/query/queryVoiceActor";
+} from "@/lib/query/queryVoiceActor";
 
 interface GSSP {
   dehydratedState: DehydratedState;

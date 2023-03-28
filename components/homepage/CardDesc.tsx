@@ -1,6 +1,6 @@
 import DOMPurify from "dompurify";
-import { FragmentType, useFragment } from "../../lib/gql";
-import { CardDescFragment } from "../../lib/query/queryHome";
+import { FragmentType, useFragment } from "@/lib/gql";
+import { CardDescFragment } from "@/lib/query/queryHome";
 
 interface PropType {
   anime: FragmentType<typeof CardDescFragment>;

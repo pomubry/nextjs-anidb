@@ -1,7 +1,7 @@
 import Image from "next/image";
 import DOMPurify from "dompurify";
-import { FragmentType, useFragment } from "../../lib/gql";
-import { CardHeadIdFragment } from "../../lib/query/queryAnime";
+import { FragmentType, useFragment } from "@/lib/gql";
+import { CardHeadIdFragment } from "@/lib/query/queryAnime";
 
 interface PropType {
   anime: FragmentType<typeof CardHeadIdFragment>;

@@ -1,5 +1,5 @@
-import { FragmentType, useFragment } from "../../../lib/gql";
-import { StreamLinksFragment } from "../../../lib/query/queryAnime";
+import { FragmentType, useFragment } from "@/lib/gql";
+import { StreamLinksFragment } from "@/lib/query/queryAnime";
 
 interface PropType {
   link: FragmentType<typeof StreamLinksFragment>;

@@ -1,6 +1,6 @@
-import { FragmentType, useFragment } from "../../../lib/gql";
-import { MediaListStatus } from "../../../lib/gql/graphql";
-import { StatsDistributionFragment } from "../../../lib/query/queryAnime";
+import { FragmentType, useFragment } from "@/lib/gql";
+import { MediaListStatus } from "@/lib/gql/graphql";
+import { StatsDistributionFragment } from "@/lib/query/queryAnime";
 
 interface PropType {
   stats: FragmentType<typeof StatsDistributionFragment>;
