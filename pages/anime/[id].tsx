@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { ClientError } from "graphql-request";
+import { z } from "zod";
 
 import AnimeHeader from "@/components/anime/AnimeHeader";
 import LeftInfo from "@/components/anime/left-info";
@@ -20,9 +21,12 @@ interface GSSP {
   dehydratedState: DehydratedState;
 }
 
+const idSchema = z.coerce.number().positive();
+
 export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
-  const idParams = context.params?.id as string | undefined;
-  if (!idParams) {
+  const idParams = idSchema.safeParse(context.params?.id);
+  if (!idParams.success) {
+    console.error("Invalid queries:", idParams.error);
     return {
       redirect: {
         destination: "/",
@@ -31,7 +35,7 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
     };
   }
 
-  const id = +idParams;
+  const id = idParams.data;
 
   const queryClient = new QueryClient();
   const queryKey = ["anime", id];
@@ -45,8 +49,8 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
   const error = queryClient.getQueryState(queryKey)?.error;
 
   if (error) {
-    console.log("Fetching error in the getServerSideProps:");
-    console.log(error);
+    console.error("Fetching error in the getServerSideProps:");
+    console.error(error);
     return {
       notFound: true,
     };

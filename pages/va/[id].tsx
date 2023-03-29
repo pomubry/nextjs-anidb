@@ -27,7 +27,7 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
   const res = staffSchema.safeParse(context.query);
 
   if (!res.success) {
-    console.log("Invalid queries:", res.error);
+    console.error("Invalid queries:", res.error);
     return {
       redirect: {
         destination: "/",
@@ -75,8 +75,8 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
   const error = queryClient.getQueryState(queryKey)?.error;
 
   if (error) {
-    console.log("Fetching error in the getServerSideProps:");
-    console.log(error);
+    console.error("Fetching error in the getServerSideProps:");
+    console.error(error);
     return {
       notFound: true,
     };
