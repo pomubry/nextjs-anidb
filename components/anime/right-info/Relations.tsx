@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import ExpandButton from "./ExpandButton";
+import ListParent from "./ListParent";
 import { FragmentType, useFragment } from "@/lib/gql";
 import { RelationsFragment } from "@/lib/query/queryAnime";
 import { useExpander } from "@/lib/utils";
@@ -31,7 +32,7 @@ const cleanString = (str: string) => str.replace(/_/g, "");
 const Head3 = ({ title }: { title: string }) => (
   <h3
     title={title}
-    className="line-clamp-2 mb-auto font-bold text-purple-500 dark:text-purple-300"
+    className="mb-auto line-clamp-2 font-bold text-purple-500 dark:text-purple-300"
   >
     {title}
   </h3>
@@ -49,7 +50,7 @@ const Relations = (props: PropType) => {
   const filteredEdges = relations.edges.filter((edge) => edge !== null);
 
   return (
-    <>
+    <ListParent>
       {filteredEdges
         // types returned by filter method doesn't work properly so use non-null assertion
         .sort((a, b) => getVal(b!.relationType) - getVal(a!.relationType))
@@ -78,7 +79,7 @@ const Relations = (props: PropType) => {
                 {/tv|movie|ova/i.test(anime.node.format ?? "") ? (
                   <h3
                     title={anime.node.title?.romaji ?? "Title: N/A"}
-                    className="line-clamp-2 mb-auto font-bold text-purple-500 dark:text-purple-300"
+                    className="mb-auto line-clamp-2 font-bold text-purple-500 dark:text-purple-300"
                   >
                     <Link
                       href={`/anime/${anime.node.id}`}
@@ -108,7 +109,7 @@ const Relations = (props: PropType) => {
           key="RelationsExpander"
         />
       )}
-    </>
+    </ListParent>
   );
 };
 

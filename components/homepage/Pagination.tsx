@@ -1,17 +1,35 @@
-import { PageInfo } from "@/lib/gql/graphql";
+import { cleanHomeQuery, homeSchema } from "@/lib/query/queryHome";
+import { useRouter } from "next/router";
 
 interface BtnType {
   pageNum: number;
 }
 
-interface PropType extends PageInfo {
-  // eslint-disable-next-line no-unused-vars
-  setPage: (val: number) => void;
+interface PropType {
+  currentPage: number;
+  lastPage: number;
 }
 
 const classNames = "m-5 mt-16 flex items-center justify-center gap-3";
 
-const Pagination = ({ currentPage, setPage, lastPage }: PropType) => {
+const Pagination = ({ currentPage, lastPage }: PropType) => {
+  const router = useRouter();
+
+  const setPage = (pg: number) => {
+    const res = homeSchema.parse({ ...router.query });
+    res.pg = pg;
+    const query = cleanHomeQuery(res);
+
+    router.push(
+      {
+        pathname: "/",
+        query,
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
   const Radio = ({ pageNum }: BtnType) => (
     <button
       onClick={() => setPage(pageNum)}

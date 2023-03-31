@@ -1,30 +1,38 @@
 import { FragmentType, useFragment } from "@/lib/gql";
-import type { Studio } from "@/lib/gql/graphql";
 import { DataFragment } from "@/lib/query/queryAnime";
+import Link from "next/link";
 
 interface PropType {
   anime: FragmentType<typeof DataFragment>;
 }
-
-type StudioType = Pick<Studio, "id" | "name" | "isAnimationStudio">;
 
 const CustomBox = ({ children }: { children: React.ReactNode }) => (
   <li className="my-2">{children}</li>
 );
 
 const CustomTypo = ({ children }: { children: React.ReactNode }) => (
-  <h3 className="font-semibold text-blue-500">{children}</h3>
+  <h3 className="font-semibold text-purple-500 dark:text-purple-300">
+    {children}
+  </h3>
 );
 
 const Data = (props: PropType) => {
   const anime = useFragment(DataFragment, props.anime);
 
-  let studios: StudioType[] = [];
-  let producers: StudioType[] = [];
-  anime.studios?.nodes?.forEach((studio) => {
-    if (!studio) return;
-    studio.isAnimationStudio ? studios.push(studio) : producers.push(studio);
-  });
+  const studioGroup = anime.studios?.nodes?.reduce(
+    (acc, cur) => {
+      if (!cur) return acc;
+      cur.isAnimationStudio ? acc.studios.push(cur) : acc.producers.push(cur);
+      return acc;
+    },
+    {
+      studios: [],
+      producers: [],
+    } as {
+      studios: typeof anime.studios.nodes;
+      producers: typeof anime.studios.nodes;
+    }
+  );
 
   return (
     <ul className="flex min-h-full flex-col justify-around rounded-md bg-slate-100 p-3 shadow-xl dark:bg-slate-900 dark:text-slate-200">
@@ -129,21 +137,32 @@ const Data = (props: PropType) => {
         </CustomBox>
       )}
 
-      {!!studios.length && (
+      {!!studioGroup?.studios.length && (
         <CustomBox>
           <CustomTypo>Studios</CustomTypo>
-          {studios.map((studio) => (
-            <p key={studio.id}>{studio.name}</p>
-          ))}
+          {studioGroup.studios.map((studio) => {
+            if (!studio) return null;
+            return (
+              <p key={studio.id}>
+                <Link
+                  className="font-extrabold text-blue-500 hover:underline dark:text-blue-300"
+                  href={`/studio/${studio.id}`}
+                >
+                  {studio.name}
+                </Link>
+              </p>
+            );
+          })}
         </CustomBox>
       )}
 
-      {!!producers.length && (
+      {!!studioGroup?.studios.length && (
         <CustomBox>
           <CustomTypo>Producers</CustomTypo>
-          {producers.map((studio) => (
-            <p key={studio.id}>{studio.name}</p>
-          ))}
+          {studioGroup.producers.map((studio) => {
+            if (!studio) return null;
+            return <p key={studio.id}>{studio.name}</p>;
+          })}
         </CustomBox>
       )}
 
@@ -157,14 +176,15 @@ const Data = (props: PropType) => {
       {!!anime.genres?.length && (
         <CustomBox>
           <CustomTypo>Genres</CustomTypo>
-          {anime.genres.map((genre, index) =>
+          {/* {anime.genres.map((genre, index) =>
             genre ? (
               <span key={genre}>
                 {genre}
                 {anime.genres!.length !== index + 1 ? ", " : ""}
               </span>
             ) : null
-          )}
+          )} */}
+          {anime.genres.join(", ")}
         </CustomBox>
       )}
 

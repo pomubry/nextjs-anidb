@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import InfoHeadTitle from "../InfoHeadTitle";
 import Relations from "./Relations";
 import Characters from "./Characters";
 import Themes from "./Themes";
@@ -7,6 +6,7 @@ import Staff from "./Staff";
 import StatusDistribution from "./StatusDistribution";
 import Watch from "./Watch";
 import Recommendations from "./Recommendations";
+import InfoHeadTitle from "../InfoHeadTitle";
 
 import { FragmentType, useFragment } from "@/lib/gql";
 import { RightInfoFragment } from "@/lib/query/queryAnime";
@@ -18,24 +18,9 @@ interface MALThemes {
   };
 }
 
-interface BoxType {
-  children: React.ReactNode;
-  className?: string;
-}
-
 interface PropType {
   anime: FragmentType<typeof RightInfoFragment>;
 }
-
-const CustomBox = ({ children, className }: BoxType) => {
-  return (
-    <ul
-      className={`relative mb-10 grid grid-cols-[1fr] gap-3 md:grid-cols-[1fr,1fr] ${className}`}
-    >
-      {children}
-    </ul>
-  );
-};
 
 const RightInfo = (props: PropType) => {
   const anime = useFragment(RightInfoFragment, props.anime);
@@ -66,18 +51,14 @@ const RightInfo = (props: PropType) => {
       {!!anime.relations?.edges?.length && (
         <section>
           <InfoHeadTitle title="Relations" />
-          <CustomBox>
-            <Relations relations={anime.relations} />
-          </CustomBox>
+          <Relations relations={anime.relations} />
         </section>
       )}
 
       {!!anime.characters?.edges?.length && (
         <section>
           <InfoHeadTitle title="Characters" />
-          <CustomBox>
-            <Characters characters={anime.characters} />
-          </CustomBox>
+          <Characters characters={anime.characters} />
         </section>
       )}
 
@@ -98,9 +79,7 @@ const RightInfo = (props: PropType) => {
       {!!anime.staff?.edges?.length && (
         <section>
           <InfoHeadTitle title="Staff" />
-          <CustomBox className="sm:grid-cols-[1fr,1fr]">
-            <Staff staff={anime.staff} />
-          </CustomBox>
+          <Staff staff={anime.staff} />
         </section>
       )}
 

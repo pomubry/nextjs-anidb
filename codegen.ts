@@ -3,7 +3,7 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 const config: CodegenConfig = {
   overwrite: true,
   schema: "https://graphql.anilist.co",
-  documents: ["lib/**/*.{ts,tsx}", "!lib/gql/**/*.ts"],
+  documents: ["lib/query/*.{ts,tsx}"],
   ignoreNoDocuments: true,
   generates: {
     "lib/gql/": {

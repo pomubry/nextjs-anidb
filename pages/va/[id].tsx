@@ -12,6 +12,8 @@ import { ClientError } from "graphql-request";
 import VAHeader from "@/components/va/VAHeader";
 import VACharacters from "@/components/va/VACharacters";
 import VAStaffRoles from "@/components/va/VAStaffRoles";
+import GQLError from "@/components/generic/GQLError";
+import NoData from "@/components/generic/NoData";
 
 import {
   cleanStaffQuery,
@@ -110,35 +112,11 @@ const VoiceActor: NextPage = () => {
 
   if (isError) {
     const err = error as ClientError;
-    let errorList: React.ReactNode[];
-
-    if (err.response.errors && err.response.errors.length > 0) {
-      errorList = err.response.errors.map((err, i) => (
-        <li className="my-1" key={i}>
-          - {err.message}
-        </li>
-      ));
-    } else {
-      errorList = [
-        <li className="my-1" key="err.message">
-          - {err.message}
-        </li>,
-      ];
-    }
-    return (
-      <div className="container mx-auto p-3">
-        <h2 className="font-bold text-red-600">Anilist Errors:</h2>
-        <ul className="ml-3">{errorList}</ul>
-      </div>
-    );
+    return <GQLError err={err} />;
   }
 
   if (!staff) {
-    return (
-      <div className="container mx-auto p-3">
-        <h2 className="font-bold text-red-600">No data was found!</h2>
-      </div>
-    );
+    return <NoData />;
   }
 
   return (
@@ -167,10 +145,18 @@ const VoiceActor: NextPage = () => {
         }`}
       >
         {staff.characterMedia && (
-          <VACharacters characterMedia={staff.characterMedia} />
+          <VACharacters
+            characterMedia={staff.characterMedia}
+            isPreviousData={isPreviousData}
+          />
         )}
 
-        {staff.staffMedia && <VAStaffRoles staffRole={staff.staffMedia} />}
+        {staff.staffMedia && (
+          <VAStaffRoles
+            staffRole={staff.staffMedia}
+            isPreviousData={isPreviousData}
+          />
+        )}
       </div>
     </>
   );

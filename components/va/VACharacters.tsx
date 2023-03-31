@@ -5,6 +5,7 @@ import { VACharactersFragment } from "@/lib/query/queryVoiceActor";
 
 interface PropType {
   characterMedia: FragmentType<typeof VACharactersFragment>;
+  isPreviousData: boolean;
 }
 
 const VACharacters = (props: PropType) => {
@@ -32,6 +33,7 @@ const VACharacters = (props: PropType) => {
         hasNextPage={characterMedia.pageInfo.hasNextPage}
         total={characterMedia.pageInfo.total}
         heading="Characters"
+        isPreviousData={props.isPreviousData}
         query="cp"
       />
 

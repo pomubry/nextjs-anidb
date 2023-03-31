@@ -14,6 +14,8 @@ import AnimeHeader from "@/components/anime/AnimeHeader";
 import LeftInfo from "@/components/anime/left-info";
 import RightInfo from "@/components/anime/right-info";
 import SearchForm from "@/components/generic/SearchForm";
+import GQLError from "@/components/generic/GQLError";
+import NoData from "@/components/generic/NoData";
 
 import { fetchAnime } from "@/lib/query/queryAnime";
 
@@ -79,35 +81,11 @@ const Anime: NextPage = () => {
 
   if (isError) {
     const err = error as ClientError;
-    let errorList: React.ReactNode[];
-
-    if (err.response.errors && err.response.errors.length > 0) {
-      errorList = err.response.errors.map((err, i) => (
-        <li className="my-1" key={i}>
-          - {err.message}
-        </li>
-      ));
-    } else {
-      errorList = [
-        <li className="my-1" key="err.message">
-          - {err.message}
-        </li>,
-      ];
-    }
-    return (
-      <div className="container mx-auto p-3">
-        <h2 className="font-bold text-red-600">Anilist Errors:</h2>
-        <ul className="ml-3">{errorList}</ul>
-      </div>
-    );
+    return <GQLError err={err} />;
   }
 
   if (!data?.anime) {
-    return (
-      <div className="container mx-auto p-3">
-        <h2 className="font-bold text-red-600">No data was found!</h2>
-      </div>
-    );
+    return <NoData />;
   }
 
   const description =

@@ -82,6 +82,7 @@ export const CardImageFragment = graphql(`
     studios(isMain: true) {
       edges {
         node {
+          id
           name
           isAnimationStudio
         }

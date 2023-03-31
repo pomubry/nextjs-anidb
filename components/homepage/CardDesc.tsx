@@ -58,7 +58,7 @@ const CardDesc = (props: PropType) => {
           return (
             <li
               key={genre}
-              className="whitespace-nowrap rounded-md bg-slate-900 px-2 text-xs text-blue-400 dark:bg-slate-800 min-[767px]:text-sm"
+              className="whitespace-nowrap rounded-md bg-slate-300 px-2 text-xs text-blue-600 duration-300 dark:bg-slate-800 dark:text-blue-400 min-[767px]:text-sm"
             >
               {genre}
             </li>

@@ -20,12 +20,12 @@ const RoleCard = (props: PropType) => {
   const role = useFragment(RoleEdgeFragment, props.role);
   return (
     <li className="flex min-w-[9rem] max-w-[9rem] flex-col overflow-hidden rounded-lg bg-slate-100 shadow-xl dark:bg-slate-900">
-      <div className="relative aspect-[2/3]">
+      <div className="relative aspect-[2/3] overflow-hidden">
         <Image
           src={role.node?.coverImage?.large || "N/A"}
           alt={role.node?.title?.romaji || "N/A"}
           fill
-          className="object-cover"
+          className="object-cover duration-300 hover:scale-110"
         />
       </div>
       <div className="flex flex-[1] flex-col justify-around gap-2 p-3 text-center">

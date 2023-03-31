@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ExpandButton from "./ExpandButton";
+import ListParent from "./ListParent";
 import { FragmentType, useFragment } from "@/lib/gql";
 import { StaffFragment } from "@/lib/query/queryAnime";
 import { useExpander } from "@/lib/utils";
@@ -15,7 +16,7 @@ const Staff = (props: PropType) => {
   const { sliceEnd, expanded, handleExpand } = useExpander({ maxNumber });
 
   return (
-    <>
+    <ListParent className="sm:grid-cols-[1fr,1fr]">
       {staff.edges?.slice(0, sliceEnd).map((obj) => {
         if (!obj || !obj.node) return null;
         return (
@@ -50,7 +51,7 @@ const Staff = (props: PropType) => {
           key="StaffExpander"
         />
       )}
-    </>
+    </ListParent>
   );
 };
 

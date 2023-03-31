@@ -5,6 +5,7 @@ import { VAStaffRolesFragment } from "@/lib/query/queryVoiceActor";
 
 interface PropType {
   staffRole: FragmentType<typeof VAStaffRolesFragment>;
+  isPreviousData: boolean;
 }
 
 const VAStaffRoles = (props: PropType) => {
@@ -29,6 +30,7 @@ const VAStaffRoles = (props: PropType) => {
         hasNextPage={staffRoles.pageInfo.hasNextPage}
         total={staffRoles.pageInfo.total}
         heading="Anime Staff Roles"
+        isPreviousData={props.isPreviousData}
         query="sp"
       />
 

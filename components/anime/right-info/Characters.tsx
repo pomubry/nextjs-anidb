@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import ExpandButton from "./ExpandButton";
+import ListParent from "./ListParent";
 import { FragmentType, useFragment } from "@/lib/gql";
 import { CharactersFragment } from "@/lib/query/queryAnime";
 import { useExpander } from "@/lib/utils";
@@ -19,7 +20,7 @@ const Characters = (props: PropType) => {
   if (!characters.edges) return null;
 
   return (
-    <>
+    <ListParent>
       {characters.edges.slice(0, sliceEnd).map((edge) => {
         if (!edge || !edge.node) return null;
         return (
@@ -92,7 +93,7 @@ const Characters = (props: PropType) => {
           key={"characterExpand"}
         />
       )}
-    </>
+    </ListParent>
   );
 };
 

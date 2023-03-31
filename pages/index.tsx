@@ -12,7 +12,6 @@ import {
   type DehydratedState,
 } from "@tanstack/react-query";
 import type { ClientError } from "graphql-request";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { URLSearchParams } from "url";
 
 import CardAni from "@/components/homepage/CardAni";
@@ -26,6 +25,9 @@ import {
   getCurrentYear,
   homeSchema,
 } from "@/lib/query/queryHome";
+import Loading from "@/components/generic/Loading";
+import GQLError from "@/components/generic/GQLError";
+import NoData from "@/components/generic/NoData";
 
 interface GSSP {
   dehydratedState: DehydratedState;
@@ -112,7 +114,7 @@ const Home: NextPage<PageProp> = () => {
   const router = useRouter();
   const queryKey = homeSchema.parse(router.query);
 
-  const { data, error, isError, isPreviousData, isLoading } = useQuery({
+  const { data, error, isError, isPreviousData } = useQuery({
     refetchOnWindowFocus: false,
     keepPreviousData: true,
     retry: 1,
@@ -122,59 +124,19 @@ const Home: NextPage<PageProp> = () => {
     },
   });
 
-  const setPage = (pg: number) => {
-    const res = homeSchema.parse({ ...router.query });
-    res.pg = pg;
-    const query = cleanHomeQuery(res);
-
-    router.push(
-      {
-        pathname: "/",
-        query,
-      },
-      undefined,
-      { shallow: true }
-    );
-  };
-
   if (isError) {
     const err = error as ClientError;
-    let errorList: React.ReactNode[];
-
-    if (err.response.errors && err.response.errors.length > 0) {
-      errorList = err.response.errors.map((err, i) => (
-        <li className="my-1" key={i}>
-          - {err.message}
-        </li>
-      ));
-    } else {
-      errorList = [
-        <li className="my-1" key="err.message">
-          - {err.message}
-        </li>,
-      ];
-    }
-    return (
-      <div className="container mx-auto p-3">
-        <h2 className="font-bold text-red-600">Anilist Errors:</h2>
-        <ul className="ml-3">{errorList}</ul>
-      </div>
-    );
+    return <GQLError err={err} />;
   }
 
-  if (isLoading)
-    return (
-      <div className="container mx-auto p-3">
-        <h2 className="text-blue-400">
-          <AiOutlineLoading3Quarters className="mx-auto animate-spin text-4xl" />
-        </h2>
-      </div>
-    );
+  if (!data?.data.Page?.media) return <NoData />;
 
-  const keywords = data.data.Page?.media?.reduce((acc, curr) => {
+  const keywords = data.data.Page.media.reduce((acc, curr) => {
     const title = curr?.title?.romaji ?? "";
     return acc.length > 0 ? `${acc}, ${title}` : title;
   }, "");
+
+  const currentPage = data.data.Page.pageInfo?.currentPage ?? 1;
 
   return (
     <>
@@ -193,23 +155,28 @@ const Home: NextPage<PageProp> = () => {
         <h1 className="text-4xl font-bold duration-300">NextAni Database</h1>
         <SearchForm query={queryKey} />
 
-        <ul
-          className={`mt-10 grid grid-cols-[1fr] gap-5 md:grid-cols-[repeat(2,1fr)] ${
-            isPreviousData
-              ? "select-none opacity-50"
-              : "select-auto opacity-100"
-          }`}
-        >
-          {data.data.Page?.media?.map((anime) => (
-            <CardAni anime={anime!} key={anime!.id} />
-          ))}
-        </ul>
+        {isPreviousData && (data.data.Page.media.length ?? 0) === 0 ? (
+          <Loading />
+        ) : (
+          <>
+            <ul
+              className={`mt-10 grid grid-cols-[1fr] gap-5 md:grid-cols-[repeat(2,1fr)] ${
+                isPreviousData
+                  ? "select-none opacity-50"
+                  : "select-auto opacity-100"
+              }`}
+            >
+              {data.data.Page.media.map((anime) => (
+                <CardAni anime={anime!} key={anime!.id} />
+              ))}
+            </ul>
 
-        <Pagination
-          {...data.data.Page?.pageInfo}
-          currentPage={queryKey.pg ?? 1}
-          setPage={setPage}
-        />
+            <Pagination
+              currentPage={currentPage}
+              lastPage={data.data.Page.pageInfo?.lastPage ?? currentPage + 1}
+            />
+          </>
+        )}
       </div>
     </>
   );
