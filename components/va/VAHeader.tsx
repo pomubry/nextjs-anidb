@@ -1,4 +1,5 @@
-import ReactMarkdown from "react-markdown";
+import { marked } from "marked";
+import DOMPurify from "dompurify";
 import { FragmentType, useFragment } from "@/lib/gql";
 import { VAHeaderFragment } from "@/lib/query/queryVoiceActor";
 
@@ -68,6 +69,42 @@ const VAHeader = (props: PropType) => {
     ?.filter((name) => name !== null && !!name.length)
     .join(", ");
 
+  marked.setOptions({
+    breaks: true,
+    gfm: true,
+  });
+
+  marked.use({
+    renderer: {
+      paragraph(text) {
+        return `<p 
+        class="mb-5"
+        >${text}</p>`;
+      },
+      strong(text) {
+        return `<strong 
+        class="font-extrabold"
+        >${text}</strong>`;
+      },
+      link(href, title, text) {
+        return `<a 
+        href="${href}" 
+        rel="nooopener noreferrer" 
+        target="_blank" 
+        class="text-blue-600 hover:underline dark:text-blue-300"
+        >${text}</a>`;
+      },
+    },
+  });
+
+  const cleanHtml = DOMPurify.sanitize(
+    marked.parse(
+      staff.description?.replace(/:\s+__/g, ":__ ") ||
+        "<i>There are no descriptions for this staff yet.</i>"
+    ),
+    { USE_PROFILES: { html: true } }
+  );
+
   return (
     <header className="relative overflow-y-scroll bg-slate-300 duration-300 dark:bg-slate-700 md:max-h-[30rem] md:min-h-[30rem]">
       <div className="grid grid-rows-[auto_1fr] gap-5 bg-slate-100 bg-gradient-to-b from-[rgb(241_245_249)_40%] to-[rgb(203_213_225)_40%] p-5 duration-300 dark:bg-slate-900/80 dark:from-[rgb(15_23_42_/_0.1)_40%] dark:to-[rgb(51_65_85)_40%] md:grid-cols-[1fr_2fr] md:grid-rows-[auto] md:bg-none">
@@ -104,27 +141,7 @@ const VAHeader = (props: PropType) => {
             <Tag tag="Hometown" tagValue={staff.homeTown || ""} />
             <Tag tag="Years Active" tagValue={yearsActive} />
           </div>
-          <ReactMarkdown
-            className="flex flex-col gap-3"
-            components={{
-              a: ({ node, ...props }) => (
-                <a
-                  rel="nooopener noreferrer"
-                  target="_blank"
-                  className="text-blue-600 hover:underline dark:text-blue-300"
-                  {...props}
-                />
-              ),
-              p: ({ node, ...props }) => (
-                <p className="whitespace-pre-wrap" {...props} />
-              ),
-              strong: ({ node, ...props }) => (
-                <strong className="font-extrabold" {...props} />
-              ),
-            }}
-          >
-            {staff.description || ""}
-          </ReactMarkdown>
+          <div dangerouslySetInnerHTML={{ __html: cleanHtml }} />
         </div>
       </div>
     </header>
