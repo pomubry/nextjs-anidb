@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import type { AppProps } from "next/app";
 import {
   QueryClient,
@@ -6,9 +7,13 @@ import {
   Hydrate,
   DehydratedState,
 } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import NProgress from "nprogress";
+
 import Layout from "@/components/layout/Layout";
-import "../styles/globals.css";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+import "@/styles/globals.css";
+import "@/styles/nprogress.css";
 
 export const getInitialTheme = () => {
   if (
@@ -28,6 +33,7 @@ export default function MyApp(
   const [isMounted, setIsMounted] = useState(false);
   const [queryClient] = useState(() => new QueryClient());
   const { Component, pageProps } = props;
+  const router = useRouter();
 
   useEffect(() => {
     if (!isMounted) {
@@ -44,6 +50,28 @@ export default function MyApp(
     return () =>
       darkModePreference.removeEventListener("change", getInitialTheme);
   }, [isMounted]);
+
+  useEffect(() => {
+    const progress = NProgress.configure({ showSpinner: false });
+
+    const handleStart = () => {
+      progress.start();
+    };
+
+    const handleStop = () => {
+      progress.done();
+    };
+
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleStop);
+    router.events.on("routeChangeError", handleStop);
+
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+      router.events.off("routeChangeComplete", handleStop);
+      router.events.off("routeChangeError", handleStop);
+    };
+  }, [router]);
 
   if (!isMounted) return null;
 
