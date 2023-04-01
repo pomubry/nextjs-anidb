@@ -130,8 +130,8 @@ const VoiceActor: NextPage = () => {
         />
         <meta
           name="keywords"
-          content={`anime list, anime database, nextjs, nextani database${
-            ", " + staff.name?.full || ""
+          content={`anime list, anime database, nextjs, nextani database, ${
+            staff.name?.full || ""
           }`}
         />
         <title>{staff.name?.full || "Voice Actor"} | NextAni Database</title>

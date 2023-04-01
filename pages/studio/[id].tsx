@@ -14,6 +14,7 @@ import GQLError from "@/components/generic/GQLError";
 import NoData from "@/components/generic/NoData";
 
 import { fetchStudio, studioQuerySchema } from "@/lib/query/queryStudio";
+import Head from "next/head";
 
 interface GSSP {
   dehydratedState: DehydratedState;
@@ -118,42 +119,54 @@ const Studio = () => {
   const { currentPage, hasNextPage, total } = studio.media.pageInfo;
 
   return (
-    <div>
-      <header className="container mx-auto mb-10 p-5">
-        <h1 className="text-4xl font-extrabold">{studio.name}</h1>
-        {studio.siteUrl && (
-          <a href={studio.siteUrl} rel="noopener noreferer" target="_blank"></a>
-        )}
-      </header>
-
-      <section
-        className={`${isPreviousData && "opacity-50"} container mx-auto px-5`}
-      >
-        <SectionHeader
-          currentPage={currentPage}
-          hasNextPage={hasNextPage}
-          total={total}
-          isPreviousData={isPreviousData}
+    <>
+      <Head>
+        <meta name="description" content={`Animation studio ${studio.name}`} />
+        <meta
+          name="keywords"
+          content={`anime list, anime database, nextjs, nextani database, ${studio.name}`}
         />
-
-        {animeKeys.map((yr) => {
-          const year = +yr;
-          return (
-            <div key={year} className="mb-10">
-              <p className="text-right text-2xl">
-                {year === 9999 ? "To Be Announced" : year}
-              </p>
-              <ul className="my-2 flex gap-2 overflow-scroll md:flex-wrap md:gap-5 md:overflow-visible">
-                {anime[+year].map((ani) => {
-                  if (!ani) return null;
-                  return <AnimeWork key={ani.id} anime={ani} />;
-                })}
-              </ul>
-            </div>
-          );
-        })}
-      </section>
-    </div>
+        <title>{studio.name} | NextAni Database</title>
+      </Head>
+      <div>
+        <header className="container mx-auto mb-10 p-5">
+          <h1 className="text-4xl font-extrabold">{studio.name}</h1>
+          {studio.siteUrl && (
+            <a
+              href={studio.siteUrl}
+              rel="noopener noreferer"
+              target="_blank"
+            ></a>
+          )}
+        </header>
+        <section
+          className={`${isPreviousData && "opacity-50"} container mx-auto px-5`}
+        >
+          <SectionHeader
+            currentPage={currentPage}
+            hasNextPage={hasNextPage}
+            total={total}
+            isPreviousData={isPreviousData}
+          />
+          {animeKeys.map((yr) => {
+            const year = +yr;
+            return (
+              <div key={year} className="mb-10">
+                <p className="text-right text-2xl">
+                  {year === 9999 ? "To Be Announced" : year}
+                </p>
+                <ul className="my-2 flex gap-2 overflow-scroll md:flex-wrap md:gap-5 md:overflow-visible">
+                  {anime[+year].map((ani) => {
+                    if (!ani) return null;
+                    return <AnimeWork key={ani.id} anime={ani} />;
+                  })}
+                </ul>
+              </div>
+            );
+          })}
+        </section>
+      </div>
+    </>
   );
 };
 export default Studio;
