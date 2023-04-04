@@ -52,9 +52,20 @@ export const AnimeWorkFragment = graphql(`
   }
 `);
 
+const numberSchema = z.coerce.number().positive();
+
 export const studioQuerySchema = z.object({
-  id: z.coerce.number().positive(),
-  pg: z.coerce.number().positive().catch(1),
+  id: numberSchema,
+  pg: numberSchema.catch((e) => {
+    if (Array.isArray(e.input)) {
+      const res = (e.input as string[]).find(
+        (input) => numberSchema.safeParse(input).success
+      );
+      return res ? +res : 1;
+    } else {
+      return 1;
+    }
+  }),
 });
 
 type StudioQuerySchemaType = z.infer<typeof studioQuerySchema>;

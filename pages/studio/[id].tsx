@@ -13,8 +13,13 @@ import SectionHeader from "@/components/studio/SectionHeader";
 import GQLError from "@/components/generic/GQLError";
 import NoData from "@/components/generic/NoData";
 
-import { fetchStudio, studioQuerySchema } from "@/lib/query/queryStudio";
+import {
+  cleanStudioQuery,
+  fetchStudio,
+  studioQuerySchema,
+} from "@/lib/query/queryStudio";
 import Head from "next/head";
+import Link from "next/link";
 
 interface GSSP {
   dehydratedState: DehydratedState;
@@ -27,6 +32,36 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
     return {
       redirect: {
         destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  const cleanQuery = cleanStudioQuery(query.data);
+
+  // Redirect if there's a difference between `context.query` and `cleanQuery` (means there's a wrong query)
+  // i.e. /studio/858/?pg=ABC&pg=3&pg=4 will redirect to /studio/858/?pg=3
+  const redirect =
+    Object.entries(cleanQuery).some((pair) => {
+      const [key, value] = pair;
+      const queryValue = context.query[key]; // type string | string[] | undefined
+      return queryValue !== value.toString();
+    }) ||
+    // Redirect if there are excessive/irrelevant queries
+    // i.e. for this page, we only need `pg`
+    // i.e. ?pg=abc&pg=4&random=query will redirect to ?pg=4
+    Object.keys(cleanQuery).length !== Object.keys(context.query).length - 1; // -1 is to disregard [id] query
+
+  if (redirect) {
+    const queryString = new URLSearchParams(
+      cleanQuery as any as URLSearchParams
+    ).toString();
+
+    console.log(`Redirecting to /?${queryString}`);
+
+    return {
+      redirect: {
+        destination: `/studio/${query.data.id}?` + queryString,
         permanent: false,
       },
     };
@@ -112,11 +147,35 @@ const Studio = () => {
   )
     return (
       <div>
-        <h1>{studio.name}</h1>
+        <header className="container mx-auto mb-10 p-5">
+          <h1 className="text-4xl font-extrabold">{studio.name}</h1>
+          {studio.siteUrl && (
+            <a
+              href={studio.siteUrl}
+              rel="noopener noreferer"
+              target="_blank"
+            ></a>
+          )}
+        </header>
+        <section
+          className={`${isPreviousData && "opacity-50"} container mx-auto px-5`}
+        >
+          <p>No works were found for {studio.name}</p>
+          {queryKey.pg === 1 ? (
+            <Link href="/" className="text-blue-500 dark:text-blue-300">
+              Go back to homepage
+            </Link>
+          ) : (
+            <Link
+              href={`/studio/${queryKey.id}`}
+              className="text-blue-500 dark:text-blue-300"
+            >
+              Go back to page 1
+            </Link>
+          )}
+        </section>
       </div>
     );
-
-  const { currentPage, hasNextPage, total } = studio.media.pageInfo;
 
   return (
     <>
@@ -143,9 +202,9 @@ const Studio = () => {
           className={`${isPreviousData && "opacity-50"} container mx-auto px-5`}
         >
           <SectionHeader
-            currentPage={currentPage}
-            hasNextPage={hasNextPage}
-            total={total}
+            currentPage={studio.media?.pageInfo?.currentPage}
+            hasNextPage={studio.media?.pageInfo?.hasNextPage}
+            total={studio.media?.pageInfo?.total}
             isPreviousData={isPreviousData}
           />
           {animeKeys.map((yr) => {
