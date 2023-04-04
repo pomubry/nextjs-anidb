@@ -95,7 +95,9 @@ const Anime: NextPage = () => {
 
   const keywords = data.anime.synonyms?.join(", ") || description;
 
-  const title = data.anime.title?.romaji ? `${data.anime.title.romaji} | ` : "";
+  const title = data.anime.title?.romaji
+    ? `${data.anime.title.romaji} | NextAni`
+    : "NextAni";
 
   return (
     <>
@@ -105,7 +107,7 @@ const Anime: NextPage = () => {
           name="keywords"
           content={keywords + ", nextani database, anime list"}
         />
-        <title>{title}NextAni</title>
+        <title>{title}</title>
       </Head>
 
       <AnimeHeader anime={data.anime} />

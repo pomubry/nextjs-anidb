@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import {
   dehydrate,
@@ -12,14 +13,13 @@ import AnimeWork from "@/components/studio/AnimeWork";
 import SectionHeader from "@/components/studio/SectionHeader";
 import GQLError from "@/components/generic/GQLError";
 import NoData from "@/components/generic/NoData";
+import StudioHead from "@/components/studio/StudioHead";
 
 import {
   cleanStudioQuery,
   fetchStudio,
   studioQuerySchema,
 } from "@/lib/query/queryStudio";
-import Head from "next/head";
-import Link from "next/link";
 
 interface GSSP {
   dehydratedState: DehydratedState;
@@ -146,47 +146,45 @@ const Studio = () => {
     typeof studio.media?.pageInfo?.hasNextPage !== "boolean"
   )
     return (
-      <div>
-        <header className="container mx-auto mb-10 p-5">
-          <h1 className="text-4xl font-extrabold">{studio.name}</h1>
-          {studio.siteUrl && (
-            <a
-              href={studio.siteUrl}
-              rel="noopener noreferer"
-              target="_blank"
-            ></a>
-          )}
-        </header>
-        <section
-          className={`${isPreviousData && "opacity-50"} container mx-auto px-5`}
-        >
-          <p>No works were found for {studio.name}</p>
-          {queryKey.pg === 1 ? (
-            <Link href="/" className="text-blue-500 dark:text-blue-300">
-              Go back to homepage
-            </Link>
-          ) : (
-            <Link
-              href={`/studio/${queryKey.id}`}
-              className="text-blue-500 dark:text-blue-300"
-            >
-              Go back to page 1
-            </Link>
-          )}
-        </section>
-      </div>
+      <>
+        <StudioHead name={studio.name} />
+        <div>
+          <header className="container mx-auto mb-10 p-5">
+            <h1 className="text-4xl font-extrabold">{studio.name}</h1>
+            {studio.siteUrl && (
+              <a
+                href={studio.siteUrl}
+                rel="noopener noreferer"
+                target="_blank"
+              ></a>
+            )}
+          </header>
+          <section
+            className={`${
+              isPreviousData && "opacity-50"
+            } container mx-auto px-5`}
+          >
+            <p>No works were found for {studio.name}</p>
+            {queryKey.pg === 1 ? (
+              <Link href="/" className="text-blue-500 dark:text-blue-300">
+                Go back to homepage
+              </Link>
+            ) : (
+              <Link
+                href={`/studio/${queryKey.id}`}
+                className="text-blue-500 dark:text-blue-300"
+              >
+                Go back to page 1
+              </Link>
+            )}
+          </section>
+        </div>
+      </>
     );
 
   return (
     <>
-      <Head>
-        <meta name="description" content={`Animation studio ${studio.name}`} />
-        <meta
-          name="keywords"
-          content={`anime list, anime database, nextjs, nextani database, ${studio.name}`}
-        />
-        <title>{studio.name} | NextAni Database</title>
-      </Head>
+      <StudioHead name={studio.name} />
       <div>
         <header className="container mx-auto mb-10 p-5">
           <h1 className="text-4xl font-extrabold">{studio.name}</h1>

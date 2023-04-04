@@ -1,5 +1,5 @@
 import Image from "next/image";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 import { FragmentType, useFragment } from "@/lib/gql";
 import { CardHeadIdFragment } from "@/lib/query/queryAnime";
 

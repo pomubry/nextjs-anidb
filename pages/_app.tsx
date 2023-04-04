@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import type { AppProps } from "next/app";
 import {
@@ -7,49 +8,20 @@ import {
   Hydrate,
   DehydratedState,
 } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import NProgress from "nprogress";
 
 import Layout from "@/components/layout/Layout";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import "@/styles/globals.css";
 import "@/styles/nprogress.css";
 
-export const getInitialTheme = () => {
-  if (
-    localStorage.theme === "dark" ||
-    (!("theme" in localStorage) &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches)
-  ) {
-    document.documentElement.classList.add("dark");
-  } else {
-    document.documentElement.classList.remove("dark");
-  }
-};
-
 export default function MyApp(
   props: AppProps<{ dehydratedState: DehydratedState }>
 ) {
-  const [isMounted, setIsMounted] = useState(false);
   const [queryClient] = useState(() => new QueryClient());
   const { Component, pageProps } = props;
   const router = useRouter();
-
-  useEffect(() => {
-    if (!isMounted) {
-      getInitialTheme();
-      setIsMounted(true);
-    }
-
-    const darkModePreference = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    );
-
-    darkModePreference.addEventListener("change", getInitialTheme);
-
-    return () =>
-      darkModePreference.removeEventListener("change", getInitialTheme);
-  }, [isMounted]);
 
   useEffect(() => {
     const progress = NProgress.configure({ showSpinner: false });
@@ -73,11 +45,12 @@ export default function MyApp(
     };
   }, [router]);
 
-  if (!isMounted) return null;
-
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
+        <Head>
+          <title>NextAni Database</title>
+        </Head>
         <Layout>
           <Component {...pageProps} />
         </Layout>

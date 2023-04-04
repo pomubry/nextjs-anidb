@@ -1,7 +1,9 @@
-import Link from "next/link";
 import { useState } from "react";
+import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { RiMoonClearFill, RiSunFill } from "react-icons/ri";
+
+import ThemeToggle from "./ThemeToggle";
+
 import navLinks from "@/lib/links/navLinks";
 
 const LinksMobile = () => {
@@ -70,23 +72,6 @@ const LinksWeb = () => (
 );
 
 const Nav = () => {
-  const [isDarkMode, setIsDarkMode] = useState(
-    document.documentElement.classList.contains("dark")
-  );
-
-  const toggleColorMode = () => {
-    const isDarkMode = document.documentElement.classList.contains("dark");
-    if (isDarkMode) {
-      localStorage.theme = "light";
-      document.documentElement.classList.remove("dark");
-      setIsDarkMode(false);
-    } else {
-      localStorage.theme = "dark";
-      document.documentElement.classList.add("dark");
-      setIsDarkMode(true);
-    }
-  };
-
   return (
     <div className="bg-slate-300 p-3 transition dark:bg-slate-900">
       <nav className="mx-auto flex max-w-7xl items-center">
@@ -108,13 +93,7 @@ const Nav = () => {
         <div className="flex items-center gap-3">
           <LinksMobile />
           <LinksWeb />
-          <button aria-label="Theme mode toggle" onClick={toggleColorMode}>
-            {isDarkMode ? (
-              <RiSunFill className="text-xl" />
-            ) : (
-              <RiMoonClearFill className="text-xl" />
-            )}
-          </button>
+          <ThemeToggle />
         </div>
       </nav>
     </div>

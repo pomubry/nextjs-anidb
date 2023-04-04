@@ -1,5 +1,5 @@
 import { marked } from "marked";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 import { FragmentType, useFragment } from "@/lib/gql";
 import { VAHeaderFragment } from "@/lib/query/queryVoiceActor";
 

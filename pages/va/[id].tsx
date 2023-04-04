@@ -119,6 +119,8 @@ const VoiceActor: NextPage = () => {
     return <NoData />;
   }
 
+  const title = staff.name?.full ? `${staff.name.full} | NextAni` : "NextAni";
+
   return (
     <>
       <Head>
@@ -134,7 +136,7 @@ const VoiceActor: NextPage = () => {
             staff.name?.full || ""
           }`}
         />
-        <title>{staff.name?.full || "Voice Actor"} | NextAni Database</title>
+        <title>{title}</title>
       </Head>
 
       <VAHeader staff={staff} />

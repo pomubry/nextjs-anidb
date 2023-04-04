@@ -1,4 +1,4 @@
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 import { FragmentType, useFragment } from "@/lib/gql";
 import { CardDescFragment } from "@/lib/query/queryHome";
 
