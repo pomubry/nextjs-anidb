@@ -47,9 +47,11 @@ const LeftInfo = (props: PropType) => {
       {!!anime.externalLinks?.length && (
         <section className="area-streamlinks">
           <InfoHeadTitle title="External & Streaming links" />
-          {anime.externalLinks.map((link) =>
-            link ? <StreamLinks link={link} key={link.id} /> : null
-          )}
+          <ul>
+            {anime.externalLinks.map((link) =>
+              link ? <StreamLinks link={link} key={link.id} /> : null
+            )}
+          </ul>
         </section>
       )}
     </div>

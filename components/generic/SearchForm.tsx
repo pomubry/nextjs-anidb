@@ -58,7 +58,7 @@ const SearchForm = ({ query }: PropType) => {
       <h2>Search Anime</h2>
       <form
         onSubmit={handleSubmit}
-        className="mt-2 grid grid-cols-[1fr] gap-3 min-[480px]:grid-cols-[repeat(2,1fr)]"
+        className="mt-2 grid grid-cols-[1fr] gap-3 text-sm min-[480px]:grid-cols-[repeat(2,1fr)] sm:text-base"
       >
         <div className="relative flex items-center rounded-md border-2 border-slate-800 dark:border-purple-300">
           <button aria-label="Search Button" type="submit" className="p-2">
@@ -78,7 +78,7 @@ const SearchForm = ({ query }: PropType) => {
             name="ss"
             placeholder="Pick Season"
             defaultValue={query.ss || "ALL"}
-            className="cursor-pointer rounded-md border-2 border-slate-800 bg-inherit py-2 px-4 dark:border-purple-300"
+            className="cursor-pointer rounded-md border-2 border-slate-800 bg-inherit px-4 py-2 dark:border-purple-300"
           >
             <optgroup label="All Seasons">
               <option value="ALL">All</option>
@@ -105,7 +105,7 @@ const SearchForm = ({ query }: PropType) => {
             name="yr"
             placeholder="Pick Year"
             defaultValue={query.yr || "ALL"}
-            className="cursor-pointer rounded-md border-2 border-slate-800 bg-inherit py-2 px-4 dark:border-purple-300"
+            className="cursor-pointer rounded-md border-2 border-slate-800 bg-inherit px-4 py-2 dark:border-purple-300"
           >
             <YearList />
           </select>

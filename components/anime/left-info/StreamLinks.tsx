@@ -10,18 +10,18 @@ const bgColor = (site: string) => {
     case "animelab":
     case "funimation":
     case "hbo max":
-      return "bg-blue-400 text-slate-200 hover:bg-blue-500";
+      return "bg-blue-400 text-slate-100 hover:bg-blue-500";
     case "amazon":
     case "crunchyroll":
     case "vrv":
-      return "bg-yellow-400 text-slate-800 hover:bg-yellow-500";
+      return "bg-yellow-400 text-slate-900 hover:bg-yellow-500";
     case "hulu":
-      return "bg-green-500 text-slate-200 hover:bg-green-600";
+      return "bg-green-400 text-slate-100 hover:bg-green-600";
     case "netflix":
     case "youtube":
-      return "bg-red-500 text-slate-200 hover:bg-red-600";
+      return "bg-red-500 text-slate-100 hover:bg-red-600";
     default:
-      return "bg-blue-400 text-slate-200 hover:bg-blue-500";
+      return "bg-blue-400 text-slate-100 hover:bg-blue-500";
   }
 };
 
