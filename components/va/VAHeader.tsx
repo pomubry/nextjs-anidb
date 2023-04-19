@@ -12,21 +12,6 @@ interface TagType {
   tagValue: string;
 }
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
 const Tag = ({ tag, tagValue }: TagType) => {
   if (tagValue.length === 0) return null;
 
@@ -42,17 +27,18 @@ const VAHeader = (props: PropType) => {
 
   const getDate = (date: typeof staff.dateOfBirth) => {
     if (!date) return "";
-    let monthDay = `${date.month ? months[date.month - 1] : ""} ${
-      date.day || ""
-    }`.trim();
-    let year = `${date.year || ""}`;
-    if (monthDay.length === 0) {
-      return year;
-    } else if (year.length === 0) {
-      return monthDay;
-    } else {
-      return monthDay + ", " + year;
-    }
+
+    const rawDate = new Date(
+      Date.UTC(date.year || 0, date.month ? date.month - 1 : 0, date.day || 0)
+    );
+    const formattedDate = new Intl.DateTimeFormat(undefined, {
+      ...(date.year && { year: "numeric" }),
+      ...(date.month && { month: "long" }),
+      ...(date.day && { day: "numeric" }),
+    }).format(rawDate);
+
+    if (formattedDate.includes("/") || formattedDate.length < 3) return "";
+    return formattedDate;
   };
 
   const dateOfBirth = getDate(staff.dateOfBirth);
@@ -61,8 +47,8 @@ const VAHeader = (props: PropType) => {
     (staff.yearsActive &&
       staff.yearsActive[0] !== null &&
       (staff.yearsActive?.length > 1
-        ? `${staff.yearsActive[0] || "N/A"} - ${staff.yearsActive[1] || "N/A"}`
-        : `${staff.yearsActive[0] || "N/A"} - Present`)) ||
+        ? `${staff.yearsActive[0] || "N/A"} ~ ${staff.yearsActive[1] || "N/A"}`
+        : `${staff.yearsActive[0] || "N/A"} ~ Present`)) ||
     "";
 
   const alternativeNames = staff.name?.alternative
