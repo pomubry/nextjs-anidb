@@ -47,13 +47,14 @@ const Relations = (props: PropType) => {
 
   if (!relations.edges) return null;
 
-  const filteredEdges = relations.edges.filter((edge) => edge !== null);
+  const filteredEdges = relations.edges.filter(
+    (edge): edge is NonNullable<typeof edge> => edge !== null
+  );
 
   return (
     <ListParent>
       {filteredEdges
-        // types returned by filter method doesn't work properly so use non-null assertion
-        .sort((a, b) => getVal(b!.relationType) - getVal(a!.relationType))
+        .sort((a, b) => getVal(b.relationType) - getVal(a.relationType))
         .slice(0, sliceEnd)
         .map((anime) => {
           if (!anime || !anime.node) return null;
