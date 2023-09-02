@@ -24,9 +24,9 @@ const CardDesc = (props: PropType) => {
 
   return (
     <div className="flex flex-col overflow-x-scroll p-3">
-      <h4 className="text-sm font-bold text-purple-700 dark:text-purple-300 min-[767px]:text-base">
+      <h2 className="text-sm font-bold text-purple-700 dark:text-purple-300 min-[767px]:text-base">
         {anime.season} {anime.seasonYear}
-      </h4>
+      </h2>
       <div>
         {!!anime.format && (
           <>
@@ -47,7 +47,7 @@ const CardDesc = (props: PropType) => {
         <SpanDetails>Trend Score: {anime.trending ?? "N/A"}</SpanDetails>
       </div>
       <p
-        className="flex-1 overflow-y-scroll pt-3 text-sm min-[767px]:text-base"
+        className="flex-1 overflow-y-scroll pt-3 text-sm"
         dangerouslySetInnerHTML={{
           __html: cleanHtml,
         }}

@@ -1,3 +1,4 @@
 {
-  "schema": "https://graphql.anilist.co"
+  "schema": "https://graphql.anilist.co",
+  "documents": ["lib/query/*.{ts,tsx}"]
 }

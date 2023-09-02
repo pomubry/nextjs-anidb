@@ -76,13 +76,8 @@ const Nav = () => {
     <div className="bg-slate-300 p-3 transition dark:bg-slate-900">
       <nav className="mx-auto flex max-w-7xl items-center">
         <div className="flex-1">
-          <Link
-            href="/"
-            shallow
-            title="NextAni Homepage"
-            aria-label="Homepage link"
-          >
-            <span className="text-5xl font-extrabold text-slate-800 transition dark:text-slate-200">
+          <Link href="/" shallow title="NextAni Homepage">
+            <span className="text-5xl font-extrabold text-slate-800 dark:text-slate-200">
               N
             </span>
             <span className="inline-block -translate-x-[30%] text-5xl font-extrabold text-purple-400 dark:text-purple-300">

@@ -17,24 +17,20 @@ import { URLSearchParams } from "url";
 import CardAni from "@/components/homepage/CardAni";
 import Pagination from "@/components/homepage/Pagination";
 import SearchForm from "@/components/generic/SearchForm";
-
-import {
-  cleanHomeQuery,
-  fetchHome,
-  getCurrentSeason,
-  getCurrentYear,
-  homeSchema,
-} from "@/lib/query/queryHome";
 import Loading from "@/components/generic/Loading";
 import GQLError from "@/components/generic/GQLError";
 import NoData from "@/components/generic/NoData";
+
+import { fetchHome } from "@/lib/query/queryHome";
+import { cleanHomeQuery, getCurrentSeason, getCurrentYear } from "@/lib/utils";
+import { homeQuerySchema } from "@/lib/validation";
 
 interface GSSP {
   dehydratedState: DehydratedState;
 }
 
 export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
-  const queries = homeSchema.safeParse(context.query);
+  const queries = homeQuerySchema.safeParse(context.query);
 
   if (!queries.success) {
     console.log("Invalid queries:");
@@ -112,7 +108,7 @@ type PageProp = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const Home: NextPage<PageProp> = () => {
   const router = useRouter();
-  const queryKey = homeSchema.parse(router.query);
+  const queryKey = homeQuerySchema.parse(router.query);
 
   const { data, error, isError, isPreviousData } = useQuery({
     refetchOnWindowFocus: false,
@@ -131,22 +127,18 @@ const Home: NextPage<PageProp> = () => {
 
   if (!data?.data.Page?.media) return <NoData />;
 
-  const keywords = data.data.Page.media.reduce((acc, curr) => {
-    const title = curr?.title?.romaji ?? "";
-    return acc.length > 0 ? `${acc}, ${title}` : title;
-  }, "");
-
   const currentPage = data.data.Page.pageInfo?.currentPage ?? 1;
 
   return (
     <>
       <Head>
-        <meta name="description" content="Anime list database" />
+        <meta
+          name="description"
+          content={`Check the highest rated anime for the current season of ${queryKey.ss} of ${queryKey.yr}!`}
+        />
         <meta
           name="keywords"
-          content={`anime list, anime database, nextjs, nextani database, ${
-            keywords ?? ""
-          }`}
+          content={`anime list, anime database, nextjs, nextani database, ${queryKey.ss} ${queryKey.yr}!`}
         />
         <title>NextAni Database</title>
       </Head>

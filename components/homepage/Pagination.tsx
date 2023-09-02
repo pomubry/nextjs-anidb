@@ -1,5 +1,6 @@
-import { cleanHomeQuery, homeSchema } from "@/lib/query/queryHome";
 import { useRouter } from "next/router";
+import { cleanHomeQuery } from "@/lib/utils";
+import { homeQuerySchema } from "@/lib/validation";
 
 interface BtnType {
   pageNum: number;
@@ -16,7 +17,7 @@ const Pagination = ({ currentPage, lastPage }: PropType) => {
   const router = useRouter();
 
   const setPage = (pg: number) => {
-    const res = homeSchema.parse({ ...router.query });
+    const res = homeQuerySchema.parse({ ...router.query });
     res.pg = pg;
     const query = cleanHomeQuery(res);
 

@@ -9,6 +9,20 @@
   }
 }
 
+@layer utilities {
+  .text-purple {
+    @apply text-purple-600 dark:text-purple-300;
+  }
+
+  .text-slate {
+    @apply text-slate-900 dark:text-slate-100;
+  }
+
+  .bg-card {
+    @apply bg-slate-100 dark:bg-slate-900;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 3px;
   height: 3px;

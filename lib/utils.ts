@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { cleanStaffQuery, staffSchema } from "./query/queryVoiceActor";
+import type { HomeQuery } from "./types";
 
 interface QueryHandlerType {
   cmd: "PREVIOUS" | "NEXT";
@@ -64,3 +65,30 @@ export const useExpander = ({ maxNumber }: { maxNumber: number }) => {
     handleExpand,
   };
 };
+
+export const getCurrentYear = () => new Date().getFullYear();
+
+export const getCurrentSeason = () => {
+  switch (new Date().getMonth()) {
+    case 0:
+    case 1:
+    case 2:
+      return "WINTER";
+    case 3:
+    case 4:
+    case 5:
+      return "SPRING";
+    case 6:
+    case 7:
+    case 8:
+      return "SUMMER";
+    default:
+      return "FALL";
+  }
+};
+
+export const cleanHomeQuery = ({ pg, sr, ...restQuery }: HomeQuery) => ({
+  ...(pg > 1 && { pg }),
+  ...(sr !== "" && { sr }),
+  ...restQuery,
+});
