@@ -27,11 +27,11 @@ const bgColor = (site: string) => {
 
 const StreamLinks = (props: PropType) => {
   const link = useFragment(StreamLinksFragment, props.link);
-  return !!link.url ? (
+  return link.url ? (
     <li
       key={link.url}
       className={`my-2 list-none rounded-md text-center font-bold shadow-xl duration-200 ${bgColor(
-        link.site
+        link.site,
       )}`}
     >
       <a

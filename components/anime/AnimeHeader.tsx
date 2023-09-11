@@ -12,7 +12,7 @@ const AnimeHeader = (props: PropType) => {
 
   const cleanHtml = DOMPurify.sanitize(
     anime.description ?? "<i>There are no descriptions for this anime yet.</i>",
-    { USE_PROFILES: { html: true } }
+    { USE_PROFILES: { html: true } },
   );
 
   return (
@@ -33,7 +33,7 @@ const AnimeHeader = (props: PropType) => {
         <div className="mx-auto mt-5 max-w-7xl pb-5">
           <div className="relative grid grid-cols-[1fr] grid-rows-[auto,auto] gap-5 p-5 sm:grid-cols-[1fr,1fr] sm:grid-rows-[auto] md:grid-cols-[1fr,2fr]">
             <Image
-              src={anime.coverImage?.extraLarge!}
+              src={anime.coverImage?.extraLarge || "N/A"}
               alt={
                 anime.title?.romaji || `Cover image of anime ID: ${anime.id}`
               }

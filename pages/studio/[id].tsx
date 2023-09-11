@@ -54,10 +54,8 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
 
   if (redirect) {
     const queryString = new URLSearchParams(
-      cleanQuery as any as URLSearchParams
+      cleanQuery as unknown as URLSearchParams,
     ).toString();
-
-    console.log(`Redirecting to /?${queryString}`);
 
     return {
       redirect: {
@@ -122,7 +120,7 @@ const Studio = () => {
   }
 
   // Keep track track of already evaluated anime ID because it could have duplicates.
-  let keysIncluded: number[] = [];
+  const keysIncluded: number[] = [];
 
   const anime =
     studio.media?.nodes?.reduce(
@@ -135,7 +133,7 @@ const Studio = () => {
       },
       {} as {
         [key: number]: typeof studio.media.nodes;
-      }
+      },
     ) || {};
 
   const animeKeys = Object.keys(anime).sort((a, b) => +b - +a);

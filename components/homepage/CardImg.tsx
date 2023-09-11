@@ -11,13 +11,13 @@ const CardImg = (props: PropType) => {
   const anime = useFragment(CardImageFragment, props.anime);
 
   const filterStudio = anime.studios?.edges?.filter(
-    (studio) => studio?.node?.isAnimationStudio && !!studio.node.name.length
+    (studio) => studio?.node?.isAnimationStudio && !!studio.node.name.length,
   );
 
   return (
     <div className="relative overflow-hidden">
       <Image
-        src={anime.coverImage?.extraLarge!}
+        src={anime.coverImage?.extraLarge || "N/A"}
         alt={`Cover image for anime ${
           anime.title?.romaji ?? `id: ${anime.id}`
         }`}

@@ -30,16 +30,16 @@ const RightInfo = (props: PropType) => {
     queryKey: ["idMal", anime.idMal],
     queryFn: async () => {
       const res = await fetch(
-        `https://api.jikan.moe/v4/anime/${anime.idMal}/themes`
+        `https://api.jikan.moe/v4/anime/${anime.idMal}/themes`,
       );
       return (await res.json()) as MALThemes;
     },
   });
 
-  let isNotReversed =
+  const isNotReversed =
     anime.streamingEpisodes &&
     anime.streamingEpisodes[0]?.title?.includes("Episode 1 ");
-  let sortedEpisodes = isNotReversed
+  const sortedEpisodes = isNotReversed
     ? anime.streamingEpisodes
     : anime.streamingEpisodes?.reverse();
 

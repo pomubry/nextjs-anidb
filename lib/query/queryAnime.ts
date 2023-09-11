@@ -13,7 +13,7 @@ const queryAnime = graphql(`
       }
       averageScore
       bannerImage
-      characters(sort: FAVOURITES_DESC) {
+      characters(sort: RELEVANCE) {
         edges {
           node {
             id
@@ -260,7 +260,7 @@ export const StreamLinksFragment = graphql(`
 export const RightInfoFragment = graphql(`
   fragment RightInfoFragment on Media {
     idMal
-    characters(sort: FAVOURITES_DESC) {
+    characters(sort: RELEVANCE) {
       edges {
         id
       }

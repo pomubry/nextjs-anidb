@@ -14,7 +14,6 @@ import VACharacters from "@/components/va/VACharacters";
 import VAStaffRoles from "@/components/va/VAStaffRoles";
 import GQLError from "@/components/generic/GQLError";
 import NoData from "@/components/generic/NoData";
-
 import {
   cleanStaffQuery,
   fetchStaff,
@@ -59,7 +58,9 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
       redirect: {
         destination:
           `/va/${res.data.id}?` +
-          new URLSearchParams(cleanQuery as any as URLSearchParams).toString(),
+          new URLSearchParams(
+            cleanQuery as unknown as URLSearchParams,
+          ).toString(),
         permanent: false,
       },
     };
