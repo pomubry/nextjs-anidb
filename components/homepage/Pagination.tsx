@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import { cleanHomeQuery } from "@/lib/utils";
-import { homeQuerySchema } from "@/lib/validation";
+import { cleanClientHomeSearchParams } from "@/lib/utils";
+import { clientHomeSearchParamsSchema } from "@/lib/validation";
 
 interface BtnType {
   pageNum: number;
@@ -17,9 +17,9 @@ const Pagination = ({ currentPage, lastPage }: PropType) => {
   const router = useRouter();
 
   const setPage = (pg: number) => {
-    const res = homeQuerySchema.parse({ ...router.query });
+    const res = clientHomeSearchParamsSchema.parse({ ...router.query });
     res.pg = pg;
-    const query = cleanHomeQuery(res);
+    const query = cleanClientHomeSearchParams(res);
 
     router.push(
       {
@@ -27,7 +27,7 @@ const Pagination = ({ currentPage, lastPage }: PropType) => {
         query,
       },
       undefined,
-      { shallow: true }
+      { shallow: true, scroll: false },
     );
   };
 
@@ -35,7 +35,7 @@ const Pagination = ({ currentPage, lastPage }: PropType) => {
     <button
       onClick={() => setPage(pageNum)}
       disabled={currentPage === pageNum}
-      className={`h-8 w-8 overflow-ellipsis rounded-full text-xs duration-300 sm:h-10 sm:w-10 sm:text-sm ${
+      className={`h-8 w-8 overflow-ellipsis rounded-lg text-xs duration-300 sm:h-10 sm:w-10 sm:text-sm ${
         currentPage === pageNum
           ? "bg-blue-300 text-slate-900"
           : "hover:bg-blue-400 hover:text-slate-900"
@@ -45,7 +45,7 @@ const Pagination = ({ currentPage, lastPage }: PropType) => {
     </button>
   );
 
-  let arr: number[] = [];
+  const arr: number[] = [];
 
   if (currentPage && lastPage) {
     for (let i = -2; i <= 2; i++) {

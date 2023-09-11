@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { z } from "zod";
 import { cleanStaffQuery, staffSchema } from "./query/queryVoiceActor";
-import type { HomeQuery } from "./types";
+import type { ClientHomeSearchParams } from "./types";
 
 interface QueryHandlerType {
   cmd: "PREVIOUS" | "NEXT";
@@ -9,7 +10,7 @@ interface QueryHandlerType {
   currentPage: number;
 }
 
-export const appThemeKey = "nextani-tw-theme";
+export const appThemeKey = "lighthalzen-tw-theme";
 
 export const getAppTheme = () => {
   if (
@@ -48,7 +49,7 @@ export const useVAPageQuery = () => {
         query: cleanQuery,
       },
       undefined,
-      { shallow: true }
+      { shallow: true, scroll: false },
     );
   };
 
@@ -87,8 +88,75 @@ export const getCurrentSeason = () => {
   }
 };
 
-export const cleanHomeQuery = ({ pg, sr, ...restQuery }: HomeQuery) => ({
-  ...(pg > 1 && { pg }),
-  ...(sr !== "" && { sr }),
-  ...restQuery,
-});
+export const objToUrlSearchParams = (query: URLSearchParams) =>
+  "/?" + new URLSearchParams(query).toString();
+
+/**
+ * Remove keys with values of `undefined` or empty strings
+ */
+export const cleanClientHomeSearchParams = (
+  query: ClientHomeSearchParams,
+): ClientHomeSearchParams => {
+  const copy = { ...query };
+
+  for (const prop in copy) {
+    const propTyped = prop as keyof typeof copy;
+    const value = copy[propTyped];
+
+    switch (typeof value) {
+      case "undefined":
+        delete copy[propTyped];
+        break;
+      case "string":
+        if (value.length === 0) {
+          delete copy[propTyped];
+        }
+        break;
+      case "number":
+        if (value === 1) {
+          delete copy[propTyped];
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  return copy;
+};
+
+export const catchHandler = <T extends z.ZodTypeAny>(
+  data: {
+    error: z.ZodError<unknown>;
+    input: unknown;
+  },
+  schema: T,
+) => {
+  if (Array.isArray(data.input)) {
+    const match = data.input.find((item) => schema.safeParse(item).success);
+    const matchParsed = schema.safeParse(match);
+    return matchParsed.success ? (matchParsed.data as z.output<T>) : undefined;
+  } else {
+    return undefined;
+  }
+};
+
+/**
+ * Get variables to send to the graphql server
+ */
+export const getServerHomeQuery = (variables: ClientHomeSearchParams) => {
+  const { pg, sr, ss, yr } = variables;
+  const page = pg !== undefined && pg > 0 && pg;
+  const search = sr !== undefined && sr.length > 0 && sr;
+  const season =
+    ss === "ALL" ? false : ss === undefined ? getCurrentSeason() : ss;
+  const seasonYear =
+    yr === "ALL" ? false : yr === undefined ? getCurrentYear() : yr;
+
+  return {
+    ...(page && { page }),
+    ...(search && { search }),
+    ...(season && { season }),
+    ...(seasonYear && { seasonYear }),
+  };
+};

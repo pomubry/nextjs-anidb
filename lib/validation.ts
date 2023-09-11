@@ -1,51 +1,34 @@
 import { z } from "zod";
-import { getCurrentSeason, getCurrentYear } from "./utils";
+import { catchHandler, getCurrentYear } from "./utils";
 
-const pageSchema = z.coerce.number().positive();
+export const pageSchema = z.coerce.number().positive(); // > 0;
 
-const seasonSchema = z.enum(["WINTER", "SPRING", "SUMMER", "FALL", "ALL"]);
+export const searchSchema = z.string();
 
-const yearSchema = z.union([
-  z.literal("ALL"),
-  z.coerce
-    .number()
-    .min(1940)
-    .max(getCurrentYear() + 1),
-]);
+const serverSeasonSchema = z.enum(["WINTER", "SPRING", "SUMMER", "FALL"]);
 
-export const formQuerySchema = z.object({
-  sr: z.string().catch(""),
-  ss: seasonSchema.catch((e) => {
-    if (Array.isArray(e.input)) {
-      const res = (e.input as string[]).find(
-        (input) => seasonSchema.safeParse(input).success
-      );
-      return res ? seasonSchema.parse(res) : getCurrentSeason();
-    } else {
-      return getCurrentSeason();
-    }
-  }),
-  yr: yearSchema.catch((e) => {
-    if (Array.isArray(e.input)) {
-      const res = (e.input as string[]).find(
-        (input) => yearSchema.safeParse(input).success
-      );
-      return res ? +res : getCurrentYear();
-    } else {
-      return getCurrentYear();
-    }
-  }),
+const serverYearSchema = z.coerce
+  .number()
+  .min(1940)
+  .max(getCurrentYear() + 1);
+
+const clientSeasonSchema = serverSeasonSchema.or(z.literal("ALL"));
+
+const clientYearSchema = serverYearSchema.or(z.literal("ALL"));
+
+export const clientHomeSearchParamsSchema = z.object({
+  pg: pageSchema.optional().catch((data) => catchHandler(data, pageSchema)),
+  sr: searchSchema.optional().catch((data) => catchHandler(data, searchSchema)),
+  ss: clientSeasonSchema
+    .optional()
+    .catch((data) => catchHandler(data, clientSeasonSchema)),
+  yr: clientYearSchema
+    .optional()
+    .catch((data) => catchHandler(data, clientYearSchema)),
 });
 
-export const homeQuerySchema = formQuerySchema.extend({
-  pg: pageSchema.catch((e) => {
-    if (Array.isArray(e.input)) {
-      const res = (e.input as string[]).find(
-        (input) => pageSchema.safeParse(input).success
-      );
-      return res ? +res : 1;
-    } else {
-      return 1;
-    }
-  }),
+export const formQuerySchema = z.object({
+  sr: searchSchema,
+  ss: clientSeasonSchema,
+  yr: clientYearSchema,
 });

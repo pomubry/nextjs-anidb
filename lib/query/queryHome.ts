@@ -1,6 +1,6 @@
 import request from "graphql-request";
 import { graphql } from "../gql";
-import type { HomeQuery } from "../types";
+import type { ServerHomeQuery } from "../types";
 
 const queryHomePage = graphql(`
   query queryHomePage(
@@ -104,13 +104,15 @@ export const CardDescFragment = graphql(`
   }
 `);
 
-export const fetchHome = async (variables: HomeQuery) => {
-  const data = await request("https://graphql.anilist.co", queryHomePage, {
-    perPage: 10,
-    ...(variables.pg > 1 && { page: variables.pg }),
-    ...(variables.ss !== "ALL" && { season: variables.ss }),
-    ...(variables.yr !== "ALL" && { seasonYear: variables.yr }),
-    ...(variables.sr !== "" && { search: variables.sr }),
-  });
-  return { data, variables };
+export const fetchHome = async (variables: ServerHomeQuery) => {
+  try {
+    const data = await request("https://graphql.anilist.co", queryHomePage, {
+      perPage: 10,
+      ...variables,
+    });
+    return { data, variables };
+  } catch (error) {
+    console.error(error);
+    return { error: true };
+  }
 };

@@ -117,7 +117,7 @@ const Anime: NextPage = () => {
           isPreviousData ? "select-none opacity-50" : "select-auto opacity-100"
         }`}
       >
-        <SearchForm query={{ ss: "ALL", yr: "ALL", pg: 1, sr: "" }} />
+        <SearchForm query={{ page: 1 }} />
 
         <div className="mt-10 gap-10 sm:flex">
           <div className="flex-1">

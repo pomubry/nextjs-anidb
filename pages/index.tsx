@@ -22,76 +22,57 @@ import GQLError from "@/components/generic/GQLError";
 import NoData from "@/components/generic/NoData";
 
 import { fetchHome } from "@/lib/query/queryHome";
-import { cleanHomeQuery, getCurrentSeason, getCurrentYear } from "@/lib/utils";
-import { homeQuerySchema } from "@/lib/validation";
+import {
+  cleanClientHomeSearchParams,
+  getServerHomeQuery,
+  objToUrlSearchParams,
+} from "@/lib/utils";
+import { clientHomeSearchParamsSchema } from "@/lib/validation";
 
 interface GSSP {
   dehydratedState: DehydratedState;
 }
 
 export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
-  const queries = homeQuerySchema.safeParse(context.query);
+  const clientHomeSearchParams = clientHomeSearchParamsSchema.parse(
+    context.query,
+  );
 
-  if (!queries.success) {
-    console.log("Invalid queries:");
-    console.log(queries.error);
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
+  const searchParams = cleanClientHomeSearchParams(clientHomeSearchParams);
 
-  const cleanQuery = cleanHomeQuery(queries.data);
-  const { ss, yr, ...restCleanQuery } = cleanQuery;
-  const ssrQuery = {
-    ...restCleanQuery,
-    ...(ss !== getCurrentSeason() && { ss }),
-    ...(yr !== getCurrentYear() && { yr }),
-  };
-
-  // Redirect if there's a difference between `context.query` and `queries.cleanVariables`
-  // i.e. /?ss=SPRING&yr=2022&ss=WINTER will redirect to /?ss=SPRING&yr=2022
+  // Redirect if the number of keys in `searchParams` and `context.query` are not equal
+  // That means some search params were cleaned up! Redirect to a cleaner url
   const redirect =
-    Object.entries(ssrQuery).some((pair) => {
-      const [key, value] = pair;
-      const queryValue = context.query[key];
-      return queryValue !== value.toString();
-    }) ||
-    // Redirect if there are excessive/irrelevant queries
-    // i.e. for this page, we only need `ss`, `yr`, `pg`, `sr`
-    Object.keys(ssrQuery).length !== Object.keys(context.query).length;
+    Object.keys(searchParams).length !== Object.keys(context.query).length;
 
   if (redirect) {
-    const queryString = new URLSearchParams(
-      ssrQuery as any as URLSearchParams
-    ).toString();
-
-    console.log(`Redirecting to /?${queryString}`);
+    const destination = objToUrlSearchParams(
+      searchParams as unknown as URLSearchParams,
+    );
 
     return {
       redirect: {
-        destination: "/?" + queryString,
+        destination,
         permanent: false,
       },
     };
   }
 
+  const variables = getServerHomeQuery(searchParams);
+
   const queryClient = new QueryClient();
-  const queryKey = ["home", queries.data];
+  const queryKey = ["home", variables];
   await queryClient.prefetchQuery({
     queryKey,
     queryFn: async () => {
-      return await fetchHome(queries.data);
+      return await fetchHome(variables);
     },
   });
 
   const error = queryClient.getQueryState(queryKey)?.error;
 
   if (error) {
-    console.log("Fetching error in the getServerSideProps:");
-    console.log(error);
+    console.error("Fetching error in the getServerSideProps:", error);
     return {
       notFound: true,
     };
@@ -104,19 +85,20 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
   };
 };
 
-type PageProp = InferGetServerSidePropsType<typeof getServerSideProps>;
+type PageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const Home: NextPage<PageProp> = () => {
+const Home: NextPage<PageProps> = () => {
   const router = useRouter();
-  const queryKey = homeQuerySchema.parse(router.query);
+  const queryKey = clientHomeSearchParamsSchema.parse(router.query);
+  const variables = getServerHomeQuery(queryKey);
 
   const { data, error, isError, isPreviousData } = useQuery({
     refetchOnWindowFocus: false,
     keepPreviousData: true,
     retry: 1,
-    queryKey: ["home", queryKey],
+    queryKey: ["home", variables],
     queryFn: async () => {
-      return fetchHome(queryKey);
+      return fetchHome(variables);
     },
   });
 
@@ -125,29 +107,31 @@ const Home: NextPage<PageProp> = () => {
     return <GQLError err={err} />;
   }
 
-  if (!data?.data.Page?.media) return <NoData />;
+  const pageQuery = data?.data?.Page;
+  if (!pageQuery?.media || !pageQuery.pageInfo) return <NoData />;
 
-  const currentPage = data.data.Page.pageInfo?.currentPage ?? 1;
+  const pageInfo = pageQuery.pageInfo;
+  const currentPage = pageInfo.currentPage ?? 1;
 
   return (
     <>
       <Head>
         <meta
           name="description"
-          content={`Check the highest rated anime for the current season of ${queryKey.ss} of ${queryKey.yr}!`}
+          content={`Check the highest rated anime for the current season of ${variables.season} of ${variables.seasonYear}!`}
         />
         <meta
           name="keywords"
-          content={`anime list, anime database, nextjs, nextani database, ${queryKey.ss} ${queryKey.yr}!`}
+          content={`anime list, anime database, nextjs, nextani database, ${variables.season} ${variables.seasonYear}!`}
         />
         <title>NextAni Database</title>
       </Head>
 
       <div className="mx-auto max-w-7xl p-3 pb-9">
-        <h1 className="text-4xl font-bold duration-300">NextAni Database</h1>
-        <SearchForm query={queryKey} />
+        <h1 className="text-4xl font-bold duration-300">NextAni Database!</h1>
+        <SearchForm query={variables} />
 
-        {isPreviousData && (data.data.Page.media.length ?? 0) === 0 ? (
+        {isPreviousData && (pageQuery.media.length ?? 0) === 0 ? (
           <Loading />
         ) : (
           <>
@@ -158,14 +142,15 @@ const Home: NextPage<PageProp> = () => {
                   : "select-auto opacity-100"
               }`}
             >
-              {data.data.Page.media.map((anime) => (
-                <CardAni anime={anime!} key={anime!.id} />
-              ))}
+              {pageQuery.media.map((anime) => {
+                if (!anime) return null;
+                return <CardAni anime={anime} key={anime.id} />;
+              })}
             </ul>
 
             <Pagination
               currentPage={currentPage}
-              lastPage={data.data.Page.pageInfo?.lastPage ?? currentPage + 1}
+              lastPage={pageInfo.lastPage ?? currentPage + 1}
             />
           </>
         )}

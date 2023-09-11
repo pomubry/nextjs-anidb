@@ -6,18 +6,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { BiSearchAlt } from "react-icons/bi";
 
 import { formQuerySchema } from "@/lib/validation";
-import { cleanHomeQuery } from "@/lib/utils";
-import type { FormQuery, HomeQuery } from "@/lib/types";
+import { cleanClientHomeSearchParams } from "@/lib/utils";
+import type { FormQuery, ServerHomeQuery } from "@/lib/types";
 
 const YearList = () => {
-  let arr = [
+  const arr = [
     <option value={"ALL"} key={"ALLKEY"}>
       All
     </option>,
   ];
-  let start = new Date().getFullYear() + 1;
+  const start = new Date().getFullYear() + 1;
   for (let i = start; i >= 1940; i--) {
-    let jsx = (
+    const jsx = (
       <option value={i} key={i}>
         {i}
       </option>
@@ -29,7 +29,7 @@ const YearList = () => {
 };
 
 interface PropType {
-  query: HomeQuery;
+  query: ServerHomeQuery;
 }
 
 const SearchForm = ({ query }: PropType) => {
@@ -43,21 +43,14 @@ const SearchForm = ({ query }: PropType) => {
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log("data", data);
-    const res = {
-      pg: 1,
-      ...data,
-    };
-
-    const cleanQuery = cleanHomeQuery(res);
-
+    const query = cleanClientHomeSearchParams({ ...data, pg: 1 });
     router.push(
       {
         pathname: "/",
-        query: cleanQuery,
+        query,
       },
       undefined,
-      { shallow: true }
+      { shallow: true, scroll: false },
     );
   });
 
@@ -73,7 +66,7 @@ const SearchForm = ({ query }: PropType) => {
           className="group"
         >
           <Form.Label>Search Anime:</Form.Label>
-          <div className="relative flex items-center rounded-md border-2 border-slate-800 group-data-[invalid=true]:border-red-300 dark:border-purple-300">
+          <div className="asd asdasd border-purple relative flex items-center rounded-md border-2 group-data-[invalid=true]:border-red-300">
             <Form.Submit
               aria-label="Search Button"
               type="submit"
@@ -85,7 +78,7 @@ const SearchForm = ({ query }: PropType) => {
               <input
                 {...register("sr")}
                 type="search"
-                defaultValue={query.sr || ""}
+                defaultValue={query.search || ""}
                 placeholder="Summer Time Rendering"
                 className="w-full border-l-2 border-slate-900 bg-inherit indent-2 placeholder:text-slate-600 focus-visible:outline-none dark:border-slate-300 dark:placeholder:text-slate-400"
               />
@@ -104,8 +97,8 @@ const SearchForm = ({ query }: PropType) => {
               <select
                 {...register("ss")}
                 placeholder="Pick Season"
-                defaultValue={query.ss || "ALL"}
-                className="cursor-pointer rounded-md border-2 border-slate-800 bg-inherit px-4 py-2 data-[invalid=true]:border-red-300 dark:border-purple-300"
+                defaultValue={query.season || "ALL"}
+                className="border-purple cursor-pointer rounded-md border-2 bg-inherit px-4 py-2 data-[invalid=true]:border-red-300"
               >
                 <optgroup label="All Seasons">
                   <option value="ALL">All</option>
@@ -136,7 +129,7 @@ const SearchForm = ({ query }: PropType) => {
               <select
                 {...register("yr")}
                 placeholder="Pick Year"
-                defaultValue={query.yr || "ALL"}
+                defaultValue={query.seasonYear || "ALL"}
                 className="cursor-pointer rounded-md border-2 border-slate-800 bg-inherit px-4 py-2 data-[invalid=true]:border-red-300 dark:border-purple-300"
               >
                 <YearList />
