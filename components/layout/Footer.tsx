@@ -24,25 +24,29 @@ const Footer = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-[repeat(2,1fr)] items-center gap-5 min-[900px]:grid-cols-[repeat(4,1fr)]">
-          {footerLinks.map((links) => {
+        <nav className="grid grid-cols-[repeat(2,1fr)] items-center gap-5 text-sm min-[650px]:text-base min-[900px]:grid-cols-[repeat(4,1fr)]">
+          {footerLinks.map((links, index) => {
             return (
-              <div className="flex flex-col" key={links[0].link}>
+              <ul className="flex flex-col" key={index}>
                 {links.map((link) => (
-                  <a
-                    className="rounded-md p-3 text-center font-semibold duration-300 hover:bg-slate-900/10 hover:dark:bg-slate-800/50"
-                    href={link.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    key={link.name}
+                  <li
+                    className="bg-purple-hover rounded-md text-center font-semibold duration-300"
+                    key={link.link}
                   >
-                    {link.name}
-                  </a>
+                    <a
+                      href={link.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block p-3"
+                    >
+                      {link.name}
+                    </a>
+                  </li>
                 ))}
-              </div>
+              </ul>
             );
           })}
-        </div>
+        </nav>
       </div>
     </footer>
   );
