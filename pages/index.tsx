@@ -128,7 +128,9 @@ const Home: NextPage<PageProps> = () => {
       </Head>
 
       <div className="mx-auto max-w-7xl p-3 pb-9">
-        <h1 className="text-4xl font-bold duration-300">NextAni Database!</h1>
+        <h1 className="text-4xl font-extrabold duration-300">
+          NextAni Database!
+        </h1>
         <SearchForm query={variables} />
 
         {isPreviousData && (pageQuery.media.length ?? 0) === 0 ? (
