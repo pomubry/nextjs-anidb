@@ -5,9 +5,10 @@ import { CardImageFragment } from "@/lib/query/queryHome";
 
 interface PropType {
   anime: FragmentType<typeof CardImageFragment>;
+  index: number;
 }
 
-const CardImg = (props: PropType) => {
+export default function CardImg(props: PropType) {
   const anime = useFragment(CardImageFragment, props.anime);
 
   const filterStudio = anime.studios?.edges?.filter(
@@ -21,7 +22,7 @@ const CardImg = (props: PropType) => {
         alt={`Cover image for anime ${
           anime.title?.romaji ?? `id: ${anime.id}`
         }`}
-        loading="lazy"
+        loading={props.index < 4 ? "eager" : "lazy"}
         fill
         className="object-cover duration-300 hover:scale-110"
       />
@@ -64,6 +65,4 @@ const CardImg = (props: PropType) => {
       </div>
     </div>
   );
-};
-
-export default CardImg;
+}

@@ -1,6 +1,6 @@
 import type { ClientError } from "graphql-request";
 
-const GQLError = ({ err }: { err: ClientError }) => {
+export default function GQLError({ err }: { err: ClientError }) {
   return (
     <div className="grid place-content-center gap-5">
       <h1 className="text-red text-4xl font-extrabold">Anilist Errors:</h1>
@@ -15,5 +15,4 @@ const GQLError = ({ err }: { err: ClientError }) => {
       </ul>
     </div>
   );
-};
-export default GQLError;
+}

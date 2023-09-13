@@ -1,4 +1,3 @@
-import React from "react";
 import { useRouter } from "next/router";
 import * as Form from "@radix-ui/react-form";
 import { useForm } from "react-hook-form";
@@ -9,7 +8,11 @@ import { formQuerySchema } from "@/lib/validation";
 import { cleanClientHomeSearchParams } from "@/lib/utils";
 import type { FormQuery, ServerHomeQuery } from "@/lib/types";
 
-const YearList = () => {
+interface PropType {
+  query: ServerHomeQuery;
+}
+
+function YearList() {
   const arr = [
     <option value={"ALL"} key={"ALLKEY"}>
       All
@@ -26,13 +29,9 @@ const YearList = () => {
   }
 
   return <>{arr}</>;
-};
-
-interface PropType {
-  query: ServerHomeQuery;
 }
 
-const SearchForm = ({ query }: PropType) => {
+export default function SearchForm({ query }: PropType) {
   const router = useRouter();
   const {
     register,
@@ -140,6 +139,4 @@ const SearchForm = ({ query }: PropType) => {
       </Form.Root>
     </section>
   );
-};
-
-export default SearchForm;
+}

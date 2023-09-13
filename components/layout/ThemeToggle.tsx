@@ -31,7 +31,7 @@ function IconTransition({
 export default function ThemeToggle() {
   const [isDarkMode, setIsDarkMode] = useState<boolean | null>(null);
 
-  const toggleColorMode = () => {
+  function toggleColorMode() {
     if (isDarkMode) {
       setLightMode();
       setIsDarkMode(false);
@@ -39,7 +39,7 @@ export default function ThemeToggle() {
       setDarkMode();
       setIsDarkMode(true);
     }
-  };
+  }
 
   useEffect(() => {
     if (getAppTheme() === "dark") {

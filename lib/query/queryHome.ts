@@ -104,7 +104,7 @@ export const CardDescFragment = graphql(`
   }
 `);
 
-export const fetchHome = async (variables: ServerHomeQuery) => {
+export async function fetchHome(variables: ServerHomeQuery) {
   try {
     const data = await request("https://graphql.anilist.co", queryHomePage, {
       perPage: 10,
@@ -115,4 +115,4 @@ export const fetchHome = async (variables: ServerHomeQuery) => {
     console.error(error);
     return { error: true };
   }
-};
+}

@@ -5,19 +5,18 @@ import { AnimeFragment } from "@/lib/query/queryHome";
 
 interface PropType {
   anime: FragmentType<typeof AnimeFragment>;
+  index: number;
 }
 
-const CardAni = (props: PropType) => {
+export default function CardAni(props: PropType) {
   const anime = useFragment(AnimeFragment, props.anime);
 
   return (
     <li
       className={`grid grid-cols-[4fr_6fr] grid-rows-[13rem] overflow-hidden rounded-lg shadow-xl duration-300 bg-card min-[500px]:grid-rows-[19rem]`}
     >
-      <CardImg anime={anime} />
+      <CardImg anime={anime} index={props.index} />
       <CardDesc anime={anime} />
     </li>
   );
-};
-
-export default CardAni;
+}

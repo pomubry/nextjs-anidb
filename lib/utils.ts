@@ -12,7 +12,7 @@ interface QueryHandlerType {
 
 export const appThemeKey = "lighthalzen-tw-theme";
 
-export const getAppTheme = () => {
+export function getAppTheme() {
   if (
     localStorage.getItem(appThemeKey) === "dark" ||
     (!(appThemeKey in localStorage) &&
@@ -22,22 +22,22 @@ export const getAppTheme = () => {
   } else {
     return "light";
   }
-};
+}
 
-export const setDarkMode = () => {
+export function setDarkMode() {
   localStorage.setItem(appThemeKey, "dark");
   document.documentElement.classList.add("dark");
-};
+}
 
-export const setLightMode = () => {
+export function setLightMode() {
   localStorage.setItem(appThemeKey, "light");
   document.documentElement.classList.remove("dark");
-};
+}
 
-export const useVAPageQuery = () => {
+export function useVAPageQuery() {
   const router = useRouter();
 
-  const handleQuery = ({ cmd, query, currentPage }: QueryHandlerType) => {
+  function handleQuery({ cmd, query, currentPage }: QueryHandlerType) {
     const res = staffSchema.parse(router.query);
     res[query] = cmd === "NEXT" ? currentPage + 1 : currentPage - 1;
 
@@ -51,25 +51,30 @@ export const useVAPageQuery = () => {
       undefined,
       { shallow: true, scroll: false },
     );
-  };
+  }
 
   return handleQuery;
-};
+}
 
-export const useExpander = ({ maxNumber }: { maxNumber: number }) => {
+export function useExpander({ maxNumber }: { maxNumber: number }) {
   const [expanded, setExpanded] = useState(false);
-  const handleExpand = () => setExpanded((prev) => !prev);
+
+  function handleExpand() {
+    return setExpanded((prev) => !prev);
+  }
 
   return {
     sliceEnd: expanded ? undefined : maxNumber,
     expanded,
     handleExpand,
   };
-};
+}
 
-export const getCurrentYear = () => new Date().getFullYear();
+export function getCurrentYear() {
+  return new Date().getFullYear();
+}
 
-export const getCurrentSeason = () => {
+export function getCurrentSeason() {
   switch (new Date().getMonth()) {
     case 0:
     case 1:
@@ -86,17 +91,18 @@ export const getCurrentSeason = () => {
     default:
       return "FALL";
   }
-};
+}
 
-export const objToUrlSearchParams = (query: URLSearchParams) =>
-  "/?" + new URLSearchParams(query).toString();
+export function objToUrlSearchParams(query: URLSearchParams) {
+  return "/?" + new URLSearchParams(query).toString();
+}
 
 /**
  * Remove keys with values of `undefined` or empty strings
  */
-export const cleanClientHomeSearchParams = (
+export function cleanClientHomeSearchParams(
   query: ClientHomeSearchParams,
-): ClientHomeSearchParams => {
+): ClientHomeSearchParams {
   const copy = { ...query };
 
   for (const prop in copy) {
@@ -123,15 +129,15 @@ export const cleanClientHomeSearchParams = (
   }
 
   return copy;
-};
+}
 
-export const catchHandler = <T extends z.ZodTypeAny>(
+export function catchHandler<T extends z.ZodTypeAny>(
   data: {
     error: z.ZodError<unknown>;
     input: unknown;
   },
   schema: T,
-) => {
+) {
   if (Array.isArray(data.input)) {
     const match = data.input.find((item) => schema.safeParse(item).success);
     const matchParsed = schema.safeParse(match);
@@ -139,12 +145,12 @@ export const catchHandler = <T extends z.ZodTypeAny>(
   } else {
     return undefined;
   }
-};
+}
 
 /**
  * Get variables to send to the graphql server
  */
-export const getServerHomeQuery = (variables: ClientHomeSearchParams) => {
+export function getServerHomeQuery(variables: ClientHomeSearchParams) {
   const { pg, sr, ss, yr } = variables;
   const page = pg !== undefined && pg > 0 && pg;
   const search = sr !== undefined && sr.length > 0 && sr;
@@ -159,4 +165,4 @@ export const getServerHomeQuery = (variables: ClientHomeSearchParams) => {
     ...(season && { season }),
     ...(seasonYear && { seasonYear }),
   };
-};
+}

@@ -1,6 +1,6 @@
+import { z } from "zod";
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
-import { z } from "zod";
 import { formQuerySchema, clientHomeSearchParamsSchema } from "./validation";
 import { getServerHomeQuery } from "./utils";
 

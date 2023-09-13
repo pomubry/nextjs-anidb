@@ -149,9 +149,9 @@ const Home: NextPageWithLayout = () => {
               : "select-auto opacity-100"
           }`}
         >
-          {pageQuery.media.map((anime) => {
+          {pageQuery.media.map((anime, index) => {
             if (!anime) return null;
-            return <CardAni anime={anime} key={anime.id} />;
+            return <CardAni anime={anime} index={index} key={anime.id} />;
           })}
         </ul>
 

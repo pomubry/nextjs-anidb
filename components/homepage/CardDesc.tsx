@@ -6,15 +6,19 @@ interface PropType {
   anime: FragmentType<typeof CardDescFragment>;
 }
 
-const Spacer = () => <span> • </span>;
+function Spacer() {
+  return <span> • </span>;
+}
 
-const SpanDetails = ({ children }: { children: React.ReactNode }) => (
-  <span className="text-xs font-semibold text-blue min-[767px]:text-sm">
-    {children}
-  </span>
-);
+function SpanDetails({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="text-xs font-semibold text-blue min-[767px]:text-sm">
+      {children}
+    </span>
+  );
+}
 
-const CardDesc = (props: PropType) => {
+export default function CardDesc(props: PropType) {
   const anime = useFragment(CardDescFragment, props.anime);
 
   const cleanHtml = DOMPurify.sanitize(
@@ -67,6 +71,4 @@ const CardDesc = (props: PropType) => {
       </ul>
     </div>
   );
-};
-
-export default CardDesc;
+}
