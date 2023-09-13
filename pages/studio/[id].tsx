@@ -1,14 +1,15 @@
-import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
   dehydrate,
-  DehydratedState,
   QueryClient,
   useQuery,
+  type DehydratedState,
 } from "@tanstack/react-query";
-import { ClientError } from "graphql-request";
+import type { GetServerSideProps } from "next";
+import type { ClientError } from "graphql-request";
 
+import Layout from "@/components/layout/Layout";
 import AnimeWork from "@/components/studio/AnimeWork";
 import SectionHeader from "@/components/studio/SectionHeader";
 import GQLError from "@/components/generic/GQLError";
@@ -20,6 +21,7 @@ import {
   fetchStudio,
   studioQuerySchema,
 } from "@/lib/query/queryStudio";
+import type { NextPageWithLayout } from "@/lib/types";
 
 interface GSSP {
   dehydratedState: DehydratedState;
@@ -91,7 +93,7 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
   };
 };
 
-const Studio = () => {
+const Studio: NextPageWithLayout = () => {
   const router = useRouter();
   const queryKey = studioQuerySchema.parse(router.query);
 
@@ -224,4 +226,9 @@ const Studio = () => {
     </>
   );
 };
+
+Studio.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
+
 export default Studio;

@@ -1,27 +1,32 @@
 import { useEffect, useState } from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
-import type { AppProps } from "next/app";
+import Head from "next/head";
 import {
   QueryClient,
   QueryClientProvider,
   Hydrate,
-  DehydratedState,
+  type DehydratedState,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import NProgress from "nprogress";
-
-import Layout from "@/components/layout/Layout";
+import type { AppProps } from "next/app";
 
 import "@/styles/globals.css";
 import "@/styles/nprogress.css";
+import type { NextPageWithLayout } from "@/lib/types";
 
-export default function MyApp(
-  props: AppProps<{ dehydratedState: DehydratedState }>
-) {
+type ExtendedAppProps = AppProps<{ dehydratedState: DehydratedState }>;
+
+type AppPropsWithLayout = ExtendedAppProps & {
+  Component: NextPageWithLayout;
+};
+
+export default function MyApp(props: AppPropsWithLayout) {
   const [queryClient] = useState(() => new QueryClient());
   const { Component, pageProps } = props;
   const router = useRouter();
+
+  const getLayout = Component.getLayout ?? ((page) => page);
 
   useEffect(() => {
     const progress = NProgress.configure({ showSpinner: false });
@@ -45,17 +50,17 @@ export default function MyApp(
     };
   }, [router]);
 
-  return (
+  return getLayout(
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
         <Head>
+          <meta name="author" content="pomubry" />
+          <link rel="icon" href="/favicon.ico" />
           <title>NextAni Database</title>
         </Head>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <Component {...pageProps} />
       </Hydrate>
       <ReactQueryDevtools />
-    </QueryClientProvider>
+    </QueryClientProvider>,
   );
 }

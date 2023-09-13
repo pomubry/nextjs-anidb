@@ -1,15 +1,16 @@
-import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import {
   dehydrate,
-  DehydratedState,
   QueryClient,
   useQuery,
+  type DehydratedState,
 } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { ClientError } from "graphql-request";
 import { z } from "zod";
+import type { GetServerSideProps } from "next";
+import type { ClientError } from "graphql-request";
 
+import Layout from "@/components/layout/Layout";
 import AnimeHeader from "@/components/anime/AnimeHeader";
 import LeftInfo from "@/components/anime/left-info";
 import RightInfo from "@/components/anime/right-info";
@@ -18,6 +19,7 @@ import GQLError from "@/components/generic/GQLError";
 import NoData from "@/components/generic/NoData";
 
 import { fetchAnime } from "@/lib/query/queryAnime";
+import type { NextPageWithLayout } from "@/lib/types";
 
 interface GSSP {
   dehydratedState: DehydratedState;
@@ -65,7 +67,7 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
   };
 };
 
-const Anime: NextPage = () => {
+const Anime: NextPageWithLayout = () => {
   const router = useRouter();
   const id = +(router.query.id as string);
 
@@ -130,6 +132,10 @@ const Anime: NextPage = () => {
       </div>
     </>
   );
+};
+
+Anime.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
 };
 
 export default Anime;

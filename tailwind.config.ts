@@ -1,3 +1,4 @@
+import plugin from "tailwindcss/plugin";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -25,7 +26,30 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        ".text-purple": {
+          "@apply text-purple-600 duration-300 dark:text-purple-300": {},
+        },
+        ".text-blue": {
+          "@apply text-blue-600 duration-300 dark:text-blue-300": {},
+        },
+        ".text-slate": {
+          "@apply text-slate-900 duration-300 dark:text-slate-100": {},
+        },
+        ".bg-card": {
+          "@apply bg-slate-100 duration-300 dark:bg-slate-900": {},
+        },
+        ".bg-purple-hover": {
+          "@apply hover:bg-purple-600/30 dark:hover:bg-purple-300/30": {},
+        },
+        ".border-purple": {
+          "@apply border-purple-600 duration-300 dark:border-purple-300": {},
+        },
+      });
+    }),
+  ],
 };
 
 export default config;

@@ -1,24 +1,27 @@
-import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import {
   dehydrate,
-  DehydratedState,
   QueryClient,
   useQuery,
+  type DehydratedState,
 } from "@tanstack/react-query";
-import { ClientError } from "graphql-request";
+import type { GetServerSideProps } from "next";
+import type { ClientError } from "graphql-request";
 
+import Layout from "@/components/layout/Layout";
 import VAHeader from "@/components/va/VAHeader";
 import VACharacters from "@/components/va/VACharacters";
 import VAStaffRoles from "@/components/va/VAStaffRoles";
 import GQLError from "@/components/generic/GQLError";
 import NoData from "@/components/generic/NoData";
+
 import {
   cleanStaffQuery,
   fetchStaff,
   staffSchema,
 } from "@/lib/query/queryVoiceActor";
+import type { NextPageWithLayout } from "@/lib/types";
 
 interface GSSP {
   dehydratedState: DehydratedState;
@@ -92,7 +95,7 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
   };
 };
 
-const VoiceActor: NextPage = () => {
+const VoiceActor: NextPageWithLayout = () => {
   const router = useRouter();
   const queryKey = staffSchema.parse(router.query);
 
@@ -164,4 +167,9 @@ const VoiceActor: NextPage = () => {
     </>
   );
 };
+
+VoiceActor.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
+
 export default VoiceActor;

@@ -1,19 +1,15 @@
-import type {
-  GetServerSideProps,
-  InferGetServerSidePropsType,
-  NextPage,
-} from "next";
-import Head from "next/head";
 import { useRouter } from "next/router";
+import Head from "next/head";
 import {
   dehydrate,
   QueryClient,
   useQuery,
   type DehydratedState,
 } from "@tanstack/react-query";
+import type { GetServerSideProps } from "next";
 import type { ClientError } from "graphql-request";
-import { URLSearchParams } from "url";
 
+import Layout from "@/components/layout/Layout";
 import CardAni from "@/components/homepage/CardAni";
 import Pagination from "@/components/homepage/Pagination";
 import SearchForm from "@/components/generic/SearchForm";
@@ -28,12 +24,13 @@ import {
   objToUrlSearchParams,
 } from "@/lib/utils";
 import { clientHomeSearchParamsSchema } from "@/lib/validation";
+import type { NextPageWithLayout } from "@/lib/types";
 
 interface GSSP {
   dehydratedState: DehydratedState;
 }
 
-export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
+export const getServerSideProps = (async (context) => {
   const clientHomeSearchParams = clientHomeSearchParamsSchema.parse(
     context.query,
   );
@@ -83,11 +80,9 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
       dehydratedState: dehydrate(queryClient),
     },
   };
-};
+}) satisfies GetServerSideProps<GSSP>;
 
-type PageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
-
-const Home: NextPage<PageProps> = () => {
+const Home: NextPageWithLayout = () => {
   const router = useRouter();
   const queryKey = clientHomeSearchParamsSchema.parse(router.query);
   const variables = getServerHomeQuery(queryKey);
@@ -159,6 +154,10 @@ const Home: NextPage<PageProps> = () => {
       </div>
     </>
   );
+};
+
+Home.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
 };
 
 export default Home;
