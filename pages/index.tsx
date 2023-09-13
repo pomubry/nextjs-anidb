@@ -11,8 +11,8 @@ import type { ClientError } from "graphql-request";
 
 import MainLayout from "@/layouts/MainLayout";
 import CardAni from "@/components/homepage/CardAni";
-import Pagination from "@/components/homepage/Pagination";
 import SearchForm from "@/components/generic/SearchForm";
+import Pagination from "@/components/homepage/Pagination";
 import GQLError from "@/components/generic/GQLError";
 import NoData from "@/components/generic/NoData";
 
@@ -106,6 +106,21 @@ const Home: NextPageWithLayout = () => {
 
   const pageInfo = pageQuery.pageInfo;
   const currentPage = pageInfo.currentPage ?? 1;
+  let total = 0;
+
+  if (pageInfo.hasNextPage) {
+    if (pageInfo.total) {
+      total = pageInfo.total;
+    } else {
+      total = currentPage * 10;
+    }
+  } else {
+    if (pageQuery.media.length > 0) {
+      total = (currentPage - 1) * 10 + pageQuery.media.length;
+    } else {
+      total = currentPage * 10; // only 10 items per query;
+    }
+  }
 
   return (
     <>
@@ -140,10 +155,7 @@ const Home: NextPageWithLayout = () => {
           })}
         </ul>
 
-        <Pagination
-          currentPage={currentPage}
-          lastPage={pageInfo.lastPage ?? currentPage + 1}
-        />
+        <Pagination defaultPage={currentPage} count={total} />
       </div>
     </>
   );

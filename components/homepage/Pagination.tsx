@@ -1,27 +1,36 @@
+import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useMachine, normalizeProps } from "@zag-js/react";
+import * as pagination from "@zag-js/pagination";
+
 import { cleanClientHomeSearchParams } from "@/lib/utils";
 import { clientHomeSearchParamsSchema } from "@/lib/validation";
 
-interface BtnType {
-  pageNum: number;
+interface Props {
+  defaultPage: number;
+  count: number;
 }
 
-interface PropType {
-  currentPage: number;
-  lastPage: number;
-}
-
-const classNames = "m-5 mt-16 flex items-center justify-center gap-3";
-
-const Pagination = ({ currentPage, lastPage }: PropType) => {
+export default function Pagination(props: Props) {
   const router = useRouter();
+  const [state, send] = useMachine(
+    pagination.machine({
+      id: "1",
+      page: props.defaultPage,
+      count: props.count,
+      pageSize: 10,
+      siblingCount: 2,
+    }),
+  );
 
-  const setPage = (pg: number) => {
+  const api = pagination.connect(state, send, normalizeProps);
+
+  async function setPage(pg: number) {
     const res = clientHomeSearchParamsSchema.parse({ ...router.query });
     res.pg = pg;
     const query = cleanClientHomeSearchParams(res);
 
-    router.push(
+    await router.push(
       {
         pathname: "/",
         query,
@@ -29,52 +38,49 @@ const Pagination = ({ currentPage, lastPage }: PropType) => {
       undefined,
       { shallow: true, scroll: false },
     );
-  };
-
-  const Radio = ({ pageNum }: BtnType) => (
-    <button
-      onClick={() => setPage(pageNum)}
-      disabled={currentPage === pageNum}
-      className={`h-8 w-8 overflow-ellipsis rounded-lg text-xs font-semibold duration-300 sm:h-10 sm:w-10 sm:text-sm ${
-        currentPage === pageNum
-          ? "bg-blue-300 text-slate-900"
-          : "hover:bg-blue-400 hover:text-slate-900"
-      }`}
-    >
-      {pageNum}
-    </button>
-  );
-
-  const arr: number[] = [];
-
-  if (currentPage && lastPage) {
-    for (let i = -2; i <= 2; i++) {
-      if (currentPage + i > 1 && currentPage + i < lastPage) {
-        arr.push(currentPage + i);
-      }
-    }
-
-    return (
-      // Anilist API doesn't return the exact number of `lastPage` or `total`
-      <div className={classNames}>
-        <Radio pageNum={1} />
-
-        {arr[0] - 1 > 2 && <span> • • • </span>}
-
-        {arr.map((num) => (
-          <Radio pageNum={num} key={num} />
-        ))}
-
-        {lastPage - arr[arr.length - 1] > 2 && <span> • • • </span>}
-
-        {lastPage > 1 && <Radio pageNum={lastPage} />}
-      </div>
-    );
   }
 
-  return (
-    <div className={`${classNames} text-red-400`}>Page info is missing</div>
-  );
-};
+  useEffect(() => {
+    api.setPage(props.defaultPage);
+    api.setCount(props.count);
+  }, [api, props]);
 
-export default Pagination;
+  return (
+    api.totalPages > 1 && (
+      <nav {...api.rootProps} className="mt-16 grid place-content-center">
+        <ul className="flex items-center gap-3">
+          {api.pages.map((page, i) => {
+            if (page.type === "page")
+              return (
+                <li key={page.value}>
+                  <button
+                    {...api.getPageTriggerProps(page)}
+                    onClick={() => setPage(page.value)}
+                    disabled={props.defaultPage === page.value}
+                    className={`grid place-content-center rounded-lg p-2 text-xs font-semibold duration-300 sm:h-10 sm:w-10 sm:p-3 sm:text-sm ${
+                      props.defaultPage === page.value
+                        ? "bg-blue-300 text-slate-900"
+                        : "hover:bg-blue-400 hover:text-slate-900"
+                    }`}
+                  >
+                    {page.value}
+                  </button>
+                </li>
+              );
+            else
+              return (
+                <li key={`ellipsis-${i}`}>
+                  <span
+                    {...api.getEllipsisProps({ index: i })}
+                    className="select-none"
+                  >
+                    &#8230;
+                  </span>
+                </li>
+              );
+          })}
+        </ul>
+      </nav>
+    )
+  );
+}
