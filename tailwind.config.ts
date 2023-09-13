@@ -6,6 +6,7 @@ const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./layouts/**/*.{js,ts,jsx,tsx}",
     "./lib/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
@@ -30,22 +31,26 @@ const config: Config = {
     plugin(({ addUtilities }) => {
       addUtilities({
         ".text-purple": {
-          "@apply text-purple-600 duration-300 dark:text-purple-300": {},
+          "@apply text-purple-500 duration-300 dark:text-purple-300": {},
         },
         ".text-blue": {
-          "@apply text-blue-600 duration-300 dark:text-blue-300": {},
+          "@apply text-blue-500 duration-300 dark:text-blue-300": {},
         },
         ".text-slate": {
           "@apply text-slate-900 duration-300 dark:text-slate-100": {},
+        },
+        ".text-red": {
+          "@apply text-red-500 duration-300 dark:text-red-300": {},
         },
         ".bg-card": {
           "@apply bg-slate-100 duration-300 dark:bg-slate-900": {},
         },
         ".bg-purple-hover": {
-          "@apply hover:bg-purple-600/30 dark:hover:bg-purple-300/30": {},
+          "@apply hover:bg-purple-500/30 duration-300 dark:hover:bg-purple-300/30":
+            {},
         },
         ".border-purple": {
-          "@apply border-purple-600 duration-300 dark:border-purple-300": {},
+          "@apply border-purple-500 duration-300 dark:border-purple-300": {},
         },
       });
     }),

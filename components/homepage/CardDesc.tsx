@@ -1,5 +1,5 @@
 import DOMPurify from "isomorphic-dompurify";
-import { FragmentType, useFragment } from "@/lib/gql";
+import { useFragment, type FragmentType } from "@/lib/gql";
 import { CardDescFragment } from "@/lib/query/queryHome";
 
 interface PropType {
@@ -9,7 +9,7 @@ interface PropType {
 const Spacer = () => <span> • </span>;
 
 const SpanDetails = ({ children }: { children: React.ReactNode }) => (
-  <span className="text-xs text-blue-700 dark:text-blue-300 min-[767px]:text-sm">
+  <span className="text-xs font-semibold text-blue min-[767px]:text-sm">
     {children}
   </span>
 );
@@ -19,12 +19,12 @@ const CardDesc = (props: PropType) => {
 
   const cleanHtml = DOMPurify.sanitize(
     anime.description ?? "<i>There are no descriptions for this anime yet.</i>",
-    { USE_PROFILES: { html: true } }
+    { USE_PROFILES: { html: true } },
   );
 
   return (
     <div className="flex flex-col overflow-x-scroll p-3">
-      <h2 className="text-sm font-bold text-purple-700 dark:text-purple-300 min-[767px]:text-base">
+      <h2 className="text-sm font-semibold text-purple min-[767px]:text-base">
         {anime.season} {anime.seasonYear}
       </h2>
       <div>
@@ -47,7 +47,7 @@ const CardDesc = (props: PropType) => {
         <SpanDetails>Trend Score: {anime.trending ?? "N/A"}</SpanDetails>
       </div>
       <p
-        className="flex-1 overflow-y-scroll pt-3 text-sm"
+        className="flex-1 overflow-y-scroll pt-3 text-sm shadow-xl"
         dangerouslySetInnerHTML={{
           __html: cleanHtml,
         }}
@@ -58,7 +58,7 @@ const CardDesc = (props: PropType) => {
           return (
             <li
               key={genre}
-              className="whitespace-nowrap rounded-md bg-slate-300 px-2 text-xs text-blue-700 duration-300 dark:bg-slate-800 dark:text-blue-400 min-[767px]:text-sm"
+              className="whitespace-nowrap rounded-md bg-slate-300 px-2 text-xs font-semibold text-blue dark:bg-slate-800 min-[767px]:text-sm"
             >
               {genre}
             </li>

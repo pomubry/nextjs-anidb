@@ -13,7 +13,6 @@ import MainLayout from "@/layouts/MainLayout";
 import CardAni from "@/components/homepage/CardAni";
 import Pagination from "@/components/homepage/Pagination";
 import SearchForm from "@/components/generic/SearchForm";
-import Loading from "@/components/generic/Loading";
 import GQLError from "@/components/generic/GQLError";
 import NoData from "@/components/generic/NoData";
 
@@ -111,46 +110,40 @@ const Home: NextPageWithLayout = () => {
   return (
     <>
       <Head>
+        <title>NextAni Database</title>
         <meta
           name="description"
           content={`Check the highest rated anime for the current season of ${variables.season} of ${variables.seasonYear}!`}
         />
         <meta
           name="keywords"
-          content={`anime list, anime database, nextjs, nextani database, ${variables.season} ${variables.seasonYear}!`}
+          content={`nextani database, ${variables.season} ${variables.seasonYear}`}
         />
-        <title>NextAni Database</title>
       </Head>
 
       <div className="mx-auto max-w-7xl p-3 pb-9">
         <h1 className="text-4xl font-extrabold duration-300">
-          NextAni Database!
+          NextAni Database
         </h1>
         <SearchForm query={variables} />
 
-        {isPreviousData && (pageQuery.media.length ?? 0) === 0 ? (
-          <Loading />
-        ) : (
-          <>
-            <ul
-              className={`mt-10 grid grid-cols-[1fr] gap-5 md:grid-cols-[repeat(2,1fr)] ${
-                isPreviousData
-                  ? "select-none opacity-50"
-                  : "select-auto opacity-100"
-              }`}
-            >
-              {pageQuery.media.map((anime) => {
-                if (!anime) return null;
-                return <CardAni anime={anime} key={anime.id} />;
-              })}
-            </ul>
+        <ul
+          className={`mt-10 grid grid-cols-[1fr] gap-5 md:grid-cols-[repeat(2,1fr)] ${
+            isPreviousData
+              ? "select-none opacity-50"
+              : "select-auto opacity-100"
+          }`}
+        >
+          {pageQuery.media.map((anime) => {
+            if (!anime) return null;
+            return <CardAni anime={anime} key={anime.id} />;
+          })}
+        </ul>
 
-            <Pagination
-              currentPage={currentPage}
-              lastPage={pageInfo.lastPage ?? currentPage + 1}
-            />
-          </>
-        )}
+        <Pagination
+          currentPage={currentPage}
+          lastPage={pageInfo.lastPage ?? currentPage + 1}
+        />
       </div>
     </>
   );

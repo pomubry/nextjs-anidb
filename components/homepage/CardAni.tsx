@@ -1,6 +1,6 @@
 import CardImg from "./CardImg";
 import CardDesc from "./CardDesc";
-import { FragmentType, useFragment } from "@/lib/gql";
+import { useFragment, type FragmentType } from "@/lib/gql";
 import { AnimeFragment } from "@/lib/query/queryHome";
 
 interface PropType {
@@ -12,7 +12,7 @@ const CardAni = (props: PropType) => {
 
   return (
     <li
-      className={`grid grid-cols-[4fr_6fr] grid-rows-[13rem] overflow-hidden rounded-lg bg-slate-100 shadow-xl duration-300 dark:bg-slate-900 min-[500px]:grid-rows-[19rem]`}
+      className={`grid grid-cols-[4fr_6fr] grid-rows-[13rem] overflow-hidden rounded-lg shadow-xl duration-300 bg-card min-[500px]:grid-rows-[19rem]`}
     >
       <CardImg anime={anime} />
       <CardDesc anime={anime} />

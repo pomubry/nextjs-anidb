@@ -56,7 +56,6 @@ export default function MyApp(props: AppPropsWithLayout) {
         <Head>
           <meta name="author" content="pomubry" />
           <link rel="icon" href="/favicon.ico" />
-          <title>NextAni Database</title>
         </Head>
         <Component {...pageProps} />
       </Hydrate>

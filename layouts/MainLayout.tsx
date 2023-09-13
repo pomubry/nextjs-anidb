@@ -13,11 +13,13 @@ export default function MainLayout({ children }: { children: ReactNode }) {
 
       <Footer />
 
-      <MdOutlineKeyboardDoubleArrowUp
-        aria-label="Button to scroll back to the top of page"
-        className="fixed bottom-5 right-5 h-10 w-10 cursor-pointer rounded-lg text-purple bg-purple-hover"
+      <button
+        aria-label="Scroll back to the top of page"
+        className="fixed bottom-5 right-5 cursor-pointer rounded-lg text-5xl text-purple bg-purple-hover"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      />
+      >
+        <MdOutlineKeyboardDoubleArrowUp />
+      </button>
     </div>
   );
 }

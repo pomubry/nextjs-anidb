@@ -35,7 +35,7 @@ const Pagination = ({ currentPage, lastPage }: PropType) => {
     <button
       onClick={() => setPage(pageNum)}
       disabled={currentPage === pageNum}
-      className={`h-8 w-8 overflow-ellipsis rounded-lg text-xs duration-300 sm:h-10 sm:w-10 sm:text-sm ${
+      className={`h-8 w-8 overflow-ellipsis rounded-lg text-xs font-semibold duration-300 sm:h-10 sm:w-10 sm:text-sm ${
         currentPage === pageNum
           ? "bg-blue-300 text-slate-900"
           : "hover:bg-blue-400 hover:text-slate-900"

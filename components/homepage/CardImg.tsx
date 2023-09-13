@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FragmentType, useFragment } from "@/lib/gql";
+import { useFragment, type FragmentType } from "@/lib/gql";
 import { CardImageFragment } from "@/lib/query/queryHome";
 
 interface PropType {
@@ -50,7 +50,7 @@ const CardImg = (props: PropType) => {
                       ? { color: anime.coverImage.color }
                       : {}
                   }
-                  className="p-1 text-sm text-purple-400 hover:underline"
+                  className="p-1 text-sm text-purple-300 hover:underline"
                 >
                   {studio.node.name}
                   {filterStudio.length - 1 !== idx &&

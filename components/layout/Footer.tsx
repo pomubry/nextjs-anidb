@@ -7,7 +7,9 @@ export default function Footer() {
       <div className="mx-auto grid max-w-6xl grid-cols-[1fr] items-center gap-10 p-3 min-[650px]:grid-cols-[repeat(2,1fr)]">
         <div>
           <div className="flex items-center">
-            <span className="mb-2 flex-1 text-3xl font-bold">Disclaimers:</span>
+            <span className="mb-2 flex-1 text-3xl font-extrabold">
+              Disclaimer:
+            </span>
             <a
               href="https://github.com/pomubry"
               target="_blank"

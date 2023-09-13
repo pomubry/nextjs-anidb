@@ -1,7 +1,7 @@
 const NoData = () => {
   return (
-    <div className="container mx-auto my-10 p-3">
-      <h2 className="font-bold text-red-600">No data was found!</h2>
+    <div className="grid place-content-center">
+      <h1 className="text-red text-4xl font-extrabold">No data was found!</h1>
     </div>
   );
 };

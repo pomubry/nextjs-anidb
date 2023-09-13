@@ -1,26 +1,18 @@
-import { ClientError } from "graphql-request";
+import type { ClientError } from "graphql-request";
 
 const GQLError = ({ err }: { err: ClientError }) => {
-  let errorList: React.ReactNode[];
-
-  if ((err.response.errors?.length ?? 0) > 0) {
-    errorList =
-      err.response.errors?.map((err, i) => (
-        <li className="my-1" key={i}>
-          - {err.message}
-        </li>
-      )) || [];
-  } else {
-    errorList = [
-      <li className="my-1" key="err.message">
-        - {err.message}
-      </li>,
-    ];
-  }
   return (
-    <div className="container mx-auto p-3">
-      <h2 className="font-bold text-red-600">Anilist Errors:</h2>
-      <ul className="ml-3">{errorList}</ul>
+    <div className="grid place-content-center gap-5">
+      <h1 className="text-red text-4xl font-extrabold">Anilist Errors:</h1>
+      <ul className="grid gap-3">
+        {err.response.errors?.map((error, i) => {
+          return (
+            <li className="my-1" key={`${i} - ${error.message}`}>
+              - {err.message}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 };

@@ -55,7 +55,7 @@ const SearchForm = ({ query }: PropType) => {
   });
 
   return (
-    <section className="mt-5 dark:text-slate-200" key={JSON.stringify(query)}>
+    <section className="mt-5" key={JSON.stringify(query)}>
       <Form.Root
         onSubmit={onSubmit}
         className="mt-2 grid grid-cols-[1fr] gap-3 text-sm min-[480px]:grid-cols-[repeat(2,1fr)] sm:text-base"
@@ -66,11 +66,11 @@ const SearchForm = ({ query }: PropType) => {
           className="group"
         >
           <Form.Label>Search Anime:</Form.Label>
-          <div className="asd asdasd border-purple relative flex items-center rounded-md border-2 group-data-[invalid=true]:border-red-300">
+          <div className="relative flex items-center rounded-md border-2 border-purple group-data-[invalid=true]:border-red-300">
             <Form.Submit
               aria-label="Search Button"
               type="submit"
-              className="p-2"
+              className="p-2 bg-purple-hover"
             >
               <BiSearchAlt className="text-xl" />
             </Form.Submit>
@@ -80,7 +80,7 @@ const SearchForm = ({ query }: PropType) => {
                 type="search"
                 defaultValue={query.search || ""}
                 placeholder="Summer Time Rendering"
-                className="w-full border-l-2 border-slate-900 bg-inherit indent-2 placeholder:text-slate-600 focus-visible:outline-none dark:border-slate-300 dark:placeholder:text-slate-400"
+                className="w-full border-l-2 border-slate-900 bg-inherit indent-2 duration-300 placeholder:text-slate-600 focus-visible:outline-none dark:border-slate-100 dark:placeholder:text-slate-400"
               />
             </Form.Control>
           </div>
@@ -98,7 +98,7 @@ const SearchForm = ({ query }: PropType) => {
                 {...register("ss")}
                 placeholder="Pick Season"
                 defaultValue={query.season || "ALL"}
-                className="border-purple cursor-pointer rounded-md border-2 bg-inherit px-4 py-2 data-[invalid=true]:border-red-300"
+                className="cursor-pointer rounded-md border-2 bg-inherit px-4 py-2 border-purple data-[invalid=true]:border-red-300"
               >
                 <optgroup label="All Seasons">
                   <option value="ALL">All</option>
@@ -130,7 +130,7 @@ const SearchForm = ({ query }: PropType) => {
                 {...register("yr")}
                 placeholder="Pick Year"
                 defaultValue={query.seasonYear || "ALL"}
-                className="cursor-pointer rounded-md border-2 border-slate-800 bg-inherit px-4 py-2 data-[invalid=true]:border-red-300 dark:border-purple-300"
+                className="cursor-pointer rounded-md border-2 bg-inherit px-4 py-2 border-purple  data-[invalid=true]:border-red-300"
               >
                 <YearList />
               </select>
