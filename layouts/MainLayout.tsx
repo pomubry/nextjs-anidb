@@ -1,8 +1,10 @@
 import { MdOutlineKeyboardDoubleArrowUp } from "react-icons/md";
-import Nav from "./Nav";
-import Footer from "./Footer";
+import type { ReactNode } from "react";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+import Nav from "../components/layout/Nav";
+import Footer from "../components/layout/Footer";
+
+export default function MainLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col justify-between bg-slate-200 text-slate-800 transition duration-300 dark:bg-slate-800 dark:text-slate-200">
       <Nav />

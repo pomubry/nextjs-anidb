@@ -2,16 +2,16 @@ import Link from "next/link";
 import Links from "./Links";
 import ThemeToggle from "./ThemeToggle";
 
-const Nav = () => {
+export default function Nav() {
   return (
-    <nav className="bg-slate-300 px-5 py-3 transition dark:bg-slate-900">
+    <nav className="px-5 py-3 transition bg-card">
       <div className="mx-auto flex max-w-7xl items-center">
         <div className="flex-1">
           <Link href="/" shallow>
-            <span className="text-5xl font-extrabold text-slate-800 dark:text-slate-200">
+            <span className="text-5xl font-extrabold text-slate-800 duration-300 dark:text-slate-200">
               N
             </span>
-            <span className="inline-block -translate-x-[30%] text-5xl font-extrabold text-purple-400 dark:text-purple-300">
+            <span className="inline-block -translate-x-[30%] text-5xl font-extrabold text-purple">
               A
             </span>
           </Link>
@@ -23,5 +23,4 @@ const Nav = () => {
       </div>
     </nav>
   );
-};
-export default Nav;
+}

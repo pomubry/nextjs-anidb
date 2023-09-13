@@ -10,7 +10,7 @@ import { z } from "zod";
 import type { GetServerSideProps } from "next";
 import type { ClientError } from "graphql-request";
 
-import Layout from "@/components/layout/Layout";
+import MainLayout from "@/layouts/MainLayout";
 import AnimeHeader from "@/components/anime/AnimeHeader";
 import LeftInfo from "@/components/anime/left-info";
 import RightInfo from "@/components/anime/right-info";
@@ -135,7 +135,7 @@ const Anime: NextPageWithLayout = () => {
 };
 
 Anime.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>;
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export default Anime;

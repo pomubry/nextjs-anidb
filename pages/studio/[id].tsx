@@ -9,7 +9,7 @@ import {
 import type { GetServerSideProps } from "next";
 import type { ClientError } from "graphql-request";
 
-import Layout from "@/components/layout/Layout";
+import MainLayout from "@/layouts/MainLayout";
 import AnimeWork from "@/components/studio/AnimeWork";
 import SectionHeader from "@/components/studio/SectionHeader";
 import GQLError from "@/components/generic/GQLError";
@@ -228,7 +228,7 @@ const Studio: NextPageWithLayout = () => {
 };
 
 Studio.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>;
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export default Studio;

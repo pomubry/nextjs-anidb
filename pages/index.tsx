@@ -9,7 +9,7 @@ import {
 import type { GetServerSideProps } from "next";
 import type { ClientError } from "graphql-request";
 
-import Layout from "@/components/layout/Layout";
+import MainLayout from "@/layouts/MainLayout";
 import CardAni from "@/components/homepage/CardAni";
 import Pagination from "@/components/homepage/Pagination";
 import SearchForm from "@/components/generic/SearchForm";
@@ -157,7 +157,7 @@ const Home: NextPageWithLayout = () => {
 };
 
 Home.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>;
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export default Home;

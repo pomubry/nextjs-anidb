@@ -9,7 +9,7 @@ import {
 import type { GetServerSideProps } from "next";
 import type { ClientError } from "graphql-request";
 
-import Layout from "@/components/layout/Layout";
+import MainLayout from "@/layouts/MainLayout";
 import VAHeader from "@/components/va/VAHeader";
 import VACharacters from "@/components/va/VACharacters";
 import VAStaffRoles from "@/components/va/VAStaffRoles";
@@ -169,7 +169,7 @@ const VoiceActor: NextPageWithLayout = () => {
 };
 
 VoiceActor.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>;
+  return <MainLayout>{page}</MainLayout>;
 };
 
 export default VoiceActor;
