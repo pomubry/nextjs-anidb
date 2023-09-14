@@ -1,7 +1,9 @@
 import Image from "next/image";
+
 import ExpandButton from "./ExpandButton";
 import ListParent from "./ListParent";
-import { FragmentType, useFragment } from "@/lib/gql";
+
+import { useFragment, type FragmentType } from "@/lib/gql";
 import { StaffFragment } from "@/lib/query/queryAnime";
 import { useExpander } from "@/lib/utils";
 
@@ -9,7 +11,7 @@ interface PropType {
   staff: FragmentType<typeof StaffFragment>;
 }
 
-const Staff = (props: PropType) => {
+export default function Staff(props: PropType) {
   const maxNumber = 10;
   const staff = useFragment(StaffFragment, props.staff);
 
@@ -21,7 +23,7 @@ const Staff = (props: PropType) => {
         if (!obj || !obj.node) return null;
         return (
           <li
-            className="flex h-[110px] overflow-hidden rounded-md bg-slate-100 text-sm shadow-xl dark:bg-slate-900 md:text-base"
+            className="flex h-[110px] overflow-hidden rounded-md text-sm shadow-xl bg-card md:text-base"
             key={obj.id ?? `${obj.node.id}-${obj.role}`}
           >
             <div className="relative max-w-[130px] flex-[2]">
@@ -36,9 +38,7 @@ const Staff = (props: PropType) => {
             </div>
             <div className="flex flex-[6] flex-col gap-3 p-3">
               <h3 className="mb-auto">{obj.node.name?.full || "N/A"}</h3>
-              <p className="text-blue-600 dark:text-blue-400">
-                {obj.role || "N/A"}
-              </p>
+              <p className="text-blue">{obj.role || "N/A"}</p>
             </div>
           </li>
         );
@@ -53,6 +53,4 @@ const Staff = (props: PropType) => {
       )}
     </ListParent>
   );
-};
-
-export default Staff;
+}

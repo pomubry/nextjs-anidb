@@ -1,6 +1,6 @@
 import request from "graphql-request";
-import { z } from "zod";
 import { graphql } from "../gql";
+import type { staffSchemaType } from "../types";
 
 const queryStaff = graphql(`
   query queryStaff(
@@ -134,40 +134,7 @@ export const RoleEdgeFragment = graphql(`
   }
 `);
 
-const numberSchema = z.coerce.number().positive();
-
-export const staffSchema = z.object({
-  id: numberSchema,
-  cp: numberSchema.catch((e) => {
-    if (Array.isArray(e.input)) {
-      const res = (e.input as string[]).find(
-        (input) => numberSchema.safeParse(input).success
-      );
-      return res ? +res : 1;
-    } else {
-      return 1;
-    }
-  }),
-  sp: numberSchema.catch((e) => {
-    if (Array.isArray(e.input)) {
-      const res = (e.input as string[]).find(
-        (input) => numberSchema.safeParse(input).success
-      );
-      return res ? +res : 1;
-    } else {
-      return 1;
-    }
-  }),
-});
-
-export type staffSchemaType = z.infer<typeof staffSchema>;
-
-export const cleanStaffQuery = (query: staffSchemaType) => ({
-  ...(query.cp > 1 && { cp: query.cp }),
-  ...(query.sp > 1 && { sp: query.sp }),
-});
-
-export const fetchStaff = async (query: staffSchemaType) => {
+export async function fetchStaff(query: staffSchemaType) {
   const data = await request("https://graphql.anilist.co", queryStaff, {
     id: query.id,
     characterPage: query.cp,
@@ -175,4 +142,4 @@ export const fetchStaff = async (query: staffSchemaType) => {
     sort: "START_DATE_DESC",
   });
   return data.Staff;
-};
+}

@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
@@ -14,20 +15,17 @@ import AnimeWork from "@/components/studio/AnimeWork";
 import SectionHeader from "@/components/studio/SectionHeader";
 import GQLError from "@/components/generic/GQLError";
 import NoData from "@/components/generic/NoData";
-import StudioHead from "@/components/studio/StudioHead";
 
-import {
-  cleanStudioQuery,
-  fetchStudio,
-  studioQuerySchema,
-} from "@/lib/query/queryStudio";
+import { fetchStudio } from "@/lib/query/queryStudio";
+import { cleanStudioQuery, objToUrlSearchParams } from "@/lib/utils";
+import { studioQuerySchema } from "@/lib/validation";
 import type { NextPageWithLayout } from "@/lib/types";
 
 interface GSSP {
   dehydratedState: DehydratedState;
 }
 
-export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
+export const getServerSideProps = (async (context) => {
   const query = studioQuerySchema.safeParse(context.query);
   if (!query.success) {
     console.error("Invalid queries:", query.error);
@@ -39,29 +37,21 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
     };
   }
 
-  const cleanQuery = cleanStudioQuery(query.data);
+  const searchParams = cleanStudioQuery(query.data);
 
-  // Redirect if there's a difference between `context.query` and `cleanQuery` (means there's a wrong query)
-  // i.e. /studio/858/?pg=ABC&pg=3&pg=4 will redirect to /studio/858/?pg=3
+  // Redirect if the number of keys in `searchParams` and `context.query` are not equal
+  // That means some search params were cleaned up! Redirect to a cleaner url
   const redirect =
-    Object.entries(cleanQuery).some((pair) => {
-      const [key, value] = pair;
-      const queryValue = context.query[key]; // type string | string[] | undefined
-      return queryValue !== value.toString();
-    }) ||
-    // Redirect if there are excessive/irrelevant queries
-    // i.e. for this page, we only need `pg`
-    // i.e. ?pg=abc&pg=4&random=query will redirect to ?pg=4
-    Object.keys(cleanQuery).length !== Object.keys(context.query).length - 1; // -1 is to disregard [id] query
+    Object.keys(searchParams).length !== Object.keys(context.query).length - 1; // -1 is to disregard [id] query
 
   if (redirect) {
-    const queryString = new URLSearchParams(
-      cleanQuery as unknown as URLSearchParams,
-    ).toString();
+    const destination = objToUrlSearchParams(
+      searchParams as unknown as URLSearchParams,
+    );
 
     return {
       redirect: {
-        destination: `/studio/${query.data.id}?` + queryString,
+        destination: `/studio/${query.data.id}` + destination,
         permanent: false,
       },
     };
@@ -79,8 +69,7 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
   const error = queryClient.getQueryState(queryKey)?.error;
 
   if (error) {
-    console.error("Fetching error in the getServerSideProps:");
-    console.error(error);
+    console.error("Fetching error in the getServerSideProps:", error);
     return {
       notFound: true,
     };
@@ -91,7 +80,7 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
       dehydratedState: dehydrate(queryClient),
     },
   };
-};
+}) satisfies GetServerSideProps<GSSP>;
 
 const Studio: NextPageWithLayout = () => {
   const router = useRouter();
@@ -140,87 +129,73 @@ const Studio: NextPageWithLayout = () => {
 
   const animeKeys = Object.keys(anime).sort((a, b) => +b - +a);
 
-  if (
+  const hasNoWorks =
     animeKeys.length === 0 ||
     typeof studio.media?.pageInfo?.currentPage !== "number" ||
-    typeof studio.media?.pageInfo?.hasNextPage !== "boolean"
-  )
-    return (
-      <>
-        <StudioHead name={studio.name} />
-        <div>
-          <header className="container mx-auto mb-10 p-5">
-            <h1 className="text-4xl font-extrabold">{studio.name}</h1>
-            {studio.siteUrl && (
-              <a
-                href={studio.siteUrl}
-                rel="noopener noreferer"
-                target="_blank"
-              ></a>
-            )}
-          </header>
-          <section
-            className={`${
-              isPreviousData && "opacity-50"
-            } container mx-auto px-5`}
-          >
-            <p>No works were found for {studio.name}</p>
-            {queryKey.pg === 1 ? (
-              <Link href="/" className="text-blue-500 dark:text-blue-300">
-                Go back to homepage
-              </Link>
-            ) : (
-              <Link
-                href={`/studio/${queryKey.id}`}
-                className="text-blue-500 dark:text-blue-300"
-              >
-                Go back to page 1
-              </Link>
-            )}
-          </section>
-        </div>
-      </>
-    );
+    typeof studio.media?.pageInfo?.hasNextPage !== "boolean";
 
   return (
     <>
-      <StudioHead name={studio.name} />
+      <Head>
+        <title>{`${studio.name} | NextAni`}</title>
+        <meta name="description" content={`Animation studio ${studio.name}`} />
+        <meta name="keywords" content={`nextani database, ${studio.name}`} />
+      </Head>
+
       <div>
         <header className="container mx-auto mb-10 p-5">
           <h1 className="text-4xl font-extrabold">{studio.name}</h1>
-          {studio.siteUrl && (
-            <a
-              href={studio.siteUrl}
-              rel="noopener noreferer"
-              target="_blank"
-            ></a>
-          )}
         </header>
         <section
           className={`${isPreviousData && "opacity-50"} container mx-auto px-5`}
         >
-          <SectionHeader
-            currentPage={studio.media?.pageInfo?.currentPage}
-            hasNextPage={studio.media?.pageInfo?.hasNextPage}
-            total={studio.media?.pageInfo?.total}
-            isPreviousData={isPreviousData}
-          />
-          {animeKeys.map((yr) => {
-            const year = +yr;
-            return (
-              <div key={year} className="mb-10">
-                <p className="text-right text-2xl">
-                  {year === 9999 ? "To Be Announced" : year}
-                </p>
-                <ul className="my-2 flex gap-2 overflow-scroll md:flex-wrap md:gap-5 md:overflow-visible">
-                  {anime[+year].map((ani) => {
-                    if (!ani) return null;
-                    return <AnimeWork key={ani.id} anime={ani} />;
-                  })}
-                </ul>
-              </div>
-            );
-          })}
+          {hasNoWorks ? (
+            <>
+              <p>No works were found for {studio.name}</p>
+              {queryKey.pg === 1 ? (
+                <Link
+                  href="/"
+                  className="mt-3 inline-block rounded-lg p-3 font-semibold text-blue bg-card hover:opacity-80"
+                >
+                  Go back to homepage
+                </Link>
+              ) : (
+                <Link
+                  href={`/studio/${queryKey.id}`}
+                  className="mt-3 inline-block rounded-lg p-3 font-semibold text-blue bg-card hover:opacity-80"
+                >
+                  Go back to page 1
+                </Link>
+              )}
+            </>
+          ) : (
+            <>
+              <SectionHeader
+                currentPage={studio.media?.pageInfo?.currentPage}
+                hasNextPage={studio.media?.pageInfo?.hasNextPage}
+                total={studio.media?.pageInfo?.total}
+                isPreviousData={isPreviousData}
+              />
+              {animeKeys.map((yr, index) => {
+                const year = +yr;
+                return (
+                  <div key={year} className="mb-10">
+                    <p className="text-right text-2xl">
+                      {year === 9999 ? "To Be Announced" : year}
+                    </p>
+                    <ul className="my-2 flex gap-2 overflow-scroll md:flex-wrap md:gap-5 md:overflow-visible">
+                      {anime[+year].map((ani) => {
+                        if (!ani) return null;
+                        return (
+                          <AnimeWork anime={ani} index={index} key={ani.id} />
+                        );
+                      })}
+                    </ul>
+                  </div>
+                );
+              })}
+            </>
+          )}
         </section>
       </div>
     </>

@@ -11,6 +11,7 @@ const config: CodegenConfig = {
       plugins: [],
       config: {
         enumsAsTypes: true,
+        useTypeImports: true,
       },
     },
   },

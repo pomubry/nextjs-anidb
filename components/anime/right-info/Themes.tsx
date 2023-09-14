@@ -6,15 +6,12 @@ interface PropType {
 const Themes = ({ themes, heading }: PropType) => {
   return (
     <div className="flex-[50%]">
-      <h3 className="text-sm font-bold text-purple-500 dark:text-purple-300 sm:text-base md:text-lg">
+      <h3 className="text-sm font-bold text-purple sm:text-base md:text-lg">
         {heading}
       </h3>
       <ul className="text-xs sm:text-sm">
         {themes.map((song) => (
-          <li
-            className="my-2 rounded-md bg-slate-100 p-3 shadow-xl dark:bg-slate-900"
-            key={song}
-          >
+          <li className="my-2 rounded-md p-3 shadow-xl bg-card" key={song}>
             {song}
           </li>
         ))}

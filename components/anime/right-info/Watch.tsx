@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { BiLinkExternal } from "react-icons/bi";
-import { FragmentType, useFragment } from "@/lib/gql";
+import { useFragment, type FragmentType } from "@/lib/gql";
 import { StreamingEpisodesFragment } from "@/lib/query/queryAnime";
 
 interface PropType {

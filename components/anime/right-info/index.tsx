@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+
 import Relations from "./Relations";
 import Characters from "./Characters";
 import Themes from "./Themes";
@@ -8,7 +9,7 @@ import Watch from "./Watch";
 import Recommendations from "./Recommendations";
 import InfoHeadTitle from "../InfoHeadTitle";
 
-import { FragmentType, useFragment } from "@/lib/gql";
+import { useFragment, type FragmentType } from "@/lib/gql";
 import { RightInfoFragment } from "@/lib/query/queryAnime";
 
 interface MALThemes {
@@ -22,7 +23,7 @@ interface PropType {
   anime: FragmentType<typeof RightInfoFragment>;
 }
 
-const RightInfo = (props: PropType) => {
+export default function RightInfo(props: PropType) {
   const anime = useFragment(RightInfoFragment, props.anime);
   const { data } = useQuery({
     refetchOnWindowFocus: false,
@@ -39,15 +40,15 @@ const RightInfo = (props: PropType) => {
   const isNotReversed =
     anime.streamingEpisodes &&
     anime.streamingEpisodes[0]?.title?.includes("Episode 1 ");
+
   const sortedEpisodes = isNotReversed
     ? anime.streamingEpisodes
     : anime.streamingEpisodes?.reverse();
 
   return (
     <>
-      {/* This component contains 6 parts: 
-          Relations, Characters, Staff, StatusDistribution, Watch, Trailer, & Recommendations */}
-
+      {/* This component contains 6 parts:
+                Relations, Characters, Staff, StatusDistribution, Watch, Trailer, & Recommendations */}
       {!!anime.relations?.edges?.length && (
         <section>
           <InfoHeadTitle title="Relations" />
@@ -124,6 +125,4 @@ const RightInfo = (props: PropType) => {
       )}
     </>
   );
-};
-
-export default RightInfo;
+}

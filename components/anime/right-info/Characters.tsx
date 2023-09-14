@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+
 import ExpandButton from "./ExpandButton";
 import ListParent from "./ListParent";
-import { FragmentType, useFragment } from "@/lib/gql";
+
+import { useFragment, type FragmentType } from "@/lib/gql";
 import { CharactersFragment } from "@/lib/query/queryAnime";
 import { useExpander } from "@/lib/utils";
 
@@ -10,7 +12,7 @@ interface PropType {
   characters: FragmentType<typeof CharactersFragment>;
 }
 
-const Characters = (props: PropType) => {
+export default function Characters(props: PropType) {
   const maxNumber = 10;
   const characters = useFragment(CharactersFragment, props.characters);
   const { sliceEnd, handleExpand, expanded } = useExpander({
@@ -29,7 +31,7 @@ const Characters = (props: PropType) => {
               edge.id ??
               `${edge.node.id}-${edge.voiceActors && edge.voiceActors[0]?.id}`
             }
-            className="grid min-h-[7rem] grid-cols-[1fr,1fr] overflow-hidden rounded-md bg-slate-100 text-sm shadow-xl dark:bg-slate-900 md:text-xs lg:text-sm"
+            className="grid min-h-[7rem] grid-cols-[1fr,1fr] overflow-hidden rounded-md text-sm shadow-xl bg-card md:text-xs lg:text-sm"
           >
             {/* Anime character on the left */}
             <div className="grid grid-cols-[1fr,2fr] gap-1">
@@ -47,11 +49,7 @@ const Characters = (props: PropType) => {
               <div className="flex flex-col p-1">
                 <h3 className="flex-1">{edge.node.name?.full || "N/A"}</h3>
                 <p
-                  className={
-                    edge.role === "MAIN"
-                      ? "text-blue-500 dark:text-blue-300"
-                      : "text-purple-500 dark:text-purple-300"
-                  }
+                  className={edge.role === "MAIN" ? "text-blue" : "text-purple"}
                 >
                   {edge.role ?? "N/A"}
                 </p>
@@ -62,7 +60,7 @@ const Characters = (props: PropType) => {
             {edge.voiceActors && edge.voiceActors[0] && (
               <div className="grid grid-cols-[2fr,1fr] gap-1">
                 <div className="flex flex-col p-1 text-end">
-                  <h3 className="flex-1 text-blue-500 dark:text-blue-300">
+                  <h3 className="flex-1 text-blue">
                     <Link
                       href={`/va/${edge.voiceActors[0].id}`}
                       className="hover:underline"
@@ -95,6 +93,4 @@ const Characters = (props: PropType) => {
       )}
     </ListParent>
   );
-};
-
-export default Characters;
+}

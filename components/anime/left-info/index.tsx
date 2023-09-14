@@ -3,14 +3,15 @@ import Rankings from "./Rankings";
 import Data from "./Data";
 import Tags from "./Tags";
 import StreamLinks from "./StreamLinks";
-import { FragmentType, useFragment } from "@/lib/gql";
+
+import { useFragment, type FragmentType } from "@/lib/gql";
 import { LeftInfoFragment } from "@/lib/query/queryAnime";
 
 interface PropType {
   anime: FragmentType<typeof LeftInfoFragment>;
 }
 
-const LeftInfo = (props: PropType) => {
+export default function LeftInfo(props: PropType) {
   const anime = useFragment(LeftInfoFragment, props.anime);
 
   return (
@@ -22,7 +23,7 @@ const LeftInfo = (props: PropType) => {
           <InfoHeadTitle title="Rankings" />
           <ul>
             {anime.rankings.map((rank) =>
-              rank ? <Rankings rank={rank} key={rank.id} /> : null
+              rank ? <Rankings rank={rank} key={rank.id} /> : null,
             )}
           </ul>
         </section>
@@ -38,7 +39,7 @@ const LeftInfo = (props: PropType) => {
           <InfoHeadTitle title="Tags" />
           <ul>
             {anime.tags.map((tag) =>
-              tag ? <Tags tags={tag} key={tag.id} /> : null
+              tag ? <Tags tags={tag} key={tag.id} /> : null,
             )}
           </ul>
         </section>
@@ -49,13 +50,11 @@ const LeftInfo = (props: PropType) => {
           <InfoHeadTitle title="External & Streaming links" />
           <ul>
             {anime.externalLinks.map((link) =>
-              link ? <StreamLinks link={link} key={link.id} /> : null
+              link ? <StreamLinks link={link} key={link.id} /> : null,
             )}
           </ul>
         </section>
       )}
     </div>
   );
-};
-
-export default LeftInfo;
+}

@@ -1,11 +1,11 @@
-import { FragmentType, useFragment } from "@/lib/gql";
+import { useFragment, type FragmentType } from "@/lib/gql";
 import { StreamLinksFragment } from "@/lib/query/queryAnime";
 
 interface PropType {
   link: FragmentType<typeof StreamLinksFragment>;
 }
 
-const bgColor = (site: string) => {
+function bgColor(site: string) {
   switch (site.toLowerCase()) {
     case "animelab":
     case "funimation":
@@ -23,9 +23,9 @@ const bgColor = (site: string) => {
     default:
       return "bg-blue-400 text-slate-100 hover:bg-blue-500";
   }
-};
+}
 
-const StreamLinks = (props: PropType) => {
+export default function StreamLinks(props: PropType) {
   const link = useFragment(StreamLinksFragment, props.link);
   return link.url ? (
     <li
@@ -44,6 +44,4 @@ const StreamLinks = (props: PropType) => {
       </a>
     </li>
   ) : null;
-};
-
-export default StreamLinks;
+}

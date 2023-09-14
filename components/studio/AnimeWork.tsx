@@ -1,43 +1,50 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FragmentType, useFragment } from "@/lib/gql";
+import { useFragment, type FragmentType } from "@/lib/gql";
 import { AnimeWorkFragment } from "@/lib/query/queryStudio";
 
-interface PropType {
+interface Props {
   anime: FragmentType<typeof AnimeWorkFragment>;
+  index: number;
 }
 
-const Head3 = ({ title }: { title: string | null | undefined }) => (
-  <h3
-    title={title || ""}
-    className={`line-clamp-3 rounded-md px-2 pt-2 text-sm font-semibold duration-300 hover:bg-blue-400/20`}
-  >
-    {title}
-  </h3>
-);
-
-const AnimeWork = (props: PropType) => {
-  const anime = useFragment(AnimeWorkFragment, props.anime);
+function Heading(props: { title: string; children: React.ReactNode }) {
   return (
-    <li className="flex min-w-[9rem] max-w-[9rem] flex-col overflow-hidden rounded-lg bg-slate-100 shadow-xl duration-300 dark:bg-slate-900">
+    <h3
+      title={props.title}
+      className={`line-clamp-3 rounded-md px-2 pt-2 text-sm font-semibold duration-300 hover:bg-blue-400/20`}
+    >
+      {props.children}
+    </h3>
+  );
+}
+
+export default function AnimeWork(props: Props) {
+  const anime = useFragment(AnimeWorkFragment, props.anime);
+  const title = anime.title?.romaji || "N/A";
+
+  return (
+    <li className="flex min-w-[9rem] max-w-[9rem] flex-col overflow-hidden rounded-lg shadow-xl duration-300 bg-card">
       <div className="relative aspect-[2/3] overflow-hidden">
         <Image
           src={anime.coverImage?.large || "N/A"}
-          alt={anime.title?.romaji || "N/A"}
+          alt={title}
+          priority={props.index === 0}
           fill
           className="object-cover duration-300 hover:scale-110"
         />
       </div>
       <div className="flex flex-[1] flex-col justify-around gap-2 p-3 text-center">
-        {anime.type === "ANIME" ? (
-          <Link href={`/anime/${anime.id}`} shallow>
-            <Head3 title={anime.title?.romaji || "N/A"} />
-          </Link>
-        ) : (
-          <Head3 title={anime.title?.romaji || "N/A"} />
-        )}
+        <Heading title={title}>
+          {anime.type === "ANIME" ? (
+            <Link href={`/anime/${anime.id}`} shallow>
+              {title}
+            </Link>
+          ) : (
+            <>{title}</>
+          )}
+        </Heading>
       </div>
     </li>
   );
-};
-export default AnimeWork;
+}

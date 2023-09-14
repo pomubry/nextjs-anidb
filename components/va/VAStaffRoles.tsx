@@ -1,6 +1,6 @@
 import SectionHeader from "./SectionHeader";
 import RoleCard from "./RoleCard";
-import { FragmentType, useFragment } from "@/lib/gql";
+import { useFragment, type FragmentType } from "@/lib/gql";
 import { VAStaffRolesFragment } from "@/lib/query/queryVoiceActor";
 
 interface PropType {
@@ -8,16 +8,20 @@ interface PropType {
   isPreviousData: boolean;
 }
 
-const VAStaffRoles = (props: PropType) => {
+export default function VAStaffRoles(props: PropType) {
   const staffRoles = useFragment(VAStaffRolesFragment, props.staffRole);
 
   const roles =
-    staffRoles.edges?.reduce((acc, cur) => {
-      if (!cur) return acc;
-      const year = cur?.node?.startDate?.year || 9999;
-      const arr = acc[year];
-      return { ...acc, [year]: arr ? [...arr, cur] : [cur] };
-    }, {} as { [key: number]: typeof staffRoles.edges }) || {};
+    staffRoles.edges?.reduce(
+      (acc, cur) => {
+        if (!cur) return acc;
+        const year = cur?.node?.startDate?.year || 9999;
+        const arr = acc[year];
+        return { ...acc, [year]: arr ? [...arr, cur] : [cur] };
+      },
+      {} as { [key: number]: typeof staffRoles.edges },
+    ) || {};
+
   const rolesKeys = Object.keys(roles).sort((a, b) => +b - +a);
 
   if (rolesKeys.length < 1) return null;
@@ -53,5 +57,4 @@ const VAStaffRoles = (props: PropType) => {
       })}
     </section>
   );
-};
-export default VAStaffRoles;
+}

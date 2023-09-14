@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FragmentType, useFragment } from "@/lib/gql";
+import { useFragment, type FragmentType } from "@/lib/gql";
 import { RecommendationsFragment } from "@/lib/query/queryAnime";
 
 interface PropType {
   rec: FragmentType<typeof RecommendationsFragment>;
 }
 
-const Recommendations = (props: PropType) => {
+export default function Recommendations(props: PropType) {
   const rec = useFragment(RecommendationsFragment, props.rec);
   if (!rec.nodes) return null;
   return (
@@ -17,7 +17,7 @@ const Recommendations = (props: PropType) => {
         const mediaRecommendation = recommendation.mediaRecommendation;
         return (
           <li
-            className="overflow-hidden rounded-md bg-slate-100 shadow-xl dark:bg-slate-900"
+            className="overflow-hidden rounded-md shadow-xl bg-card"
             key={mediaRecommendation.id}
           >
             <div className="relative aspect-[1/1.25] w-full object-cover">
@@ -32,7 +32,7 @@ const Recommendations = (props: PropType) => {
               />
             </div>
             <div className="p-2 text-center">
-              <h3 className="rounded-md p-2 font-semibold text-blue-500 duration-300 hover:bg-blue-400/20 dark:text-blue-300">
+              <h3 className="rounded-md p-2 font-semibold duration-300 text-blue hover:bg-blue-400/20">
                 <Link
                   href={"/anime/" + mediaRecommendation.id}
                   title={mediaRecommendation.title?.romaji ?? "Title: N/A"}
@@ -47,6 +47,4 @@ const Recommendations = (props: PropType) => {
       })}
     </>
   );
-};
-
-export default Recommendations;
+}

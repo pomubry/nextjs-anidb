@@ -16,22 +16,20 @@ import VAStaffRoles from "@/components/va/VAStaffRoles";
 import GQLError from "@/components/generic/GQLError";
 import NoData from "@/components/generic/NoData";
 
-import {
-  cleanStaffQuery,
-  fetchStaff,
-  staffSchema,
-} from "@/lib/query/queryVoiceActor";
+import { fetchStaff } from "@/lib/query/queryVoiceActor";
+import { cleanStaffQuery, objToUrlSearchParams } from "@/lib/utils";
+import { staffSchema } from "@/lib/validation";
 import type { NextPageWithLayout } from "@/lib/types";
 
 interface GSSP {
   dehydratedState: DehydratedState;
 }
 
-export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
-  const res = staffSchema.safeParse(context.query);
+export const getServerSideProps = (async (context) => {
+  const staff = staffSchema.safeParse(context.query);
 
-  if (!res.success) {
-    console.error("Invalid queries:", res.error);
+  if (!staff.success) {
+    console.error("Invalid queries:", staff.error);
     return {
       redirect: {
         destination: "/",
@@ -40,49 +38,39 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
     };
   }
 
-  const cleanQuery = cleanStaffQuery(res.data);
+  const searchParams = cleanStaffQuery(staff.data);
 
+  // Redirect if the number of keys in `searchParams` and `context.query` are not equal
+  // That means some search params were cleaned up! Redirect to a cleaner url
   const redirect =
-    // Redirect if there's a difference between `context.query` and `cleanQuery` (means there's a wrong query)
-    // i.e. ?cp=abc will redirect to ?cp=1
-    Object.entries(cleanQuery).some((entry) => {
-      const [key, value] = entry;
-      const queryValue = context.query[key];
-      return queryValue !== value.toString();
-    }) ||
-    // Redirect if there are excessive/irrelevant queries
-    // i.e. for this page, we only need `cp`, `sp`,
-    // i.e. ?cp=abc&cp=4&random=query will redirect to ?cp=4
-    // -1 is for [id] query
-    Object.keys(context.query).length - 1 !== Object.keys(cleanQuery).length;
+    Object.keys(context.query).length - 1 !== Object.keys(searchParams).length; // -1 is for [id] query
 
   if (redirect) {
+    const destination =
+      `/va/${staff.data.id}` +
+      objToUrlSearchParams(searchParams as unknown as URLSearchParams);
+
     return {
       redirect: {
-        destination:
-          `/va/${res.data.id}?` +
-          new URLSearchParams(
-            cleanQuery as unknown as URLSearchParams,
-          ).toString(),
+        destination,
         permanent: false,
       },
     };
   }
 
   const queryClient = new QueryClient();
-  const queryKey = ["staff", res.data];
+  const queryKey = ["staff", staff.data];
   await queryClient.prefetchQuery({
     queryKey,
     queryFn: async () => {
-      return await fetchStaff(res.data);
+      return await fetchStaff(staff.data);
     },
   });
 
   const error = queryClient.getQueryState(queryKey)?.error;
 
   if (error) {
-    console.error("Fetching error in the getServerSideProps:");
-    console.error(error);
+    console.error("Fetching error in the getServerSideProps:", error);
     return {
       notFound: true,
     };
@@ -93,7 +81,7 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
       dehydratedState: dehydrate(queryClient),
     },
   };
-};
+}) satisfies GetServerSideProps<GSSP>;
 
 const VoiceActor: NextPageWithLayout = () => {
   const router = useRouter();
@@ -128,6 +116,7 @@ const VoiceActor: NextPageWithLayout = () => {
   return (
     <>
       <Head>
+        <title>{title}</title>
         <meta
           name="description"
           content={
@@ -136,11 +125,8 @@ const VoiceActor: NextPageWithLayout = () => {
         />
         <meta
           name="keywords"
-          content={`anime list, anime database, nextjs, nextani database, ${
-            staff.name?.full || ""
-          }`}
+          content={`nextani database, ${staff.name?.full || ""}`}
         />
-        <title>{title}</title>
       </Head>
 
       <VAHeader staff={staff} />

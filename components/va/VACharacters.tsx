@@ -1,6 +1,6 @@
 import CharacterCard from "./CharacterCard";
 import SectionHeader from "./SectionHeader";
-import { FragmentType, useFragment } from "@/lib/gql";
+import { useFragment, type FragmentType } from "@/lib/gql";
 import { VACharactersFragment } from "@/lib/query/queryVoiceActor";
 
 interface PropType {
@@ -8,19 +8,22 @@ interface PropType {
   isPreviousData: boolean;
 }
 
-const VACharacters = (props: PropType) => {
+export default function VACharacters(props: PropType) {
   const characterMedia = useFragment(
     VACharactersFragment,
-    props.characterMedia
+    props.characterMedia,
   );
 
   const chars =
-    characterMedia.edges?.reduce((acc, cur) => {
-      if (!cur) return acc;
-      const year = cur?.node?.startDate?.year || 9999;
-      const arr = acc[year];
-      return { ...acc, [year]: arr ? [...arr, cur] : [cur] };
-    }, {} as { [key: number]: typeof characterMedia.edges }) || {};
+    characterMedia.edges?.reduce(
+      (acc, cur) => {
+        if (!cur) return acc;
+        const year = cur?.node?.startDate?.year || 9999;
+        const arr = acc[year];
+        return { ...acc, [year]: arr ? [...arr, cur] : [cur] };
+      },
+      {} as { [key: number]: typeof characterMedia.edges },
+    ) || {};
   const charsKeys = Object.keys(chars).sort((a, b) => +b - +a);
 
   if (charsKeys.length < 1) return null;
@@ -56,5 +59,4 @@ const VACharacters = (props: PropType) => {
       })}
     </section>
   );
-};
-export default VACharacters;
+}

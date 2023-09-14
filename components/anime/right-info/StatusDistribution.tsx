@@ -1,5 +1,5 @@
-import { FragmentType, useFragment } from "@/lib/gql";
-import { MediaListStatus } from "@/lib/gql/graphql";
+import { useFragment, type FragmentType } from "@/lib/gql";
+import type { MediaListStatus } from "@/lib/gql/graphql";
 import { StatsDistributionFragment } from "@/lib/query/queryAnime";
 
 interface PropType {
@@ -8,7 +8,7 @@ interface PropType {
 
 type Status = MediaListStatus | null | undefined;
 
-const color = (status: Status) => {
+function color(status: Status) {
   switch (status) {
     case "CURRENT":
       return "dark:text-green-400 text-green-600";
@@ -23,9 +23,9 @@ const color = (status: Status) => {
     default:
       return undefined;
   }
-};
+}
 
-const bgcolor = (status: Status) => {
+function bgcolor(status: Status) {
   switch (status) {
     case "CURRENT":
       return "bg-green-400";
@@ -40,9 +40,9 @@ const bgcolor = (status: Status) => {
     default:
       return undefined;
   }
-};
+}
 
-const StatusDistribution = (props: PropType) => {
+export default function StatusDistribution(props: PropType) {
   const stats = useFragment(StatsDistributionFragment, props.stats);
 
   if (!stats || !stats.statusDistribution) return null;
@@ -56,7 +56,7 @@ const StatusDistribution = (props: PropType) => {
   };
 
   return (
-    <div className="my-2 mb-10 overflow-hidden rounded-md bg-slate-100 shadow-xl dark:bg-slate-900">
+    <div className="my-2 mb-10 overflow-hidden rounded-md shadow-xl bg-card">
       {/* Status and number of users */}
       <ul className="flex flex-wrap justify-around gap-5 p-3">
         {stats.statusDistribution.map((stat) => {
@@ -65,7 +65,7 @@ const StatusDistribution = (props: PropType) => {
             <li key={stat.status} className="grid place-content-center">
               <span
                 className={`rounded-3xl px-3 py-2 dark:font-semibold ${bgcolor(
-                  stat.status
+                  stat.status,
                 )}`}
               >
                 {stat.status}
@@ -94,6 +94,4 @@ const StatusDistribution = (props: PropType) => {
       </ul>
     </div>
   );
-};
-
-export default StatusDistribution;
+}

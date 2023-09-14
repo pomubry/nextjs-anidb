@@ -1,6 +1,6 @@
 import { marked } from "marked";
 import DOMPurify from "isomorphic-dompurify";
-import { FragmentType, useFragment } from "@/lib/gql";
+import { useFragment, type FragmentType } from "@/lib/gql";
 import { VAHeaderFragment } from "@/lib/query/queryVoiceActor";
 
 interface PropType {
@@ -12,7 +12,7 @@ interface TagType {
   tagValue: string;
 }
 
-const Tag = ({ tag, tagValue }: TagType) => {
+function Tag({ tag, tagValue }: TagType) {
   if (tagValue.length === 0) return null;
 
   return (
@@ -20,17 +20,18 @@ const Tag = ({ tag, tagValue }: TagType) => {
       <strong className="font-extrabold">{tag}:</strong> {tagValue}
     </p>
   );
-};
+}
 
-const VAHeader = (props: PropType) => {
+export default function VAHeader(props: PropType) {
   const staff = useFragment(VAHeaderFragment, props.staff);
 
-  const getDate = (date: typeof staff.dateOfBirth) => {
+  function getDate(date: typeof staff.dateOfBirth) {
     if (!date) return "";
 
     const rawDate = new Date(
-      Date.UTC(date.year || 0, date.month ? date.month - 1 : 0, date.day || 0)
+      Date.UTC(date.year || 0, date.month ? date.month - 1 : 0, date.day || 0),
     );
+
     const formattedDate = new Intl.DateTimeFormat(undefined, {
       ...(date.year && { year: "numeric" }),
       ...(date.month && { month: "long" }),
@@ -39,7 +40,7 @@ const VAHeader = (props: PropType) => {
 
     if (formattedDate.includes("/") || formattedDate.length < 3) return "";
     return formattedDate;
-  };
+  }
 
   const dateOfBirth = getDate(staff.dateOfBirth);
   const dateOfDeath = getDate(staff.dateOfDeath);
@@ -72,12 +73,12 @@ const VAHeader = (props: PropType) => {
         class="font-extrabold"
         >${text}</strong>`;
       },
-      link(href, title, text) {
+      link(href, _, text) {
         return `<a 
         href="${href}" 
         rel="nooopener noreferrer" 
         target="_blank" 
-        class="text-blue-600 hover:underline dark:text-blue-300"
+        class="text-blue hover:underline"
         >${text}</a>`;
       },
     },
@@ -86,9 +87,9 @@ const VAHeader = (props: PropType) => {
   const cleanHtml = DOMPurify.sanitize(
     marked.parse(
       staff.description?.replace(/:\s+__/g, ":__ ") ||
-        "<i>There are no descriptions for this staff yet.</i>"
+        "<i>There are no descriptions for this staff yet.</i>",
     ),
-    { USE_PROFILES: { html: true } }
+    { USE_PROFILES: { html: true } },
   );
 
   return (
@@ -99,7 +100,6 @@ const VAHeader = (props: PropType) => {
             src={staff.image?.large || "N/A"}
             alt={staff.name?.full || "N/A"}
             className="rounded-lg object-cover shadow-xl shadow-slate-900 md:absolute md:top-5 md:h-[70%]"
-            loading="lazy"
           />
         </picture>
         <div className="order-1 text-center md:order-2 md:text-left">
@@ -132,5 +132,4 @@ const VAHeader = (props: PropType) => {
       </div>
     </header>
   );
-};
-export default VAHeader;
+}

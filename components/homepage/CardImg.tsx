@@ -22,7 +22,7 @@ export default function CardImg(props: PropType) {
         alt={`Cover image for anime ${
           anime.title?.romaji ?? `id: ${anime.id}`
         }`}
-        loading={props.index < 4 ? "eager" : "lazy"}
+        priority={props.index < 4}
         fill
         className="object-cover duration-300 hover:scale-110"
       />

@@ -1,22 +1,16 @@
-import { FragmentType, useFragment } from "@/lib/gql";
-import { DataFragment } from "@/lib/query/queryAnime";
 import Link from "next/link";
+import { useFragment, type FragmentType } from "@/lib/gql";
+import { DataFragment } from "@/lib/query/queryAnime";
+
+import ListItem from "./ListItem";
+import Heading from "./Heading";
+import DateInfo from "./DateInfo";
 
 interface PropType {
   anime: FragmentType<typeof DataFragment>;
 }
 
-const CustomBox = ({ children }: { children: React.ReactNode }) => (
-  <li className="my-2">{children}</li>
-);
-
-const CustomTypo = ({ children }: { children: React.ReactNode }) => (
-  <h3 className="font-semibold text-purple-500 dark:text-purple-300">
-    {children}
-  </h3>
-);
-
-const Data = (props: PropType) => {
+export default function Data(props: PropType) {
   const anime = useFragment(DataFragment, props.anime);
 
   const studioGroup = anime.studios?.nodes?.reduce(
@@ -31,121 +25,89 @@ const Data = (props: PropType) => {
     } as {
       studios: typeof anime.studios.nodes;
       producers: typeof anime.studios.nodes;
-    }
+    },
   );
 
   return (
-    <ul className="flex min-h-full flex-col justify-around rounded-md bg-slate-100 p-3 shadow-xl dark:bg-slate-900 dark:text-slate-200">
+    <ul className="flex min-h-full flex-col justify-around rounded-md p-3 shadow-xl bg-card">
       {!!anime.format && (
-        <CustomBox>
-          <CustomTypo>Format</CustomTypo>
+        <ListItem>
+          <Heading>Format</Heading>
           <p>{anime.format}</p>
-        </CustomBox>
+        </ListItem>
       )}
 
       {!!anime.episodes && (
-        <CustomBox>
-          <CustomTypo>Episodes</CustomTypo>
+        <ListItem>
+          <Heading>Episodes</Heading>
           <p>{anime.episodes}</p>
-        </CustomBox>
+        </ListItem>
       )}
 
       {!!anime.duration && (
-        <CustomBox>
-          <CustomTypo>Episode Duration</CustomTypo>
+        <ListItem>
+          <Heading>Episode Duration</Heading>
           <p>{anime.duration} minutes</p>
-        </CustomBox>
+        </ListItem>
       )}
 
       {!!anime.status && (
-        <CustomBox>
-          <CustomTypo>Status</CustomTypo>
+        <ListItem>
+          <Heading>Status</Heading>
           <p>{anime.status}</p>
-        </CustomBox>
+        </ListItem>
       )}
 
-      {/* Check first if every property has a value/truthy */}
-      {anime.startDate &&
-        Object.values(anime.startDate).every(
-          (value) => typeof value === "number"
-        ) && (
-          <CustomBox>
-            <CustomTypo>Start Date</CustomTypo>
-            <p>
-              {new Date(
-                // values shouldn't be null anymore
-                anime.startDate.year!,
-                anime.startDate.month!,
-                anime.startDate.day!
-              ).toDateString()}
-            </p>
-          </CustomBox>
-        )}
+      {anime.startDate && <DateInfo name="Start Date" date={anime.startDate} />}
 
-      {/* Check first if every property has a value/truthy */}
-      {anime.endDate &&
-        Object.values(anime.endDate).every(
-          (value) => typeof value === "number"
-        ) && (
-          <CustomBox>
-            <CustomTypo>End Date</CustomTypo>
-            <p>
-              {new Date(
-                // values shouldn't be null anymore
-                anime.endDate.year!,
-                anime.endDate.month!,
-                anime.endDate.day!
-              ).toDateString()}
-            </p>
-          </CustomBox>
-        )}
+      {anime.endDate && <DateInfo name="End Date" date={anime.endDate} />}
 
       {(!!anime.season || !!anime.seasonYear) && (
-        <CustomBox>
-          <CustomTypo>Season</CustomTypo>
+        <ListItem>
+          <Heading>Season</Heading>
           <p>
             {anime.season} {anime.seasonYear}
           </p>
-        </CustomBox>
+        </ListItem>
       )}
 
       {!!anime.averageScore && (
-        <CustomBox>
-          <CustomTypo>Average Score</CustomTypo>
+        <ListItem>
+          <Heading>Average Score</Heading>
           <p>{anime.averageScore}%</p>
-        </CustomBox>
+        </ListItem>
       )}
 
       {!!anime.meanScore && (
-        <CustomBox>
-          <CustomTypo>Mean Score</CustomTypo>
+        <ListItem>
+          <Heading>Mean Score</Heading>
           <p>{anime.meanScore}%</p>
-        </CustomBox>
+        </ListItem>
       )}
 
       {!!anime.popularity && (
-        <CustomBox>
-          <CustomTypo>Popularity</CustomTypo>
+        <ListItem>
+          <Heading>Popularity</Heading>
           <p>{anime.popularity}</p>
-        </CustomBox>
+        </ListItem>
       )}
 
       {!!anime.favourites && (
-        <CustomBox>
-          <CustomTypo>Favourites</CustomTypo>
+        <ListItem>
+          <Heading>Favourites</Heading>
           <p>{anime.favourites}</p>
-        </CustomBox>
+        </ListItem>
       )}
 
       {!!studioGroup?.studios.length && (
-        <CustomBox>
-          <CustomTypo>Studios</CustomTypo>
+        <ListItem>
+          <Heading>Studios</Heading>
           {studioGroup.studios.map((studio) => {
             if (!studio) return null;
             return (
               <p key={studio.id}>
                 <Link
-                  className="font-extrabold text-blue-500 hover:underline dark:text-blue-300"
+                  className="font-extrabold text-blue hover:underline"
                   href={`/studio/${studio.id}`}
                 >
                   {studio.name}
@@ -153,72 +115,62 @@ const Data = (props: PropType) => {
               </p>
             );
           })}
-        </CustomBox>
+        </ListItem>
       )}
 
       {!!studioGroup?.studios.length && (
-        <CustomBox>
-          <CustomTypo>Producers</CustomTypo>
+        <ListItem>
+          <Heading>Producers</Heading>
           {studioGroup.producers.map((studio) => {
             if (!studio) return null;
             return <p key={studio.id}>{studio.name}</p>;
           })}
-        </CustomBox>
+        </ListItem>
       )}
 
       {!!anime.source && (
-        <CustomBox>
-          <CustomTypo>Source</CustomTypo>
+        <ListItem>
+          <Heading>Source</Heading>
           <p>{anime.source}</p>
-        </CustomBox>
+        </ListItem>
       )}
 
       {!!anime.genres?.length && (
-        <CustomBox>
-          <CustomTypo>Genres</CustomTypo>
-          {/* {anime.genres.map((genre, index) =>
-            genre ? (
-              <span key={genre}>
-                {genre}
-                {anime.genres!.length !== index + 1 ? ", " : ""}
-              </span>
-            ) : null
-          )} */}
+        <ListItem>
+          <Heading>Genres</Heading>
           {anime.genres.join(", ")}
-        </CustomBox>
+        </ListItem>
       )}
 
       {!!anime.title?.romaji && (
-        <CustomBox>
-          <CustomTypo>Romaji</CustomTypo>
+        <ListItem>
+          <Heading>Romaji</Heading>
           <p>{anime.title.romaji}</p>
-        </CustomBox>
+        </ListItem>
       )}
 
       {!!anime.title?.english && (
-        <CustomBox>
-          <CustomTypo>English</CustomTypo>
+        <ListItem>
+          <Heading>English</Heading>
           <p>{anime.title.english}</p>
-        </CustomBox>
+        </ListItem>
       )}
 
       {!!anime.title?.native && (
-        <CustomBox>
-          <CustomTypo>Native</CustomTypo>
+        <ListItem>
+          <Heading>Native</Heading>
           <p>{anime.title.native}</p>
-        </CustomBox>
+        </ListItem>
       )}
 
       {!!anime.synonyms?.length && (
-        <CustomBox>
-          <CustomTypo>Synonyms</CustomTypo>
+        <ListItem>
+          <Heading>Synonyms</Heading>
           {anime.synonyms.map((synonym) =>
-            synonym ? <p key={synonym}>{synonym}</p> : null
+            synonym ? <p key={synonym}>{synonym}</p> : null,
           )}
-        </CustomBox>
+        </ListItem>
       )}
     </ul>
   );
-};
-
-export default Data;
+}

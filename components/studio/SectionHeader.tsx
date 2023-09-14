@@ -1,15 +1,16 @@
 import { useRouter } from "next/router";
 import { BsArrowLeftSquareFill } from "react-icons/bs";
-import { cleanStudioQuery, studioQuerySchema } from "@/lib/query/queryStudio";
+import { cleanStudioQuery } from "@/lib/utils";
+import { studioQuerySchema } from "@/lib/validation";
 
-interface PropType {
+interface Props {
   currentPage: number | null | undefined;
   hasNextPage: boolean | null | undefined;
   total: number | null | undefined;
   isPreviousData: boolean;
 }
 
-const SectionHeader = (props: PropType) => {
+export default function SectionHeader(props: Props) {
   const currentPage = props.currentPage || 1;
   const router = useRouter();
 
@@ -25,7 +26,7 @@ const SectionHeader = (props: PropType) => {
         query: cleanQuery,
       },
       undefined,
-      { shallow: true }
+      { shallow: true, scroll: false },
     );
   };
 
@@ -36,10 +37,11 @@ const SectionHeader = (props: PropType) => {
         <button
           onClick={() => pageHandler({ forward: false })}
           disabled={props.isPreviousData || currentPage <= 1}
-          className={`text-3xl font-extrabold duration-300 ${
+          aria-label="View previous works"
+          className={`text-3xl font-extrabold ${
             currentPage === 1
-              ? "text-purple-500/50 dark:text-purple-300/50"
-              : "text-purple-500 hover:text-purple-600 dark:text-purple-300 dark:hover:text-purple-400"
+              ? "opacity-50 text-purple"
+              : "text-purple hover:opacity-80"
           } `}
         >
           <BsArrowLeftSquareFill />
@@ -50,10 +52,11 @@ const SectionHeader = (props: PropType) => {
         <button
           onClick={() => pageHandler({ forward: true })}
           disabled={props.isPreviousData || !props.hasNextPage}
-          className={`rotate-180 text-3xl font-extrabold duration-300 ${
+          aria-label="View more works"
+          className={`rotate-180 text-3xl font-extrabold ${
             props.hasNextPage
-              ? "text-purple-500 hover:text-purple-600 dark:text-purple-300 dark:hover:text-purple-400"
-              : "text-purple-500/50 dark:text-purple-300/50"
+              ? "text-purple hover:opacity-80"
+              : "opacity-50 text-purple"
           }`}
         >
           <BsArrowLeftSquareFill />
@@ -61,5 +64,4 @@ const SectionHeader = (props: PropType) => {
       </div>
     </div>
   );
-};
-export default SectionHeader;
+}

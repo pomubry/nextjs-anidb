@@ -27,7 +27,7 @@ interface GSSP {
 
 const idSchema = z.coerce.number().positive();
 
-export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
+export const getServerSideProps = (async (context) => {
   const idParams = idSchema.safeParse(context.params?.id);
   if (!idParams.success) {
     console.error("Invalid queries:", idParams.error);
@@ -53,8 +53,7 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
   const error = queryClient.getQueryState(queryKey)?.error;
 
   if (error) {
-    console.error("Fetching error in the getServerSideProps:");
-    console.error(error);
+    console.error("Fetching error in the getServerSideProps:", error);
     return {
       notFound: true,
     };
@@ -65,7 +64,7 @@ export const getServerSideProps: GetServerSideProps<GSSP> = async (context) => {
       dehydratedState: dehydrate(queryClient),
     },
   };
-};
+}) satisfies GetServerSideProps<GSSP>;
 
 const Anime: NextPageWithLayout = () => {
   const router = useRouter();
@@ -95,21 +94,18 @@ const Anime: NextPageWithLayout = () => {
     data.anime.title?.romaji ||
     "NextAni ID: " + data.anime.id;
 
-  const keywords = data.anime.synonyms?.join(", ") || description;
+  const keywords = data.anime.synonyms?.join(", ");
 
   const title = data.anime.title?.romaji
     ? `${data.anime.title.romaji} | NextAni`
-    : "NextAni";
+    : id + " | NextAni";
 
   return (
     <>
       <Head>
-        <meta name="description" content={description} />
-        <meta
-          name="keywords"
-          content={keywords + ", nextani database, anime list"}
-        />
         <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta name="keywords" content={"nextani database, " + keywords || ""} />
       </Head>
 
       <AnimeHeader anime={data.anime} />

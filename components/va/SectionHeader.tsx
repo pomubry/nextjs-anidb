@@ -1,5 +1,13 @@
+import { useRouter } from "next/router";
 import { BsArrowLeftSquareFill } from "react-icons/bs";
-import { useVAPageQuery } from "@/lib/utils";
+import { cleanStaffQuery } from "@/lib/utils";
+import { staffSchema } from "@/lib/validation";
+
+interface QueryHandlerType {
+  cmd: "PREVIOUS" | "NEXT";
+  query: "cp" | "sp";
+  currentPage: number;
+}
 
 interface PropType {
   heading: "Characters" | "Anime Staff Roles";
@@ -10,9 +18,26 @@ interface PropType {
   query: "cp" | "sp";
 }
 
-const SectionHeader = (props: PropType) => {
+export default function SectionHeader(props: PropType) {
+  const router = useRouter();
+
+  function pageHandler({ cmd, query, currentPage }: QueryHandlerType) {
+    const staff = staffSchema.parse(router.query);
+    staff[query] = cmd === "NEXT" ? currentPage + 1 : currentPage - 1;
+
+    const cleanQuery = cleanStaffQuery(staff);
+
+    router.push(
+      {
+        pathname: `/va/${staff.id}`,
+        query: cleanQuery,
+      },
+      undefined,
+      { shallow: true, scroll: false },
+    );
+  }
+
   const currentPage = props.currentPage || 1;
-  const pageHandler = useVAPageQuery();
 
   return (
     <div className="my-5 flex items-center gap-5">
@@ -27,10 +52,11 @@ const SectionHeader = (props: PropType) => {
             })
           }
           disabled={props.isPreviousData || currentPage <= 1}
+          aria-label={`View previous ${props.heading}`}
           className={`text-3xl font-extrabold duration-300 ${
             currentPage === 1
-              ? "text-purple-500/50 dark:text-purple-300/50"
-              : "text-purple-500 hover:text-purple-600 dark:text-purple-300 dark:hover:text-purple-400"
+              ? "opacity-50 text-purple"
+              : "opacity-80 text-purple"
           } `}
         >
           <BsArrowLeftSquareFill />
@@ -47,10 +73,11 @@ const SectionHeader = (props: PropType) => {
             })
           }
           disabled={props.isPreviousData || !props.hasNextPage}
+          aria-label={`View more ${props.heading}`}
           className={`rotate-180 text-3xl font-extrabold duration-300 ${
             props?.hasNextPage
-              ? "text-purple-500 hover:text-purple-600 dark:text-purple-300 dark:hover:text-purple-400"
-              : "text-purple-500/50 dark:text-purple-300/50"
+              ? "opacity-80 text-purple"
+              : "opacity-50 text-purple"
           }`}
         >
           <BsArrowLeftSquareFill />
@@ -58,5 +85,4 @@ const SectionHeader = (props: PropType) => {
       </div>
     </div>
   );
-};
-export default SectionHeader;
+}

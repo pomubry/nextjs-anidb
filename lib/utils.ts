@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { useRouter } from "next/router";
 import { z } from "zod";
-import { cleanStaffQuery, staffSchema } from "./query/queryVoiceActor";
-import type { ClientHomeSearchParams } from "./types";
+import type {
+  ClientHomeSearchParams,
+  StudioQuerySchemaType,
+  staffSchemaType,
+} from "./types";
 
-interface QueryHandlerType {
-  cmd: "PREVIOUS" | "NEXT";
-  query: "cp" | "sp";
-  currentPage: number;
-}
+// ===== Theme
 
 export const appThemeKey = "lighthalzen-tw-theme";
 
@@ -34,27 +32,7 @@ export function setLightMode() {
   document.documentElement.classList.remove("dark");
 }
 
-export function useVAPageQuery() {
-  const router = useRouter();
-
-  function handleQuery({ cmd, query, currentPage }: QueryHandlerType) {
-    const res = staffSchema.parse(router.query);
-    res[query] = cmd === "NEXT" ? currentPage + 1 : currentPage - 1;
-
-    const cleanQuery = cleanStaffQuery(res);
-
-    router.push(
-      {
-        pathname: `/va/${res.id}`,
-        query: cleanQuery,
-      },
-      undefined,
-      { shallow: true, scroll: false },
-    );
-  }
-
-  return handleQuery;
-}
+// ===== Anime
 
 export function useExpander({ maxNumber }: { maxNumber: number }) {
   const [expanded, setExpanded] = useState(false);
@@ -69,6 +47,8 @@ export function useExpander({ maxNumber }: { maxNumber: number }) {
     handleExpand,
   };
 }
+
+// ===== Homepage
 
 export function getCurrentYear() {
   return new Date().getFullYear();
@@ -95,6 +75,22 @@ export function getCurrentSeason() {
 
 export function objToUrlSearchParams(query: URLSearchParams) {
   return "/?" + new URLSearchParams(query).toString();
+}
+
+export function catchHandler<T extends z.ZodTypeAny>(
+  data: {
+    error: z.ZodError<unknown>;
+    input: unknown;
+  },
+  schema: T,
+) {
+  if (Array.isArray(data.input)) {
+    const match = data.input.find((item) => schema.safeParse(item).success);
+    const matchParsed = schema.safeParse(match);
+    return matchParsed.success ? (matchParsed.data as z.output<T>) : undefined;
+  } else {
+    return undefined;
+  }
 }
 
 /**
@@ -131,22 +127,6 @@ export function cleanClientHomeSearchParams(
   return copy;
 }
 
-export function catchHandler<T extends z.ZodTypeAny>(
-  data: {
-    error: z.ZodError<unknown>;
-    input: unknown;
-  },
-  schema: T,
-) {
-  if (Array.isArray(data.input)) {
-    const match = data.input.find((item) => schema.safeParse(item).success);
-    const matchParsed = schema.safeParse(match);
-    return matchParsed.success ? (matchParsed.data as z.output<T>) : undefined;
-  } else {
-    return undefined;
-  }
-}
-
 /**
  * Get variables to send to the graphql server
  */
@@ -164,5 +144,22 @@ export function getServerHomeQuery(variables: ClientHomeSearchParams) {
     ...(search && { search }),
     ...(season && { season }),
     ...(seasonYear && { seasonYear }),
+  };
+}
+
+// ===== Studio
+
+export function cleanStudioQuery(query: StudioQuerySchemaType) {
+  return {
+    ...(query.pg > 1 && { pg: query.pg }),
+  };
+}
+
+// ===== VA
+
+export function cleanStaffQuery(query: staffSchemaType) {
+  return {
+    ...(query.cp > 1 && { cp: query.cp }),
+    ...(query.sp > 1 && { sp: query.sp }),
   };
 }

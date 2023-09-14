@@ -13,7 +13,7 @@ const queryAnime = graphql(`
       }
       averageScore
       bannerImage
-      characters(sort: RELEVANCE) {
+      characters(sort: ROLE) {
         edges {
           node {
             id
@@ -211,6 +211,7 @@ export const DataFragment = graphql(`
       year
       month
       day
+      ...DateFragment
     }
     favourites
     format
@@ -225,6 +226,7 @@ export const DataFragment = graphql(`
       year
       month
       day
+      ...DateFragment
     }
     studios {
       nodes {
@@ -256,11 +258,19 @@ export const StreamLinksFragment = graphql(`
   }
 `);
 
+export const DateFragment = graphql(`
+  fragment DateFragment on FuzzyDate {
+    year
+    month
+    day
+  }
+`);
+
 // RightInfo
 export const RightInfoFragment = graphql(`
   fragment RightInfoFragment on Media {
     idMal
-    characters(sort: RELEVANCE) {
+    characters(sort: ROLE) {
       edges {
         id
       }
@@ -400,7 +410,7 @@ export const RecommendationsFragment = graphql(`
   }
 `);
 
-export const fetchAnime = async (id: number) => {
+export async function fetchAnime(id: number) {
   const data = await request("https://graphql.anilist.co", queryAnime, { id });
   return { anime: data.Media };
-};
+}

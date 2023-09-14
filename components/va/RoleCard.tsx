@@ -1,25 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FragmentType, useFragment } from "@/lib/gql";
+import { useFragment, type FragmentType } from "@/lib/gql";
 import { RoleEdgeFragment } from "@/lib/query/queryVoiceActor";
 
 interface PropType {
   role: FragmentType<typeof RoleEdgeFragment>;
 }
 
-const Head3 = ({ title }: { title: string | null | undefined }) => (
-  <h3
-    title={title || ""}
-    className={`line-clamp-3 rounded-md px-2 pt-2 text-sm font-semibold duration-300 hover:bg-blue-400/20`}
-  >
-    {title}
-  </h3>
-);
+function Heading({ title }: { title: string | null | undefined }) {
+  return (
+    <h3
+      title={title || ""}
+      className={`line-clamp-3 rounded-md px-2 pt-2 text-sm font-semibold duration-300 hover:bg-blue-400/20`}
+    >
+      {title}
+    </h3>
+  );
+}
 
-const RoleCard = (props: PropType) => {
+export default function RoleCard(props: PropType) {
   const role = useFragment(RoleEdgeFragment, props.role);
   return (
-    <li className="flex min-w-[9rem] max-w-[9rem] flex-col overflow-hidden rounded-lg bg-slate-100 shadow-xl dark:bg-slate-900">
+    <li className="flex min-w-[9rem] max-w-[9rem] flex-col overflow-hidden rounded-lg shadow-xl bg-card">
       <div className="relative aspect-[2/3] overflow-hidden">
         <Image
           src={role.node?.coverImage?.large || "N/A"}
@@ -32,21 +34,21 @@ const RoleCard = (props: PropType) => {
         {role.node?.type === "ANIME" ? (
           <>
             <Link href={`/anime/${role.node.id}`} shallow>
-              <Head3 title={role.node.title?.romaji || "N/A"} />
+              <Heading title={role.node.title?.romaji || "N/A"} />
             </Link>
             <span
               title={role.staffRole || "N/A"}
-              className="line-clamp-4 text-xs text-purple-600 dark:text-purple-300"
+              className="line-clamp-4 text-xs text-purple"
             >
               {role.staffRole}
             </span>
           </>
         ) : (
           <>
-            <Head3 title={role.node?.title?.romaji || "N/A"} />
+            <Heading title={role.node?.title?.romaji || "N/A"} />
             <span
               title={role.staffRole || "N/A"}
-              className="text-xs text-purple-600 dark:text-purple-300"
+              className="text-xs text-purple"
             >
               {role.staffRole}
             </span>
@@ -55,5 +57,4 @@ const RoleCard = (props: PropType) => {
       </div>
     </li>
   );
-};
-export default RoleCard;
+}
