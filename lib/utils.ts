@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { z } from "zod";
 import type {
   ClientHomeSearchParams,
@@ -32,22 +31,6 @@ export function setLightMode() {
   document.documentElement.classList.remove("dark");
 }
 
-// ===== Anime
-
-export function useExpander({ maxNumber }: { maxNumber: number }) {
-  const [expanded, setExpanded] = useState(false);
-
-  function handleExpand() {
-    return setExpanded((prev) => !prev);
-  }
-
-  return {
-    sliceEnd: expanded ? undefined : maxNumber,
-    expanded,
-    handleExpand,
-  };
-}
-
 // ===== Homepage
 
 export function getCurrentYear() {
@@ -74,7 +57,8 @@ export function getCurrentSeason() {
 }
 
 export function objToUrlSearchParams(query: URLSearchParams) {
-  return "/?" + new URLSearchParams(query).toString();
+  const newSearchParams = "?" + new URLSearchParams(query).toString();
+  return newSearchParams === "?" ? "" : newSearchParams;
 }
 
 export function catchHandler<T extends z.ZodTypeAny>(

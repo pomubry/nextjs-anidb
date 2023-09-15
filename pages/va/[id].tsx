@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import {
@@ -16,8 +17,9 @@ import VAStaffRoles from "@/components/va/VAStaffRoles";
 import GQLError from "@/components/generic/GQLError";
 import NoData from "@/components/generic/NoData";
 
+import { useNewURL } from "@/lib/hooks";
 import { fetchStaff } from "@/lib/query/queryVoiceActor";
-import { cleanStaffQuery, objToUrlSearchParams } from "@/lib/utils";
+import { cleanStaffQuery } from "@/lib/utils";
 import { staffSchema } from "@/lib/validation";
 import type { NextPageWithLayout } from "@/lib/types";
 
@@ -33,26 +35,6 @@ export const getServerSideProps = (async (context) => {
     return {
       redirect: {
         destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  const searchParams = cleanStaffQuery(staff.data);
-
-  // Redirect if the number of keys in `searchParams` and `context.query` are not equal
-  // That means some search params were cleaned up! Redirect to a cleaner url
-  const redirect =
-    Object.keys(context.query).length - 1 !== Object.keys(searchParams).length; // -1 is for [id] query
-
-  if (redirect) {
-    const destination =
-      `/va/${staff.data.id}` +
-      objToUrlSearchParams(searchParams as unknown as URLSearchParams);
-
-    return {
-      redirect: {
-        destination,
         permanent: false,
       },
     };
@@ -85,7 +67,16 @@ export const getServerSideProps = (async (context) => {
 
 const VoiceActor: NextPageWithLayout = () => {
   const router = useRouter();
-  const queryKey = staffSchema.parse(router.query);
+  const { replace } = useNewURL();
+
+  const staffQuery = staffSchema.parse(router.query);
+  const searchParams = cleanStaffQuery(staffQuery);
+
+  useEffect(() => {
+    // Clean URL search params
+    if (!router.isReady) return;
+    replace(router.asPath, searchParams as unknown as URLSearchParams);
+  }, [router, replace, searchParams]);
 
   const {
     data: staff,
@@ -96,9 +87,9 @@ const VoiceActor: NextPageWithLayout = () => {
     refetchOnWindowFocus: false,
     keepPreviousData: true,
     retry: 1,
-    queryKey: ["staff", queryKey],
+    queryKey: ["staff", staffQuery],
     queryFn: async () => {
-      return fetchStaff(queryKey);
+      return fetchStaff(staffQuery);
     },
   });
 

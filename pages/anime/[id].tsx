@@ -68,7 +68,7 @@ export const getServerSideProps = (async (context) => {
 
 const Anime: NextPageWithLayout = () => {
   const router = useRouter();
-  const id = +(router.query.id as string);
+  const id = idSchema.parse(router.query.id);
 
   const { data, error, isError, isPreviousData } = useQuery({
     refetchOnWindowFocus: false,

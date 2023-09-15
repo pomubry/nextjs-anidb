@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import {
@@ -16,12 +17,9 @@ import Pagination from "@/components/homepage/Pagination";
 import GQLError from "@/components/generic/GQLError";
 import NoData from "@/components/generic/NoData";
 
+import { useNewURL } from "@/lib/hooks";
 import { fetchHome } from "@/lib/query/queryHome";
-import {
-  cleanClientHomeSearchParams,
-  getServerHomeQuery,
-  objToUrlSearchParams,
-} from "@/lib/utils";
+import { cleanClientHomeSearchParams, getServerHomeQuery } from "@/lib/utils";
 import { clientHomeSearchParamsSchema } from "@/lib/validation";
 import type { NextPageWithLayout } from "@/lib/types";
 
@@ -33,27 +31,7 @@ export const getServerSideProps = (async (context) => {
   const clientHomeSearchParams = clientHomeSearchParamsSchema.parse(
     context.query,
   );
-
   const searchParams = cleanClientHomeSearchParams(clientHomeSearchParams);
-
-  // Redirect if the number of keys in `searchParams` and `context.query` are not equal
-  // That means some search params were cleaned up! Redirect to a cleaner url
-  const redirect =
-    Object.keys(searchParams).length !== Object.keys(context.query).length;
-
-  if (redirect) {
-    const destination = objToUrlSearchParams(
-      searchParams as unknown as URLSearchParams,
-    );
-
-    return {
-      redirect: {
-        destination,
-        permanent: false,
-      },
-    };
-  }
-
   const variables = getServerHomeQuery(searchParams);
 
   const queryClient = new QueryClient();
@@ -83,8 +61,19 @@ export const getServerSideProps = (async (context) => {
 
 const Home: NextPageWithLayout = () => {
   const router = useRouter();
-  const queryKey = clientHomeSearchParamsSchema.parse(router.query);
-  const variables = getServerHomeQuery(queryKey);
+  const { replace } = useNewURL();
+
+  const clientHomeSearchParams = clientHomeSearchParamsSchema.parse(
+    router.query,
+  );
+  const searchParams = cleanClientHomeSearchParams(clientHomeSearchParams);
+  const variables = getServerHomeQuery(searchParams);
+
+  useEffect(() => {
+    // Clean URL search params
+    if (!router.isReady) return;
+    replace(router.asPath, searchParams as unknown as URLSearchParams);
+  }, [router, replace, searchParams]);
 
   const { data, error, isError, isPreviousData } = useQuery({
     refetchOnWindowFocus: false,

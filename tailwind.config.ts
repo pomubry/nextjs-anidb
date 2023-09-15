@@ -31,10 +31,10 @@ const config: Config = {
     plugin(({ addUtilities }) => {
       addUtilities({
         ".text-purple": {
-          "@apply text-purple-500 duration-300 dark:text-purple-300": {},
+          "@apply text-purple-600 duration-300 dark:text-purple-300": {},
         },
         ".text-blue": {
-          "@apply text-blue-500 duration-300 dark:text-blue-300": {},
+          "@apply text-blue-600 duration-300 dark:text-blue-300": {},
         },
         ".text-slate": {
           "@apply text-slate-900 duration-300 dark:text-slate-100": {},

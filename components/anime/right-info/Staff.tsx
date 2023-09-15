@@ -4,8 +4,8 @@ import ExpandButton from "./ExpandButton";
 import ListParent from "./ListParent";
 
 import { useFragment, type FragmentType } from "@/lib/gql";
+import { useExpander } from "@/lib/hooks";
 import { StaffFragment } from "@/lib/query/queryAnime";
-import { useExpander } from "@/lib/utils";
 
 interface PropType {
   staff: FragmentType<typeof StaffFragment>;

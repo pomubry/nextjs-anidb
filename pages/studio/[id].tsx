@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -16,8 +17,9 @@ import SectionHeader from "@/components/studio/SectionHeader";
 import GQLError from "@/components/generic/GQLError";
 import NoData from "@/components/generic/NoData";
 
+import { useNewURL } from "@/lib/hooks";
 import { fetchStudio } from "@/lib/query/queryStudio";
-import { cleanStudioQuery, objToUrlSearchParams } from "@/lib/utils";
+import { cleanStudioQuery } from "@/lib/utils";
 import { studioQuerySchema } from "@/lib/validation";
 import type { NextPageWithLayout } from "@/lib/types";
 
@@ -26,9 +28,9 @@ interface GSSP {
 }
 
 export const getServerSideProps = (async (context) => {
-  const query = studioQuerySchema.safeParse(context.query);
-  if (!query.success) {
-    console.error("Invalid queries:", query.error);
+  const studioQuery = studioQuerySchema.safeParse(context.query);
+  if (!studioQuery.success) {
+    console.error("Invalid queries:", studioQuery.error);
     return {
       redirect: {
         destination: "/",
@@ -37,32 +39,12 @@ export const getServerSideProps = (async (context) => {
     };
   }
 
-  const searchParams = cleanStudioQuery(query.data);
-
-  // Redirect if the number of keys in `searchParams` and `context.query` are not equal
-  // That means some search params were cleaned up! Redirect to a cleaner url
-  const redirect =
-    Object.keys(searchParams).length !== Object.keys(context.query).length - 1; // -1 is to disregard [id] query
-
-  if (redirect) {
-    const destination = objToUrlSearchParams(
-      searchParams as unknown as URLSearchParams,
-    );
-
-    return {
-      redirect: {
-        destination: `/studio/${query.data.id}` + destination,
-        permanent: false,
-      },
-    };
-  }
-
   const queryClient = new QueryClient();
-  const queryKey = ["anime", query.data];
+  const queryKey = ["anime", studioQuery.data];
   await queryClient.prefetchQuery({
     queryKey,
     queryFn: async () => {
-      return await fetchStudio(query.data);
+      return await fetchStudio(studioQuery.data);
     },
   });
 
@@ -84,7 +66,16 @@ export const getServerSideProps = (async (context) => {
 
 const Studio: NextPageWithLayout = () => {
   const router = useRouter();
-  const queryKey = studioQuerySchema.parse(router.query);
+  const { replace } = useNewURL();
+
+  const studioQuery = studioQuerySchema.parse(router.query);
+  const searchParams = cleanStudioQuery(studioQuery);
+
+  useEffect(() => {
+    // Clean URL search params
+    if (!router.isReady) return;
+    replace(router.asPath, searchParams as unknown as URLSearchParams);
+  }, [router, replace, searchParams]);
 
   const {
     data: studio,
@@ -95,9 +86,9 @@ const Studio: NextPageWithLayout = () => {
     refetchOnWindowFocus: false,
     keepPreviousData: true,
     retry: 1,
-    queryKey: ["anime", queryKey],
+    queryKey: ["anime", studioQuery],
     queryFn: async () => {
-      return fetchStudio(queryKey);
+      return fetchStudio(studioQuery);
     },
   });
 
@@ -152,7 +143,7 @@ const Studio: NextPageWithLayout = () => {
           {hasNoWorks ? (
             <>
               <p>No works were found for {studio.name}</p>
-              {queryKey.pg === 1 ? (
+              {studioQuery.pg === 1 ? (
                 <Link
                   href="/"
                   className="mt-3 inline-block rounded-lg p-3 font-semibold text-blue bg-card hover:opacity-80"
@@ -161,7 +152,7 @@ const Studio: NextPageWithLayout = () => {
                 </Link>
               ) : (
                 <Link
-                  href={`/studio/${queryKey.id}`}
+                  href={`/studio/${studioQuery.id}`}
                   className="mt-3 inline-block rounded-lg p-3 font-semibold text-blue bg-card hover:opacity-80"
                 >
                   Go back to page 1

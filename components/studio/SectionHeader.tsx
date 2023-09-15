@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import { BsArrowLeftSquareFill } from "react-icons/bs";
-import { cleanStudioQuery } from "@/lib/utils";
+
+import { useNewURL } from "@/lib/hooks";
+import { cleanStudioQuery, objToUrlSearchParams } from "@/lib/utils";
 import { studioQuerySchema } from "@/lib/validation";
 
 interface Props {
@@ -11,23 +13,20 @@ interface Props {
 }
 
 export default function SectionHeader(props: Props) {
-  const currentPage = props.currentPage || 1;
   const router = useRouter();
+  const { pathname } = useNewURL();
+
+  const currentPage = props.currentPage || 1;
 
   const pageHandler = ({ forward }: { forward: boolean }) => {
     const res = studioQuerySchema.parse(router.query);
     res["pg"] = forward ? res.pg + 1 : res.pg - 1;
 
     const cleanQuery = cleanStudioQuery(res);
+    const href =
+      pathname + objToUrlSearchParams(cleanQuery as unknown as URLSearchParams);
 
-    router.push(
-      {
-        pathname: `/studio/${res.id}`,
-        query: cleanQuery,
-      },
-      undefined,
-      { shallow: true, scroll: false },
-    );
+    router.push(href, undefined, { shallow: true, scroll: false });
   };
 
   return (

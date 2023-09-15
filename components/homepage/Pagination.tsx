@@ -3,8 +3,9 @@ import { useRouter } from "next/router";
 import { useMachine, normalizeProps } from "@zag-js/react";
 import * as pagination from "@zag-js/pagination";
 
-import { cleanClientHomeSearchParams } from "@/lib/utils";
+import { cleanClientHomeSearchParams, objToUrlSearchParams } from "@/lib/utils";
 import { clientHomeSearchParamsSchema } from "@/lib/validation";
+import { useNewURL } from "@/lib/hooks";
 
 interface Props {
   defaultPage: number;
@@ -13,6 +14,8 @@ interface Props {
 
 export default function Pagination(props: Props) {
   const router = useRouter();
+  const { pathname } = useNewURL();
+
   const [state, send] = useMachine(
     pagination.machine({
       id: "1",
@@ -25,19 +28,15 @@ export default function Pagination(props: Props) {
 
   const api = pagination.connect(state, send, normalizeProps);
 
-  async function setPage(pg: number) {
-    const res = clientHomeSearchParamsSchema.parse({ ...router.query });
-    res.pg = pg;
+  function setPage(pg: number) {
+    const { pg: page, ...restQuery } = router.query;
+    const res = clientHomeSearchParamsSchema.parse({ pg, ...restQuery });
     const query = cleanClientHomeSearchParams(res);
 
-    await router.push(
-      {
-        pathname: "/",
-        query,
-      },
-      undefined,
-      { shallow: true, scroll: false },
-    );
+    const href =
+      pathname + objToUrlSearchParams(query as unknown as URLSearchParams);
+
+    router.push(href, undefined, { shallow: true, scroll: false });
   }
 
   useEffect(() => {

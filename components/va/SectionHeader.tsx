@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import { BsArrowLeftSquareFill } from "react-icons/bs";
-import { cleanStaffQuery } from "@/lib/utils";
+
+import { useNewURL } from "@/lib/hooks";
+import { cleanStaffQuery, objToUrlSearchParams } from "@/lib/utils";
 import { staffSchema } from "@/lib/validation";
 
 interface QueryHandlerType {
@@ -20,21 +22,17 @@ interface PropType {
 
 export default function SectionHeader(props: PropType) {
   const router = useRouter();
+  const { pathname } = useNewURL();
 
   function pageHandler({ cmd, query, currentPage }: QueryHandlerType) {
     const staff = staffSchema.parse(router.query);
     staff[query] = cmd === "NEXT" ? currentPage + 1 : currentPage - 1;
 
     const cleanQuery = cleanStaffQuery(staff);
+    const href =
+      pathname + objToUrlSearchParams(cleanQuery as unknown as URLSearchParams);
 
-    router.push(
-      {
-        pathname: `/va/${staff.id}`,
-        query: cleanQuery,
-      },
-      undefined,
-      { shallow: true, scroll: false },
-    );
+    router.push(href, undefined, { shallow: true, scroll: false });
   }
 
   const currentPage = props.currentPage || 1;
