@@ -1,5 +1,5 @@
 import Image from "next/image";
-import DOMPurify from "isomorphic-dompurify";
+import { sanitize } from "isomorphic-dompurify";
 import { useFragment, type FragmentType } from "@/lib/gql";
 import { CardHeadIdFragment } from "@/lib/query/queryAnime";
 
@@ -10,7 +10,7 @@ interface PropType {
 export default function AnimeHeader(props: PropType) {
   const anime = useFragment(CardHeadIdFragment, props.anime);
 
-  const cleanHtml = DOMPurify.sanitize(
+  const cleanHtml = sanitize(
     anime.description ?? "<i>There are no descriptions for this anime yet.</i>",
     { USE_PROFILES: { html: true } },
   );

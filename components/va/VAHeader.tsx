@@ -1,5 +1,5 @@
 import { marked } from "marked";
-import DOMPurify from "isomorphic-dompurify";
+import { sanitize } from "isomorphic-dompurify";
 import { useFragment, type FragmentType } from "@/lib/gql";
 import { VAHeaderFragment } from "@/lib/query/queryVoiceActor";
 
@@ -84,7 +84,7 @@ export default function VAHeader(props: PropType) {
     },
   });
 
-  const cleanHtml = DOMPurify.sanitize(
+  const cleanHtml = sanitize(
     marked.parse(
       staff.description?.replace(/:\s+__/g, ":__ ") ||
         "<i>There are no descriptions for this staff yet.</i>",

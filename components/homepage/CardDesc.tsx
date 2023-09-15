@@ -1,4 +1,4 @@
-import DOMPurify from "isomorphic-dompurify";
+import { sanitize } from "isomorphic-dompurify";
 import { useFragment, type FragmentType } from "@/lib/gql";
 import { CardDescFragment } from "@/lib/query/queryHome";
 
@@ -21,7 +21,7 @@ function SpanDetails({ children }: { children: React.ReactNode }) {
 export default function CardDesc(props: PropType) {
   const anime = useFragment(CardDescFragment, props.anime);
 
-  const cleanHtml = DOMPurify.sanitize(
+  const cleanHtml = sanitize(
     anime.description ?? "<i>There are no descriptions for this anime yet.</i>",
     { USE_PROFILES: { html: true } },
   );
