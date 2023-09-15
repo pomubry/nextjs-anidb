@@ -32,10 +32,7 @@ export const getServerSideProps = (async (context) => {
   if (!idParams.success) {
     console.error("Invalid queries:", idParams.error);
     return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
+      notFound: true,
     };
   }
 

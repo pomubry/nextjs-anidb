@@ -32,10 +32,7 @@ export const getServerSideProps = (async (context) => {
   if (!studioQuery.success) {
     console.error("Invalid queries:", studioQuery.error);
     return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
+      notFound: true,
     };
   }
 
