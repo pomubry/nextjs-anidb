@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { useMachine, normalizeProps } from "@zag-js/react";
 import * as pagination from "@zag-js/pagination";
 
 import { cleanClientHomeSearchParams, objToUrlSearchParams } from "@/lib/utils";
 import { clientHomeSearchParamsSchema } from "@/lib/validation";
-import { useNewURL } from "@/lib/hooks";
 
 interface Props {
   defaultPage: number;
@@ -14,7 +14,7 @@ interface Props {
 
 export default function Pagination(props: Props) {
   const router = useRouter();
-  const { pathname } = useNewURL();
+  const pathname = usePathname();
 
   const [state, send] = useMachine(
     pagination.machine({

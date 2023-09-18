@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { BsArrowLeftSquareFill } from "react-icons/bs";
 
-import { useNewURL } from "@/lib/hooks";
 import { cleanStudioQuery, objToUrlSearchParams } from "@/lib/utils";
 import { studioQuerySchema } from "@/lib/validation";
 
@@ -14,7 +14,7 @@ interface Props {
 
 export default function SectionHeader(props: Props) {
   const router = useRouter();
-  const { pathname } = useNewURL();
+  const pathname = usePathname();
 
   const currentPage = props.currentPage || 1;
 

@@ -1,21 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { usePathname, useRouter as useNavigation } from "next/navigation";
 import { objToUrlSearchParams } from "./utils";
 import type { ObjectQuery } from "./types";
 
-export function useNewURL() {
+export function useNewURL(query: ObjectQuery) {
+  const router = useRouter();
   const navigation = useNavigation();
   const pathname = usePathname();
 
-  function replace(currentURL: string, query: ObjectQuery) {
+  useEffect(() => {
+    // Clean URL search params
+    if (!router.isReady) return;
+
     const newURL = pathname + objToUrlSearchParams(query);
 
-    if (currentURL !== newURL) {
+    if (router.asPath !== newURL) {
       navigation.replace(newURL, { scroll: false });
     }
-  }
-
-  return { replace, pathname };
+  }, [router, navigation, pathname, query]);
 }
 
 export function useExpander({ maxNumber }: { maxNumber: number }) {

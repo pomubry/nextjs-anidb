@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { BsArrowLeftSquareFill } from "react-icons/bs";
 
-import { useNewURL } from "@/lib/hooks";
 import { cleanStaffQuery, objToUrlSearchParams } from "@/lib/utils";
 import { staffSchema } from "@/lib/validation";
 
@@ -22,7 +22,7 @@ interface PropType {
 
 export default function SectionHeader(props: PropType) {
   const router = useRouter();
-  const { pathname } = useNewURL();
+  const pathname = usePathname();
 
   function pageHandler({ cmd, query, currentPage }: QueryHandlerType) {
     const staff = staffSchema.parse(router.query);

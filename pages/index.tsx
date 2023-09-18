@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import {
@@ -61,7 +60,6 @@ export const getServerSideProps = (async (context) => {
 
 const Home: NextPageWithLayout = () => {
   const router = useRouter();
-  const { replace } = useNewURL();
 
   const clientHomeSearchParams = clientHomeSearchParamsSchema.parse(
     router.query,
@@ -69,11 +67,7 @@ const Home: NextPageWithLayout = () => {
   const searchParams = cleanClientHomeSearchParams(clientHomeSearchParams);
   const variables = getServerHomeQuery(searchParams);
 
-  useEffect(() => {
-    // Clean URL search params
-    if (!router.isReady) return;
-    replace(router.asPath, searchParams);
-  }, [router, replace, searchParams]);
+  useNewURL(searchParams);
 
   const { data, error, isError, isPreviousData } = useQuery({
     refetchOnWindowFocus: false,

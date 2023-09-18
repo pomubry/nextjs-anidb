@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import {
@@ -64,16 +63,11 @@ export const getServerSideProps = (async (context) => {
 
 const VoiceActor: NextPageWithLayout = () => {
   const router = useRouter();
-  const { replace } = useNewURL();
 
   const staffQuery = staffSchema.parse(router.query);
   const searchParams = cleanStaffQuery(staffQuery);
 
-  useEffect(() => {
-    // Clean URL search params
-    if (!router.isReady) return;
-    replace(router.asPath, searchParams);
-  }, [router, replace, searchParams]);
+  useNewURL(searchParams);
 
   const {
     data: staff,
