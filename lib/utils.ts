@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type {
   ClientHomeSearchParams,
+  ObjectQuery,
   StudioQuerySchemaType,
   staffSchemaType,
 } from "./types";
@@ -56,8 +57,9 @@ export function getCurrentSeason() {
   }
 }
 
-export function objToUrlSearchParams(query: URLSearchParams) {
-  const newSearchParams = "?" + new URLSearchParams(query).toString();
+export function objToUrlSearchParams(query: ObjectQuery) {
+  const newSearchParams =
+    "?" + new URLSearchParams(query as unknown as URLSearchParams).toString();
   return newSearchParams === "?" ? "" : newSearchParams;
 }
 

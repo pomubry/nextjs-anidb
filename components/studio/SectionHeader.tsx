@@ -23,8 +23,7 @@ export default function SectionHeader(props: Props) {
     res["pg"] = forward ? res.pg + 1 : res.pg - 1;
 
     const cleanQuery = cleanStudioQuery(res);
-    const href =
-      pathname + objToUrlSearchParams(cleanQuery as unknown as URLSearchParams);
+    const href = pathname + objToUrlSearchParams(cleanQuery);
 
     router.push(href, undefined, { shallow: true, scroll: false });
   };

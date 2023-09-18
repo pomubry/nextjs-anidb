@@ -72,7 +72,7 @@ const VoiceActor: NextPageWithLayout = () => {
   useEffect(() => {
     // Clean URL search params
     if (!router.isReady) return;
-    replace(router.asPath, searchParams as unknown as URLSearchParams);
+    replace(router.asPath, searchParams);
   }, [router, replace, searchParams]);
 
   const {

@@ -13,6 +13,8 @@ export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
+export type ObjectQuery = Record<string, unknown>;
+
 // ===== Homepage
 
 export type FormQuery = z.infer<typeof formQuerySchema>;

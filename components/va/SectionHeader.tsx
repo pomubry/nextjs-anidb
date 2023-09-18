@@ -29,8 +29,7 @@ export default function SectionHeader(props: PropType) {
     staff[query] = cmd === "NEXT" ? currentPage + 1 : currentPage - 1;
 
     const cleanQuery = cleanStaffQuery(staff);
-    const href =
-      pathname + objToUrlSearchParams(cleanQuery as unknown as URLSearchParams);
+    const href = pathname + objToUrlSearchParams(cleanQuery);
 
     router.push(href, undefined, { shallow: true, scroll: false });
   }

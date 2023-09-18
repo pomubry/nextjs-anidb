@@ -33,8 +33,7 @@ export default function Pagination(props: Props) {
     const res = clientHomeSearchParamsSchema.parse({ pg, ...restQuery });
     const query = cleanClientHomeSearchParams(res);
 
-    const href =
-      pathname + objToUrlSearchParams(query as unknown as URLSearchParams);
+    const href = pathname + objToUrlSearchParams(query);
 
     router.push(href, undefined, { shallow: true, scroll: false });
   }
