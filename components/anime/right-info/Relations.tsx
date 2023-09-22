@@ -91,6 +91,7 @@ export default function Relations(props: PropType) {
                     <Link
                       href={`/anime/${anime.node.id}`}
                       className="hover:underline"
+                      shallow
                     >
                       {title}
                     </Link>

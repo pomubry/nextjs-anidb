@@ -37,6 +37,7 @@ export default function Recommendations(props: PropType) {
                   href={"/anime/" + mediaRecommendation.id}
                   title={mediaRecommendation.title?.romaji ?? "Title: N/A"}
                   className="line-clamp-4 break-words"
+                  shallow
                 >
                   {mediaRecommendation.title?.romaji ?? "Title: N/A"}
                 </Link>
