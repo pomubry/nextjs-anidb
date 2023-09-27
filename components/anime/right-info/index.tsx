@@ -30,6 +30,8 @@ export default function RightInfo(props: PropType) {
     retry: 1,
     queryKey: ["idMal", anime.idMal],
     queryFn: async () => {
+      if (!anime.idMal) return null;
+
       const res = await fetch(
         `https://api.jikan.moe/v4/anime/${anime.idMal}/themes`,
       );
