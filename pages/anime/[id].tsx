@@ -4,6 +4,7 @@ import {
   QueryClient,
   useQuery,
   type DehydratedState,
+  keepPreviousData,
 } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { z } from "zod";
@@ -67,9 +68,9 @@ const Anime: NextPageWithLayout = () => {
   const router = useRouter();
   const id = idSchema.parse(router.query.id);
 
-  const { data, error, isError, isPreviousData } = useQuery({
+  const { data, error, isError, isPlaceholderData } = useQuery({
     refetchOnWindowFocus: false,
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
     retry: 1,
     queryKey: ["anime", id],
     queryFn: async () => {
@@ -109,7 +110,9 @@ const Anime: NextPageWithLayout = () => {
 
       <div
         className={`mx-auto max-w-7xl px-5 ${
-          isPreviousData ? "select-none opacity-50" : "select-auto opacity-100"
+          isPlaceholderData
+            ? "select-none opacity-50"
+            : "select-auto opacity-100"
         }`}
       >
         <SearchForm query={{ page: 1 }} />

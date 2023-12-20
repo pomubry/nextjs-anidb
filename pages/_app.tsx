@@ -4,7 +4,7 @@ import Head from "next/head";
 import {
   QueryClient,
   QueryClientProvider,
-  Hydrate,
+  HydrationBoundary,
   type DehydratedState,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -52,14 +52,14 @@ export default function MyApp(props: AppPropsWithLayout) {
 
   return getLayout(
     <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
+      <HydrationBoundary state={pageProps.dehydratedState}>
         <Head>
           <meta name="author" content="pomubry" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Component {...pageProps} />
-      </Hydrate>
-      <ReactQueryDevtools />
+      </HydrationBoundary>
+      <ReactQueryDevtools buttonPosition="bottom-left" />
     </QueryClientProvider>,
   );
 }

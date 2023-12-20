@@ -52,7 +52,7 @@ export default function Pagination(props: Props) {
               return (
                 <li key={page.value}>
                   <button
-                    {...api.getPageTriggerProps(page)}
+                    {...api.getItemProps(page)}
                     onClick={() => setPage(page.value)}
                     disabled={props.defaultPage === page.value}
                     className={`grid place-content-center rounded-lg p-2 text-xs font-semibold duration-300 sm:h-10 sm:w-10 sm:p-3 sm:text-sm ${

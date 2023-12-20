@@ -5,6 +5,7 @@ import {
   QueryClient,
   useQuery,
   type DehydratedState,
+  keepPreviousData,
 } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import type { ClientError } from "graphql-request";
@@ -73,10 +74,10 @@ const VoiceActor: NextPageWithLayout = () => {
     data: staff,
     error,
     isError,
-    isPreviousData,
+    isPlaceholderData,
   } = useQuery({
     refetchOnWindowFocus: false,
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
     retry: 1,
     queryKey: ["staff", staffQuery],
     queryFn: async () => {
@@ -115,20 +116,20 @@ const VoiceActor: NextPageWithLayout = () => {
 
       <div
         className={`container mx-auto my-10 flex flex-col gap-20 px-5 ${
-          isPreviousData && "opacity-50"
+          isPlaceholderData && "opacity-50"
         }`}
       >
         {staff.characterMedia && (
           <VACharacters
             characterMedia={staff.characterMedia}
-            isPreviousData={isPreviousData}
+            isPreviousData={isPlaceholderData}
           />
         )}
 
         {staff.staffMedia && (
           <VAStaffRoles
             staffRole={staff.staffMedia}
-            isPreviousData={isPreviousData}
+            isPreviousData={isPlaceholderData}
           />
         )}
       </div>

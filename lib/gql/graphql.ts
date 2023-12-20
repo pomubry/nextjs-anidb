@@ -2135,6 +2135,8 @@ export type ModRole =
   | 'ADMIN'
   /** An anime data moderator */
   | 'ANIME_DATA'
+  /** A character data moderator */
+  | 'CHARACTER_DATA'
   /** A community moderator */
   | 'COMMUNITY'
   /** An AniList developer */
@@ -2156,7 +2158,9 @@ export type ModRole =
   /** A retired moderator */
   | 'RETIRED'
   /** A social media moderator */
-  | 'SOCIAL_MEDIA';
+  | 'SOCIAL_MEDIA'
+  /** A staff data moderator */
+  | 'STAFF_DATA';
 
 export type Mutation = {
   __typename?: 'Mutation';

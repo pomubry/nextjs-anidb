@@ -5,6 +5,7 @@ import {
   QueryClient,
   useQuery,
   type DehydratedState,
+  keepPreviousData,
 } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import type { ClientError } from "graphql-request";
@@ -69,9 +70,9 @@ const Home: NextPageWithLayout = () => {
 
   useNewURL(searchParams);
 
-  const { data, error, isError, isPreviousData } = useQuery({
+  const { data, error, isError, isPlaceholderData } = useQuery({
     refetchOnWindowFocus: false,
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
     retry: 1,
     queryKey: ["home", variables],
     queryFn: async () => {
@@ -127,7 +128,7 @@ const Home: NextPageWithLayout = () => {
 
         <ul
           className={`mt-10 grid grid-cols-[1fr] gap-5 md:grid-cols-[repeat(2,1fr)] ${
-            isPreviousData
+            isPlaceholderData
               ? "select-none opacity-50"
               : "select-auto opacity-100"
           }`}

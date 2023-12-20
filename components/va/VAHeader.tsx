@@ -88,7 +88,8 @@ export default function VAHeader(props: PropType) {
     marked.parse(
       staff.description?.replace(/:\s+__/g, ":__ ") ||
         "<i>There are no descriptions for this staff yet.</i>",
-    ),
+      { async: false },
+    ) as string, // see https://github.com/markedjs/marked/issues/3101
     { USE_PROFILES: { html: true } },
   );
 
@@ -108,8 +109,8 @@ export default function VAHeader(props: PropType) {
             {staff.name?.native && alternativeNames
               ? staff.name.native + ", "
               : staff.name?.native
-              ? staff.name.native
-              : ""}
+                ? staff.name.native
+                : ""}
             {alternativeNames}
           </p>
         </div>

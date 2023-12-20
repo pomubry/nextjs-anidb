@@ -6,6 +6,7 @@ import {
   QueryClient,
   useQuery,
   type DehydratedState,
+  keepPreviousData,
 } from "@tanstack/react-query";
 import type { GetServerSideProps } from "next";
 import type { ClientError } from "graphql-request";
@@ -72,10 +73,10 @@ const Studio: NextPageWithLayout = () => {
     data: studio,
     error,
     isError,
-    isPreviousData,
+    isPlaceholderData,
   } = useQuery({
     refetchOnWindowFocus: false,
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
     retry: 1,
     queryKey: ["anime", studioQuery],
     queryFn: async () => {
@@ -129,7 +130,9 @@ const Studio: NextPageWithLayout = () => {
           <h1 className="text-4xl font-extrabold">{studio.name}</h1>
         </header>
         <section
-          className={`${isPreviousData && "opacity-50"} container mx-auto px-5`}
+          className={`${
+            isPlaceholderData && "opacity-50"
+          } container mx-auto px-5`}
         >
           {hasNoWorks ? (
             <>
@@ -156,7 +159,7 @@ const Studio: NextPageWithLayout = () => {
                 currentPage={studio.media?.pageInfo?.currentPage}
                 hasNextPage={studio.media?.pageInfo?.hasNextPage}
                 total={studio.media?.pageInfo?.total}
-                isPreviousData={isPreviousData}
+                isPreviousData={isPlaceholderData}
               />
               {animeKeys.map((yr, index) => {
                 const year = +yr;

@@ -95,7 +95,7 @@ export default function SearchForm({ query }: PropType) {
             <Form.Control asChild>
               <select
                 {...register("ss")}
-                placeholder="Pick Season"
+                // placeholder="Pick Season"
                 defaultValue={query.season || "ALL"}
                 className="cursor-pointer rounded-md border-2 bg-inherit px-4 py-2 border-purple data-[invalid=true]:border-red-300"
               >
@@ -127,7 +127,7 @@ export default function SearchForm({ query }: PropType) {
             <Form.Control asChild>
               <select
                 {...register("yr")}
-                placeholder="Pick Year"
+                // placeholder="Pick Year"
                 defaultValue={query.seasonYear || "ALL"}
                 className="cursor-pointer rounded-md border-2 bg-inherit px-4 py-2 border-purple  data-[invalid=true]:border-red-300"
               >
