@@ -38,46 +38,31 @@ export const formQuerySchema = z.object({
 // ===== studio
 
 const numberSchema = z.coerce.number().positive();
+const defaultPageSchema = numberSchema.catch((e) => {
+  if (Array.isArray(e.input)) {
+    const res = (e.input as string[]).find(
+      (input) => numberSchema.safeParse(input).success,
+    );
+    const num = numberSchema.safeParse(res);
+    return num.success ? num.data : 1;
+  } else {
+    return 1;
+  }
+});
 
 export const studioQuerySchema = z.object({
   id: numberSchema,
-  pg: numberSchema.catch((e) => {
-    if (Array.isArray(e.input)) {
-      const res = (e.input as string[]).find(
-        (input) => numberSchema.safeParse(input).success,
-      );
-      const number = numberSchema.safeParse(res);
-      return number.success ? number.data : 1;
-    } else {
-      return 1;
-    }
-  }),
+  pg: defaultPageSchema,
 });
 
 // ===== va
 
 export const staffSchema = z.object({
   id: numberSchema,
-  cp: numberSchema.catch((e) => {
-    if (Array.isArray(e.input)) {
-      const res = (e.input as string[]).find(
-        (input) => numberSchema.safeParse(input).success,
-      );
-      const num = numberSchema.safeParse(res);
-      return num.success ? num.data : 1;
-    } else {
-      return 1;
-    }
-  }),
-  sp: numberSchema.catch((e) => {
-    if (Array.isArray(e.input)) {
-      const res = (e.input as string[]).find(
-        (input) => numberSchema.safeParse(input).success,
-      );
-      const num = numberSchema.safeParse(res);
-      return num.success ? num.data : 1;
-    } else {
-      return 1;
-    }
-  }),
+  cp: defaultPageSchema,
+  sp: defaultPageSchema,
 });
+
+// ===== anime
+
+export const animeSchema = staffSchema;

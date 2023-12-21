@@ -7,6 +7,7 @@ import Staff from "./Staff";
 import StatusDistribution from "./StatusDistribution";
 import Watch from "./Watch";
 import Recommendations from "./Recommendations";
+import SectionHeader from "./SectionHeader";
 import InfoHeadTitle from "../InfoHeadTitle";
 
 import { useFragment, type FragmentType } from "@/lib/gql";
@@ -21,6 +22,7 @@ interface MALThemes {
 
 interface PropType {
   anime: FragmentType<typeof RightInfoFragment>;
+  isPlaceholderData: boolean;
 }
 
 export default function RightInfo(props: PropType) {
@@ -60,7 +62,14 @@ export default function RightInfo(props: PropType) {
 
       {!!anime.characters?.edges?.length && (
         <section>
-          <InfoHeadTitle title="Characters" />
+          <SectionHeader
+            heading="Characters"
+            query="cp"
+            isPlaceholderData={props.isPlaceholderData}
+            total={anime.characters.pageInfo?.total}
+            currentPage={anime.characters.pageInfo?.currentPage}
+            hasNextPage={anime.characters.pageInfo?.hasNextPage}
+          />
           <Characters characters={anime.characters} />
         </section>
       )}

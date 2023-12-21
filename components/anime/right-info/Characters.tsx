@@ -1,11 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import ExpandButton from "./ExpandButton";
 import ListParent from "./ListParent";
 
 import { useFragment, type FragmentType } from "@/lib/gql";
-import { useExpander } from "@/lib/hooks";
 import { CharactersFragment } from "@/lib/query/queryAnime";
 
 interface PropType {
@@ -13,17 +11,13 @@ interface PropType {
 }
 
 export default function Characters(props: PropType) {
-  const maxNumber = 10;
   const characters = useFragment(CharactersFragment, props.characters);
-  const { sliceEnd, handleExpand, expanded } = useExpander({
-    maxNumber,
-  });
 
   if (!characters.edges) return null;
 
   return (
     <ListParent>
-      {characters.edges.slice(0, sliceEnd).map((edge) => {
+      {characters.edges.map((edge) => {
         if (!edge || !edge.node) return null;
         return (
           <li
@@ -84,13 +78,6 @@ export default function Characters(props: PropType) {
           </li>
         );
       })}
-      {characters.edges.length > maxNumber && (
-        <ExpandButton
-          expanded={expanded}
-          handleExpand={handleExpand}
-          key={"characterExpand"}
-        />
-      )}
     </ListParent>
   );
 }

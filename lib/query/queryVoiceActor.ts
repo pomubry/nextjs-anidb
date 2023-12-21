@@ -1,6 +1,6 @@
 import request from "graphql-request";
 import { graphql } from "../gql";
-import type { staffSchemaType } from "../types";
+import type { StaffSchemaType } from "../types";
 
 const queryStaff = graphql(`
   query queryStaff(
@@ -134,7 +134,7 @@ export const RoleEdgeFragment = graphql(`
   }
 `);
 
-export async function fetchStaff(query: staffSchemaType) {
+export async function fetchStaff(query: StaffSchemaType) {
   const data = await request("https://graphql.anilist.co", queryStaff, {
     id: query.id,
     characterPage: query.cp,

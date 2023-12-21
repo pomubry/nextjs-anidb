@@ -3,7 +3,7 @@ import type {
   ClientHomeSearchParams,
   ObjectQuery,
   StudioQuerySchemaType,
-  staffSchemaType,
+  StaffSchemaType,
 } from "./types";
 
 // ===== Theme
@@ -143,9 +143,13 @@ export function cleanStudioQuery(query: StudioQuerySchemaType) {
 
 // ===== VA
 
-export function cleanStaffQuery(query: staffSchemaType) {
+export function cleanStaffQuery(query: StaffSchemaType) {
   return {
     ...(query.cp > 1 && { cp: query.cp }),
     ...(query.sp > 1 && { sp: query.sp }),
   };
 }
+
+// ===== Anime
+
+export const cleanAnimeQuery = cleanStaffQuery;

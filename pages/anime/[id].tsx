@@ -7,7 +7,6 @@ import {
   keepPreviousData,
 } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { z } from "zod";
 import type { GetServerSideProps } from "next";
 import type { ClientError } from "graphql-request";
 
@@ -21,30 +20,29 @@ import NoData from "@/components/generic/NoData";
 
 import { fetchAnime } from "@/lib/query/queryAnime";
 import type { NextPageWithLayout } from "@/lib/types";
+import { animeSchema } from "@/lib/validation";
+import { cleanAnimeQuery } from "@/lib/utils";
+import { useNewURL } from "@/lib/hooks";
 
 interface GSSP {
   dehydratedState: DehydratedState;
 }
 
-const idSchema = z.coerce.number().positive();
-
 export const getServerSideProps = (async (context) => {
-  const idParams = idSchema.safeParse(context.params?.id);
-  if (!idParams.success) {
-    console.error("Invalid queries:", idParams.error);
+  const anime = animeSchema.safeParse(context.query);
+  if (!anime.success) {
+    console.error("Invalid queries:", anime.error);
     return {
       notFound: true,
     };
   }
 
-  const id = idParams.data;
-
   const queryClient = new QueryClient();
-  const queryKey = ["anime", id];
+  const queryKey = ["anime", anime.data];
   await queryClient.prefetchQuery({
     queryKey,
     queryFn: async () => {
-      return await fetchAnime(id);
+      return await fetchAnime(anime.data.id, anime.data.cp);
     },
   });
 
@@ -66,15 +64,18 @@ export const getServerSideProps = (async (context) => {
 
 const Anime: NextPageWithLayout = () => {
   const router = useRouter();
-  const id = idSchema.parse(router.query.id);
+  const animeQuery = animeSchema.parse(router.query);
+  const searchParams = cleanAnimeQuery(animeQuery);
+
+  useNewURL(searchParams);
 
   const { data, error, isError, isPlaceholderData } = useQuery({
     refetchOnWindowFocus: false,
     placeholderData: keepPreviousData,
     retry: 1,
-    queryKey: ["anime", id],
+    queryKey: ["anime", animeQuery],
     queryFn: async () => {
-      return fetchAnime(id);
+      return fetchAnime(animeQuery.id, animeQuery.cp);
     },
   });
 
@@ -96,7 +97,7 @@ const Anime: NextPageWithLayout = () => {
 
   const title = data.anime.title?.romaji
     ? `${data.anime.title.romaji} | NextAni`
-    : id + " | NextAni";
+    : animeQuery.id + " | NextAni";
 
   return (
     <>
@@ -122,7 +123,10 @@ const Anime: NextPageWithLayout = () => {
             <LeftInfo anime={data.anime} />
           </div>
           <div className="flex-1 max-sm:mt-5 sm:flex-[3]">
-            <RightInfo anime={data.anime} />
+            <RightInfo
+              anime={data.anime}
+              isPlaceholderData={isPlaceholderData}
+            />
           </div>
         </div>
       </div>

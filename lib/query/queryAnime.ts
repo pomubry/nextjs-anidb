@@ -2,152 +2,17 @@ import request from "graphql-request";
 import { graphql } from "../gql";
 
 const queryAnime = graphql(`
-  query queryAnime($id: Int) {
+  query queryAnime($id: Int, $charPage: Int) {
     Media(id: $id, type: ANIME) {
       id
-      idMal
       title {
         romaji
-        english
-        native
       }
-      averageScore
-      bannerImage
-      characters(sort: ROLE) {
-        edges {
-          node {
-            id
-            image {
-              large
-            }
-            name {
-              full
-            }
-          }
-          role
-          voiceActors(language: JAPANESE) {
-            id
-            image {
-              large
-            }
-            name {
-              full
-            }
-          }
-        }
-      }
-      coverImage {
-        extraLarge
-        color
+      characters(sort: ROLE, page: $charPage, perPage: 10) {
+        ...CharactersFragment
       }
       description
-      duration
-      endDate {
-        year
-        month
-        day
-      }
-      episodes
-      externalLinks {
-        site
-        url
-      }
-      favourites
-      format
-      genres
-      meanScore
-      nextAiringEpisode {
-        id
-      }
-      popularity
-      rankings {
-        rank
-        type
-        year
-        season
-        allTime
-        context
-      }
-      recommendations(sort: RATING_DESC) {
-        nodes {
-          mediaRecommendation {
-            id
-            title {
-              romaji
-            }
-            coverImage {
-              extraLarge
-            }
-          }
-        }
-      }
-      relations {
-        edges {
-          id
-          relationType(version: 2)
-          node {
-            id
-            title {
-              romaji
-            }
-            format
-            status
-            coverImage {
-              extraLarge
-            }
-          }
-        }
-      }
-      season
-      seasonYear
-      source
-      staff {
-        edges {
-          role
-          node {
-            id
-            name {
-              full
-            }
-            image {
-              large
-            }
-          }
-        }
-      }
-      startDate {
-        year
-        month
-        day
-      }
-      stats {
-        statusDistribution {
-          status
-          amount
-        }
-      }
-      status
-      streamingEpisodes {
-        title
-        thumbnail
-        url
-      }
-      studios {
-        nodes {
-          id
-          name
-          isAnimationStudio
-        }
-      }
       synonyms
-      tags {
-        rank
-        name
-      }
-      trailer {
-        id
-        site
-      }
       ...CardHeadIdFragment
       ...LeftInfoFragment
       ...RightInfoFragment
@@ -270,9 +135,14 @@ export const DateFragment = graphql(`
 export const RightInfoFragment = graphql(`
   fragment RightInfoFragment on Media {
     idMal
-    characters(sort: ROLE) {
+    characters(sort: ROLE, page: $charPage, perPage: 10) {
       edges {
         id
+      }
+      pageInfo {
+        total
+        currentPage
+        hasNextPage
       }
       ...CharactersFragment
     }
@@ -410,7 +280,10 @@ export const RecommendationsFragment = graphql(`
   }
 `);
 
-export async function fetchAnime(id: number) {
-  const data = await request("https://graphql.anilist.co", queryAnime, { id });
+export async function fetchAnime(id: number, charPage: number) {
+  const data = await request("https://graphql.anilist.co", queryAnime, {
+    id,
+    charPage,
+  });
   return { anime: data.Media };
 }
