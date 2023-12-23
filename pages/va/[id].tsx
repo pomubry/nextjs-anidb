@@ -122,14 +122,14 @@ const VoiceActor: NextPageWithLayout = () => {
         {staff.characterMedia && (
           <VACharacters
             characterMedia={staff.characterMedia}
-            isPreviousData={isPlaceholderData}
+            isPlaceholderData={isPlaceholderData}
           />
         )}
 
         {staff.staffMedia && (
           <VAStaffRoles
             staffRole={staff.staffMedia}
-            isPreviousData={isPlaceholderData}
+            isPlaceholderData={isPlaceholderData}
           />
         )}
       </div>

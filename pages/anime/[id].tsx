@@ -109,13 +109,7 @@ const Anime: NextPageWithLayout = () => {
 
       <AnimeHeader anime={data.anime} />
 
-      <div
-        className={`mx-auto max-w-7xl px-5 ${
-          isPlaceholderData
-            ? "select-none opacity-50"
-            : "select-auto opacity-100"
-        }`}
-      >
+      <div className={`mx-auto max-w-7xl px-5`}>
         <SearchForm query={{ page: 1 }} />
 
         <div className="mt-10 gap-10 sm:flex">

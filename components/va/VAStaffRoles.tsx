@@ -1,14 +1,22 @@
-import SectionHeader from "./SectionHeader";
+import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
+
+import SectionHeader from "@/components/generic/SectionHeader";
 import RoleCard from "./RoleCard";
+
 import { useFragment, type FragmentType } from "@/lib/gql";
 import { VAStaffRolesFragment } from "@/lib/query/queryVoiceActor";
+import { cleanStaffQuery, objToUrlSearchParams } from "@/lib/utils";
+import { staffSchema } from "@/lib/validation";
 
 interface PropType {
   staffRole: FragmentType<typeof VAStaffRolesFragment>;
-  isPreviousData: boolean;
+  isPlaceholderData: boolean;
 }
 
 export default function VAStaffRoles(props: PropType) {
+  const router = useRouter();
+  const pathname = usePathname();
   const staffRoles = useFragment(VAStaffRolesFragment, props.staffRole);
 
   const roles =
@@ -27,15 +35,36 @@ export default function VAStaffRoles(props: PropType) {
   if (rolesKeys.length < 1) return null;
   if (!staffRoles.pageInfo) return null;
 
+  function forwardHandler() {
+    const staff = staffSchema.parse(router.query);
+    staff.sp++;
+
+    const cleanQuery = cleanStaffQuery(staff);
+    const href = pathname + objToUrlSearchParams(cleanQuery);
+
+    router.push(href, undefined, { shallow: true, scroll: false });
+  }
+
+  function previousHandler() {
+    const staff = staffSchema.parse(router.query);
+    staff.sp--;
+
+    const cleanQuery = cleanStaffQuery(staff);
+    const href = pathname + objToUrlSearchParams(cleanQuery);
+
+    router.push(href, undefined, { shallow: true, scroll: false });
+  }
+
   return (
     <section>
       <SectionHeader
+        title="Anime Staff Roles"
         currentPage={staffRoles.pageInfo.currentPage}
         hasNextPage={staffRoles.pageInfo.hasNextPage}
         total={staffRoles.pageInfo.total}
-        heading="Anime Staff Roles"
-        isPreviousData={props.isPreviousData}
-        query="sp"
+        isPlaceholderData={props.isPlaceholderData}
+        forwardHandler={forwardHandler}
+        previousHandler={previousHandler}
       />
 
       {rolesKeys.map((yr) => {

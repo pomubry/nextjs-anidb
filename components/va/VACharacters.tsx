@@ -1,14 +1,22 @@
+import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
+
+import SectionHeader from "@/components/generic/SectionHeader";
 import CharacterCard from "./CharacterCard";
-import SectionHeader from "./SectionHeader";
+
 import { useFragment, type FragmentType } from "@/lib/gql";
 import { VACharactersFragment } from "@/lib/query/queryVoiceActor";
+import { cleanStaffQuery, objToUrlSearchParams } from "@/lib/utils";
+import { staffSchema } from "@/lib/validation";
 
 interface PropType {
   characterMedia: FragmentType<typeof VACharactersFragment>;
-  isPreviousData: boolean;
+  isPlaceholderData: boolean;
 }
 
 export default function VACharacters(props: PropType) {
+  const router = useRouter();
+  const pathname = usePathname();
   const characterMedia = useFragment(
     VACharactersFragment,
     props.characterMedia,
@@ -29,15 +37,36 @@ export default function VACharacters(props: PropType) {
   if (charsKeys.length < 1) return null;
   if (!characterMedia.pageInfo) return null;
 
+  function forwardHandler() {
+    const staff = staffSchema.parse(router.query);
+    staff.cp++;
+
+    const cleanQuery = cleanStaffQuery(staff);
+    const href = pathname + objToUrlSearchParams(cleanQuery);
+
+    router.push(href, undefined, { shallow: true, scroll: false });
+  }
+
+  function previousHandler() {
+    const staff = staffSchema.parse(router.query);
+    staff.cp--;
+
+    const cleanQuery = cleanStaffQuery(staff);
+    const href = pathname + objToUrlSearchParams(cleanQuery);
+
+    router.push(href, undefined, { shallow: true, scroll: false });
+  }
+
   return (
     <section>
       <SectionHeader
+        title="Characters"
         currentPage={characterMedia.pageInfo.currentPage}
         hasNextPage={characterMedia.pageInfo.hasNextPage}
         total={characterMedia.pageInfo.total}
-        heading="Characters"
-        isPreviousData={props.isPreviousData}
-        query="cp"
+        isPlaceholderData={props.isPlaceholderData}
+        forwardHandler={forwardHandler}
+        previousHandler={previousHandler}
       />
 
       {charsKeys.map((yr) => {

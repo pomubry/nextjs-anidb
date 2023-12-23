@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import {
   dehydrate,
   QueryClient,
@@ -13,13 +14,13 @@ import type { ClientError } from "graphql-request";
 
 import MainLayout from "@/layouts/MainLayout";
 import AnimeWork from "@/components/studio/AnimeWork";
-import SectionHeader from "@/components/studio/SectionHeader";
+import SectionHeader from "@/components/generic/SectionHeader";
 import GQLError from "@/components/generic/GQLError";
 import NoData from "@/components/generic/NoData";
 
 import { useNewURL } from "@/lib/hooks";
 import { fetchStudio } from "@/lib/query/queryStudio";
-import { cleanStudioQuery } from "@/lib/utils";
+import { cleanStudioQuery, objToUrlSearchParams } from "@/lib/utils";
 import { studioQuerySchema } from "@/lib/validation";
 import type { NextPageWithLayout } from "@/lib/types";
 
@@ -63,6 +64,7 @@ export const getServerSideProps = (async (context) => {
 
 const Studio: NextPageWithLayout = () => {
   const router = useRouter();
+  const pathname = usePathname();
 
   const studioQuery = studioQuerySchema.parse(router.query);
   const searchParams = cleanStudioQuery(studioQuery);
@@ -91,6 +93,26 @@ const Studio: NextPageWithLayout = () => {
 
   if (!studio) {
     return <NoData />;
+  }
+
+  function forwardHandler() {
+    const studioQuery = studioQuerySchema.parse(router.query);
+    studioQuery.pg++;
+
+    const cleanQuery = cleanStudioQuery(studioQuery);
+    const href = pathname + objToUrlSearchParams(cleanQuery);
+
+    router.push(href, undefined, { shallow: true, scroll: false });
+  }
+
+  function previousHandler() {
+    const studioQuery = studioQuerySchema.parse(router.query);
+    studioQuery.pg--;
+
+    const cleanQuery = cleanStudioQuery(studioQuery);
+    const href = pathname + objToUrlSearchParams(cleanQuery);
+
+    router.push(href, undefined, { shallow: true, scroll: false });
   }
 
   // Keep track track of already evaluated anime ID because it could have duplicates.
@@ -156,10 +178,13 @@ const Studio: NextPageWithLayout = () => {
           ) : (
             <>
               <SectionHeader
+                title="Anime Works"
                 currentPage={studio.media?.pageInfo?.currentPage}
                 hasNextPage={studio.media?.pageInfo?.hasNextPage}
                 total={studio.media?.pageInfo?.total}
-                isPreviousData={isPlaceholderData}
+                isPlaceholderData={isPlaceholderData}
+                forwardHandler={forwardHandler}
+                previousHandler={previousHandler}
               />
               {animeKeys.map((yr, index) => {
                 const year = +yr;

@@ -1,5 +1,8 @@
+import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
+import SectionHeader from "@/components/generic/SectionHeader";
 import Relations from "./Relations";
 import Characters from "./Characters";
 import Themes from "./Themes";
@@ -7,11 +10,13 @@ import Staff from "./Staff";
 import StatusDistribution from "./StatusDistribution";
 import Watch from "./Watch";
 import Recommendations from "./Recommendations";
-import SectionHeader from "./SectionHeader";
 import InfoHeadTitle from "../InfoHeadTitle";
 
 import { useFragment, type FragmentType } from "@/lib/gql";
 import { RightInfoFragment } from "@/lib/query/queryAnime";
+import { cleanStaffQuery, objToUrlSearchParams } from "@/lib/utils";
+import { staffSchema } from "@/lib/validation";
+import type { StaffSchemaType } from "@/lib/types";
 
 interface MALThemes {
   data: {
@@ -26,6 +31,8 @@ interface PropType {
 }
 
 export default function RightInfo(props: PropType) {
+  const router = useRouter();
+  const pathname = usePathname();
   const anime = useFragment(RightInfoFragment, props.anime);
   const { data } = useQuery({
     refetchOnWindowFocus: false,
@@ -40,6 +47,16 @@ export default function RightInfo(props: PropType) {
       return (await res.json()) as MALThemes;
     },
   });
+
+  function staffHandler(query: keyof StaffSchemaType, forward: boolean) {
+    const staff = staffSchema.parse(router.query);
+    forward ? staff[query]++ : staff[query]--;
+
+    const cleanQuery = cleanStaffQuery(staff);
+    const href = pathname + objToUrlSearchParams(cleanQuery);
+
+    router.push(href, undefined, { shallow: true, scroll: false });
+  }
 
   const isNotReversed =
     anime.streamingEpisodes &&
@@ -63,14 +80,18 @@ export default function RightInfo(props: PropType) {
       {!!anime.characters?.edges?.length && (
         <section>
           <SectionHeader
-            heading="Characters"
-            query="cp"
-            isPlaceholderData={props.isPlaceholderData}
+            title="Characters"
             total={anime.characters.pageInfo?.total}
             currentPage={anime.characters.pageInfo?.currentPage}
             hasNextPage={anime.characters.pageInfo?.hasNextPage}
+            isPlaceholderData={props.isPlaceholderData}
+            forwardHandler={() => staffHandler("cp", true)}
+            previousHandler={() => staffHandler("cp", false)}
           />
-          <Characters characters={anime.characters} />
+          <Characters
+            characters={anime.characters}
+            isPlaceholderData={props.isPlaceholderData}
+          />
         </section>
       )}
 

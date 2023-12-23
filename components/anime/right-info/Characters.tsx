@@ -8,6 +8,7 @@ import { CharactersFragment } from "@/lib/query/queryAnime";
 
 interface PropType {
   characters: FragmentType<typeof CharactersFragment>;
+  isPlaceholderData: boolean;
 }
 
 export default function Characters(props: PropType) {
@@ -16,7 +17,7 @@ export default function Characters(props: PropType) {
   if (!characters.edges) return null;
 
   return (
-    <ListParent>
+    <ListParent isPlaceholderData={props.isPlaceholderData}>
       {characters.edges.map((edge) => {
         if (!edge || !edge.node) return null;
         return (
