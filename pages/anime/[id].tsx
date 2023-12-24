@@ -42,7 +42,7 @@ export const getServerSideProps = (async (context) => {
   await queryClient.prefetchQuery({
     queryKey,
     queryFn: async () => {
-      return await fetchAnime(anime.data.id, anime.data.cp);
+      return await fetchAnime(anime.data.id, anime.data.cp, anime.data.sp);
     },
   });
 
@@ -75,7 +75,7 @@ const Anime: NextPageWithLayout = () => {
     retry: 1,
     queryKey: ["anime", animeQuery],
     queryFn: async () => {
-      return fetchAnime(animeQuery.id, animeQuery.cp);
+      return fetchAnime(animeQuery.id, animeQuery.cp, animeQuery.sp);
     },
   });
 

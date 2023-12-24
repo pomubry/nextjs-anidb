@@ -111,8 +111,19 @@ export default function RightInfo(props: PropType) {
 
       {!!anime.staff?.edges?.length && (
         <section>
-          <InfoHeadTitle title="Staff" />
-          <Staff staff={anime.staff} />
+          <SectionHeader
+            title="Staff"
+            total={anime.staff.pageInfo?.total}
+            currentPage={anime.staff.pageInfo?.currentPage}
+            hasNextPage={anime.staff.pageInfo?.hasNextPage}
+            isPlaceholderData={props.isPlaceholderData}
+            forwardHandler={() => staffHandler("sp", true)}
+            previousHandler={() => staffHandler("sp", false)}
+          />
+          <Staff
+            staff={anime.staff}
+            isPlaceholderData={props.isPlaceholderData}
+          />
         </section>
       )}
 

@@ -1,25 +1,26 @@
 import Image from "next/image";
 
-import ExpandButton from "./ExpandButton";
 import ListParent from "./ListParent";
 
 import { useFragment, type FragmentType } from "@/lib/gql";
-import { useExpander } from "@/lib/hooks";
 import { StaffFragment } from "@/lib/query/queryAnime";
 
 interface PropType {
   staff: FragmentType<typeof StaffFragment>;
+  isPlaceholderData: boolean;
 }
 
 export default function Staff(props: PropType) {
-  const maxNumber = 10;
   const staff = useFragment(StaffFragment, props.staff);
 
-  const { sliceEnd, expanded, handleExpand } = useExpander({ maxNumber });
+  if (!staff.edges) return null;
 
   return (
-    <ListParent className="sm:grid-cols-[1fr,1fr]">
-      {staff.edges?.slice(0, sliceEnd).map((obj) => {
+    <ListParent
+      className="sm:grid-cols-[1fr,1fr]"
+      isPlaceholderData={props.isPlaceholderData}
+    >
+      {staff.edges.map((obj) => {
         if (!obj || !obj.node) return null;
         return (
           <li
@@ -43,14 +44,6 @@ export default function Staff(props: PropType) {
           </li>
         );
       })}
-      {(staff.edges?.length || 0) > maxNumber && (
-        <ExpandButton
-          expanded={expanded}
-          handleExpand={handleExpand}
-          colSpan="sm:col-[span_2]"
-          key="StaffExpander"
-        />
-      )}
     </ListParent>
   );
 }

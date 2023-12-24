@@ -2,7 +2,7 @@ import request from "graphql-request";
 import { graphql } from "../gql";
 
 const queryAnime = graphql(`
-  query queryAnime($id: Int, $charPage: Int) {
+  query queryAnime($id: Int, $charPage: Int, $staffPage: Int) {
     Media(id: $id, type: ANIME) {
       id
       title {
@@ -10,6 +10,9 @@ const queryAnime = graphql(`
       }
       characters(sort: ROLE, page: $charPage, perPage: 10) {
         ...CharactersFragment
+      }
+      staff(page: $staffPage, perPage: 10) {
+        ...StaffFragment
       }
       description
       synonyms
@@ -136,13 +139,13 @@ export const RightInfoFragment = graphql(`
   fragment RightInfoFragment on Media {
     idMal
     characters(sort: ROLE, page: $charPage, perPage: 10) {
-      edges {
-        id
-      }
       pageInfo {
         total
         currentPage
         hasNextPage
+      }
+      edges {
+        id
       }
       ...CharactersFragment
     }
@@ -153,12 +156,22 @@ export const RightInfoFragment = graphql(`
       ...RecommendationsFragment
     }
     relations {
+      pageInfo {
+        total
+        currentPage
+        hasNextPage
+      }
       edges {
         id
       }
       ...RelationsFragment
     }
-    staff {
+    staff(page: $staffPage, perPage: 10) {
+      pageInfo {
+        total
+        currentPage
+        hasNextPage
+      }
       edges {
         id
       }
@@ -280,10 +293,15 @@ export const RecommendationsFragment = graphql(`
   }
 `);
 
-export async function fetchAnime(id: number, charPage: number) {
+export async function fetchAnime(
+  id: number,
+  charPage: number,
+  staffPage: number,
+) {
   const data = await request("https://graphql.anilist.co", queryAnime, {
     id,
     charPage,
+    staffPage,
   });
   return { anime: data.Media };
 }
