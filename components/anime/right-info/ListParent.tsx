@@ -12,7 +12,7 @@ export default function ListParent({
   return (
     <ul
       className={`relative mb-10 grid grid-cols-[1fr] gap-3 md:grid-cols-[1fr,1fr] ${className} ${
-        isPlaceholderData ? "select-none opacity-50" : "select-auto opacity-100"
+        isPlaceholderData ? "pointer-events-none opacity-50" : "opacity-100"
       }`}
     >
       {children}

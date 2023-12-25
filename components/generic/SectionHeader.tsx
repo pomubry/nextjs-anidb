@@ -15,7 +15,7 @@ export default function SectionHeader(props: Props) {
 
   return (
     <div className="my-5 flex items-center gap-5">
-      <h2 className="text-2xl font-extrabold text-blue">{props.title}</h2>
+      <h2 className="text-xl font-extrabold text-blue">{props.title}</h2>
       <div className="flex items-center gap-2">
         <button
           onClick={props.previousHandler}

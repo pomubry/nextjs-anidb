@@ -129,8 +129,8 @@ const Home: NextPageWithLayout = () => {
         <ul
           className={`mt-10 grid grid-cols-[1fr] gap-5 md:grid-cols-[repeat(2,1fr)] ${
             isPlaceholderData
-              ? "select-none opacity-50"
-              : "select-auto opacity-100"
+              ? "pointer-events-none opacity-50"
+              : "opacity-100"
           }`}
         >
           {pageQuery.media.map((anime, index) => {
