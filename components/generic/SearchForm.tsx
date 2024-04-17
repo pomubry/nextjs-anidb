@@ -97,7 +97,7 @@ export default function SearchForm({ query }: PropType) {
                 {...register("ss")}
                 // placeholder="Pick Season"
                 defaultValue={query.season || "ALL"}
-                className="cursor-pointer rounded-md border-2 bg-inherit px-4 py-2 border-purple data-[invalid=true]:border-red-300"
+                className="cursor-pointer rounded-md border-2 bg-slate-200 px-4 py-2 border-purple data-[invalid=true]:border-red-300 dark:bg-slate-800"
               >
                 <optgroup label="All Seasons">
                   <option value="ALL">All</option>
@@ -129,7 +129,7 @@ export default function SearchForm({ query }: PropType) {
                 {...register("yr")}
                 // placeholder="Pick Year"
                 defaultValue={query.seasonYear || "ALL"}
-                className="cursor-pointer rounded-md border-2 bg-inherit px-4 py-2 border-purple  data-[invalid=true]:border-red-300"
+                className="cursor-pointer rounded-md border-2 bg-slate-200 px-4 py-2 border-purple data-[invalid=true]:border-red-300 dark:bg-slate-800"
               >
                 <YearList />
               </select>
