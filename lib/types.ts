@@ -6,7 +6,6 @@ import {
   clientHomeSearchParamsSchema,
   studioQuerySchema,
   staffSchema,
-  animeSchema,
 } from "./validation";
 import { getServerHomeQuery } from "./utils";
 
@@ -31,7 +30,3 @@ export type StudioQuerySchemaType = z.infer<typeof studioQuerySchema>;
 // ===== VA
 
 export type StaffSchemaType = z.infer<typeof staffSchema>;
-
-// ===== Anime
-
-export type AnimeSchemaType = z.infer<typeof animeSchema>;

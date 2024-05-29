@@ -66,3 +66,9 @@ export const staffSchema = z.object({
 // ===== anime
 
 export const animeSchema = staffSchema;
+export const themeSchema = z.object({
+  data: z.object({
+    openings: z.array(z.string()),
+    endings: z.array(z.string()),
+  }),
+});

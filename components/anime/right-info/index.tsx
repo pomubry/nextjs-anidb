@@ -12,18 +12,11 @@ import Watch from "./Watch";
 import Recommendations from "./Recommendations";
 import InfoHeadTitle from "../InfoHeadTitle";
 
-import { useFragment, type FragmentType } from "@/lib/gql";
+import { type FragmentType, useFragment } from "@/lib/gql";
 import { RightInfoFragment } from "@/lib/query/queryAnime";
 import { cleanStaffQuery, objToUrlSearchParams } from "@/lib/utils";
-import { staffSchema } from "@/lib/validation";
+import { staffSchema, themeSchema } from "@/lib/validation";
 import type { StaffSchemaType } from "@/lib/types";
-
-interface MALThemes {
-  data: {
-    openings: string[];
-    endings: string[];
-  };
-}
 
 interface PropType {
   anime: FragmentType<typeof RightInfoFragment>;
@@ -44,7 +37,8 @@ export default function RightInfo(props: PropType) {
       const res = await fetch(
         `https://api.jikan.moe/v4/anime/${anime.idMal}/themes`,
       );
-      return (await res.json()) as MALThemes;
+
+      return themeSchema.parse(await res.json());
     },
   });
 
