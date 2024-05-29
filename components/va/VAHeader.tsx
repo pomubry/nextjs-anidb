@@ -94,8 +94,8 @@ export default function VAHeader(props: PropType) {
   );
 
   return (
-    <header className="relative overflow-y-scroll bg-slate-300 duration-300 dark:bg-slate-700 md:max-h-[30rem] md:min-h-[30rem]">
-      <div className="grid grid-rows-[auto_1fr] gap-5 bg-slate-100 bg-gradient-to-b from-[rgb(241_245_249)_40%] to-[rgb(203_213_225)_40%] p-5 duration-300 dark:bg-slate-900/80 dark:from-[rgb(15_23_42_/_0.1)_40%] dark:to-[rgb(51_65_85)_40%] md:grid-cols-[1fr_2fr] md:grid-rows-[auto] md:bg-none">
+    <header className="relative overflow-y-scroll bg-slate-300 duration-300 md:max-h-[30rem] md:min-h-[30rem] dark:bg-slate-700">
+      <div className="grid grid-rows-[auto_1fr] gap-5 bg-slate-100 bg-gradient-to-b from-[rgb(241_245_249)_40%] to-[rgb(203_213_225)_40%] p-5 duration-300 md:grid-cols-[1fr_2fr] md:grid-rows-[auto] md:bg-none dark:bg-slate-900/80 dark:from-[rgb(15_23_42_/_0.1)_40%] dark:to-[rgb(51_65_85)_40%]">
         <picture className="order-2 grid place-items-center md:order-1">
           <img
             src={staff.image?.large || "N/A"}

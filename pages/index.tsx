@@ -90,7 +90,7 @@ const Home: NextPageWithLayout = () => {
 
   const pageInfo = pageQuery.pageInfo;
   const currentPage = pageInfo.currentPage ?? 1;
-  let total = 0;
+  let total: number;
 
   if (pageInfo.hasNextPage) {
     if (pageInfo.total) {
@@ -128,9 +128,7 @@ const Home: NextPageWithLayout = () => {
 
         <ul
           className={`mt-10 grid grid-cols-[1fr] gap-5 md:grid-cols-[repeat(2,1fr)] ${
-            isPlaceholderData
-              ? "pointer-events-none opacity-50"
-              : "opacity-100"
+            isPlaceholderData ? "pointer-events-none opacity-50" : "opacity-100"
           }`}
         >
           {pageQuery.media.map((anime, index) => {

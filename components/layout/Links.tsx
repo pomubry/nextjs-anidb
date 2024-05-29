@@ -74,7 +74,7 @@ export default function Links() {
 
         <NavigationMenu.Item className="sm:hidden">
           <NavigationMenu.Trigger
-            className={`block rounded-lg p-3 font-bold duration-300 bg-purple-hover data-[state=open]:bg-purple-600/30 dark:data-[state=open]:bg-purple-300/30 sm:hidden`}
+            className={`block rounded-lg p-3 font-bold duration-300 bg-purple-hover data-[state=open]:bg-purple-600/30 sm:hidden dark:data-[state=open]:bg-purple-300/30`}
             aria-label="Toggle navigation menu"
             onPointerMove={(event) => event.preventDefault()}
             onPointerLeave={(event) => event.preventDefault()}

@@ -62,7 +62,7 @@ export default function CardDesc(props: PropType) {
           return (
             <li
               key={genre}
-              className="whitespace-nowrap rounded-md bg-slate-100 px-2 text-xs font-semibold shadow-lg text-blue dark:bg-slate-800 min-[767px]:text-sm"
+              className="whitespace-nowrap rounded-md bg-slate-100 px-2 text-xs font-semibold shadow-lg text-blue min-[767px]:text-sm dark:bg-slate-800"
             >
               {genre}
             </li>
